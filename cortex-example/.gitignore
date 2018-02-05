@@ -1,0 +1,7 @@
+# Qt Creator files
+*.pro.user
+*.h.autosave
+*.cpp.autosave
+
+# macOS
+.DS_Store
