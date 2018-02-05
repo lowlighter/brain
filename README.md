@@ -20,3 +20,6 @@ Projet de M1 (semestre 2)
 ## Rapport continue
 
 Voici [le lien vers le rapport](https://www.overleaf.com/13615904gxzjrcytrjpc#/52637951/)
+
+
+## Sources et documentations utiles
