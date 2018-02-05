@@ -139,7 +139,8 @@ if (require.main === module) {
           .map(k => `${k}: ${averages[k].toFixed(2)}`)
           .join(', ')
 
-        console.log(output)
+		console.log(averages['gyroX'])
+        //console.log(output.match(/exc:.*?,/)[0])
       })
     )
 

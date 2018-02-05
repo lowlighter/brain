@@ -1,4 +1,5 @@
 # Etude sur l'activité électrique du cerveau
+============================================
 
 Projet de M1 (semestre 2)
 
@@ -7,3 +8,10 @@ Projet de M1 (semestre 2)
 * Démonstrateurs
 
 ![Image](https://github.com/lowlighter/brain/blob/master/miscelleanous/imgs/demo.jpg)
+
+## Connectivité
+
+|User ID|lowlight|
+|User password|***REMOVED***|
+|Client ID|***REMOVED***|
+|Client Secret|***REMOVED***|
