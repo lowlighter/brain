@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Emotion detection</title>
+		<meta charset="utf-8">
+		<link href="./styles/bootstrap.min.css" rel="stylesheet" type="text/css">
+		<link href="./styles/styles.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<script src="./js/libs/utils.js"></script>
+		<script src="./js/libs/chart.min.js"></script>
+		<script src="./js/clmtrackr.min.js"></script>
+		<script src="./js/emotion_classifier.js"></script>
+		<script src="./js/emotionmodel.js"></script>
+		<script src="./models/model_pca_20_svm.js"></script>
+
+		<div class="content">
+			<div>
+				<div class="input">
+					<div class="placeholder"></div>
+					<video width="600" height="400" id="video" preload="auto" loop playsinline autoplay></video>
+					<canvas width="600" height="400" id="overlay"></canvas>
+				</div>
+				<div class="controls">
+					<button type="button" name="button" disabled="disabled" onclick="startVideo()" id="startbutton">Loading...</button>
+				</div>
+			</div>
+			<div>
+				<div class="charts">
+					<canvas id="chart-emotions" width="400" height="400"></canvas>
+					<canvas id="chart-correlation" width="400" height="400"></canvas>
+				</div>
+			</div>
+		</div>
+
+		<script src="./js/demo.js"></script>
+		<script>
+			const ws = new WebSocket('ws://localhost:3001');
+			ws.onmessage = event => console.log(event.data)
+		</script>
+
+	</body>
+</html>

@@ -1,0 +1,79 @@
+.content {
+  position: fixed;
+  top:0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  background-image: url(./bg.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.input {
+  position: relative;
+  border-radius: 5px;
+  overflow: hidden;
+  font-size: 0;
+}
+
+.input .placeholder {
+  width: 600px;
+  height: 400px;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.input *:not(:first-child) {
+  position: absolute;
+  top: 0;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  margin: 12px;
+}
+
+button {
+  min-width: 160px;
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.25;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: .5rem 1rem;
+  font-size: 1rem;
+  border-radius: .25rem;
+  -webkit-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+  color: #fff;
+  background-color: #5bc0de;
+  border-color: #5bc0de;
+  cursor: pointer;
+}
+
+button[disabled] {
+  opacity: 0.4;
+}
+
+@media screen and (min-width: 940px) {
+  .content {
+    flex-direction: row;
+  }
+}
