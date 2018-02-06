@@ -6,17 +6,17 @@
   charts.emotions = new Chart(document.getElementById("chart-emotions").getContext('2d'), {
       type:'radar',
       data:{
-        labels:['Angry', 'Disgusted', 'Fear', 'Sad', 'Surprised', 'Happy'],
+        labels:['Neutral', 'Angry', 'Sad', 'Surprised', 'Happy'],
         datasets:[{
             label:"Machine Learning",
             backgroundColor:'rgba(255, 99, 132, 0.3)',
             borderColor:'rgba(255, 99, 132, 1)',
-            data:[0, 0, 0, 0, 0, 0]
+            data:[0, 0, 0, 0, 0]
         }, {
             label:"EEG Headset",
             backgroundColor:'rgba(54, 162, 235, 0.3)',
             borderColor:'rgba(54, 162, 235, 1)',
-            data:[0, 0, 0, 0, 0, 0]
+            data:[0, 0, 0, 0, 0]
         }]
       },
       options:{
@@ -94,6 +94,7 @@
       const button = document.getElementById('startbutton')
       button.innerHTML = "Start tracking"
       button.disabled = null
+      startVideo()
     }
 
   //Update video proportions when resized
@@ -182,18 +183,25 @@
 
   //Update chart data
     function updateData(data) {
-      const values = []
-      data.forEach(datum => values.push(datum.value))
-
+      const values = [0]
+      data.forEach(datum => {
+        if ((datum.emotion === "disgusted")||((datum.emotion === "fear"))) return null
+        values.push(datum.value)
+      })
+      values[0] = 1 - Math.max.apply(null, values)
       charts.emotions.data.datasets[0].data = values
       charts.emotions.update()
+    }
 
+  //Update chart data (EEG)
+    function updateEEGData(values) {
+      charts.emotions.data.datasets[1].data = values
+      charts.emotions.update()
       const t = Date.now() - timeOrigin
-      charts.correlation.data.datasets[0].data.push({x:t, y:0.7})
+      charts.correlation.data.datasets[0].data.push({x:t, y:Math.abs(correlation(values, charts.emotions.data.datasets[0].data))})
       charts.correlation.data.datasets[0].data = charts.correlation.data.datasets[0].data.filter(v => v.x >= charts.correlation.options.scales.xAxes[0].ticks.min)
       charts.correlation.options.scales.xAxes[0].ticks.min = Math.max(t - charts.delta * 1000, 0)
       charts.correlation.options.scales.xAxes[0].ticks.max = Math.max(t, charts.delta * 1000)
-
       charts.correlation.update()
     }
 
@@ -227,4 +235,36 @@
     	sx = Math.sqrt(sx / n)
     	sy = Math.sqrt(sy / n)
     	return parseFloat((averages.sum / (n * sx * sy)).toFixed(8))
+    }
+
+//====================================================
+// EEG HEADSET
+//====================================================
+//====================================================
+  //Show that headset is connected
+    function connected(received) {
+      document.getElementById('status').innerHTML = "Connected"
+      document.getElementById('received').innerHTML = received
+      document.querySelector(".status").classList.remove("red")
+      document.querySelector(".status").classList.add("green")
+    }
+
+  //Websocket connection
+    const ws = new WebSocket('ws://localhost:3001');
+    ws.onmessage = event => {
+      const data = JSON.parse(event.data)
+      const type = data.shift()
+      if (type === "dev") {
+        //====================================================
+        //TODO : Connectivity signals
+        console.log(data)
+      } else if (type === "fac") {
+        //====================================================
+        //TODO : Sad scoring
+        const scores = {frown:0, surprise:0, smile:0, laugh:0, neutral:0, sad:0}
+        connected(event.data)
+        scores[data[1]] = data[2]
+        scores[data[3]] = data[4]
+        updateEEGData([scores.neutral, scores.frown, scores.sad, scores.surprise, Math.min(1, scores.smile + 1.5*scores.laugh)])
+      }
     }
