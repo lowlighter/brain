@@ -24,8 +24,9 @@
   const client = new Cortex({verbose:1, threshold:0})
   client.ready
     .then(() => client.init())
-    .then(() => client.createSession({status:'open'}).subscribe({streams:['fac']})).catch(error => console.error('\x1b[31mError : %s\x1b[0m', error.name))
+    .then(() => client.createSession({status:'open'}).subscribe({streams:['fac', 'mot']})).catch(error => console.error('\x1b[31mError : %s\x1b[0m', error.name))
     .then(subs => {
         if (!subs[0].fac) return console.error('Failed to subscribe')
-        client.on('fac', event => console.log(event.fac))
+        //client.on('fac', event => console.log(event.fac))
+        client.on('mot', event => console.log(event.mot.slice(-3)))
     }).catch(error => console.error('\x1b[31mError : %s\x1b[0m', error.name))
