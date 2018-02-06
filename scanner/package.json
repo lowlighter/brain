@@ -1,0 +1,14 @@
+{
+  "name": "cortex-starter",
+  "version": "1.0.0",
+  "description": "Emotiv Cortex Starter Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sam Gentle <sam@samgentle.com>",
+  "license": "CC0-1.0",
+  "dependencies": {
+    "ws": "^3.1.0"
+  }
+}
