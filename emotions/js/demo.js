@@ -11,12 +11,12 @@
             label:"Machine Learning",
             backgroundColor:'rgba(255, 99, 132, 0.3)',
             borderColor:'rgba(255, 99, 132, 1)',
-            data:[1, 0.8, 0.6, 0.4, 0.2, 0]
+            data:[0, 0, 0, 0, 0, 0]
         }, {
             label:"EEG Headset",
             backgroundColor:'rgba(54, 162, 235, 0.3)',
             borderColor:'rgba(54, 162, 235, 1)',
-            data:[0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+            data:[0, 0, 0, 0, 0, 0]
         }]
       },
       options:{
