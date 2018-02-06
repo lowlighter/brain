@@ -54,10 +54,10 @@ if (require.main === module) {
   const client = new Cortex(options)
   // these values need to fill to run example
   const auth = {
-    username: '...',
-    password: '...',
-    client_id: '...',
-    client_secret: '...',
+    username: 'lowlight',
+    password: '***REMOVED***',
+    client_id: '***REMOVED***',
+    client_secret: '***REMOVED***',
     debit: 1 // first time you run example debit should > 0
   }
 
