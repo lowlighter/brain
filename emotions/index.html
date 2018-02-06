@@ -34,5 +34,10 @@
 		</div>
 
 		<script src="./js/demo.js"></script>
+		<script>
+			const ws = new WebSocket('ws://localhost:3001');
+			ws.onmessage = event => console.log(event.data)
+		</script>
+
 	</body>
 </html>
