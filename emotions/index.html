@@ -26,8 +26,14 @@
 				</div>
 				<div class="headset">
 					<div class="wrapper">
-						<div class="status red"></div><span id="status">Disconnected</span><span id="received"></span>
+						<div class="status tracking red"></div>Tracking score<span id="track-score">0.00</span>
 					</div>
+					<div class="wrapper">
+						<div class="status headset red"></div><span id="status">Disconnected</span><span id="received"></span>
+					</div>
+				</div>
+				<div class="charts">
+					<canvas id="chart-signals" width="600" height="300"></canvas>
 				</div>
 			</div>
 			<div>
@@ -39,5 +45,12 @@
 		</div>
 
 		<script src="./js/demo.js"></script>
+		<script>
+		function demo() {
+			updateEEGData([Math.random(), Math.random(), Math.random(), Math.random(), Math.random()], [Math.random(), Math.random(), Math.random(), Math.random(), Math.random()])
+			setTimeout(demo, 400+100*Math.random())
+		}
+		window.onload = () => setTimeout(demo, 5000)
+		</script>
 	</body>
 </html>
