@@ -36,6 +36,9 @@ Projet de M1 (semestre 2)
 
 ## Casque
 * [Performance of the Emotiv Epoc headset for P300-based applications](https://biomedical-engineering-online.biomedcentral.com/articles/10.1186/1475-925X-12-56)
+* [Exemples de casques commercialisés](https://www.diygenius.com/hacking-your-brain-waves/)
+* [DIY : MINI ARDUINO PORTABLE EEG - BRAIN WAVE MONITOR +](http://www.instructables.com/id/Mini-Arduino-Portable-EEG-Brain-Wave-Monitor-/)
+* [DIY : EEG (AND ECG) CIRCUIT](http://www.instructables.com/id/DIY-EEG-and-ECG-Circuit/)
 
 # May the Force be with us...
 ![La force](https://github.com/lowlighter/brain/blob/master/miscelleanous/imgs/demo.png)
