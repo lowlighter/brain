@@ -24,6 +24,11 @@
 				<div class="controls">
 					<button type="button" name="button" disabled="disabled" onclick="startVideo()" id="startbutton">Loading...</button>
 				</div>
+				<div class="headset">
+					<div class="wrapper">
+						<div class="status red"></div><span id="status">Disconnected</span><span id="received"></span>
+					</div>
+				</div>
 			</div>
 			<div>
 				<div class="charts">
@@ -34,10 +39,5 @@
 		</div>
 
 		<script src="./js/demo.js"></script>
-		<script>
-			const ws = new WebSocket('ws://localhost:3001');
-			ws.onmessage = event => console.log(event.data)
-		</script>
-
 	</body>
 </html>

@@ -42,3 +42,6 @@ Projet de M1 (semestre 2)
 
 # May the Force be with us...
 ![La force](https://github.com/lowlighter/brain/blob/master/miscelleanous/imgs/demo.png)
+
+# Kawashima style mode of the dead
+* [animation from blender into threejs](http://unboring.net/workflows/animation.html)
