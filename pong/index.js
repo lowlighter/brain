@@ -14,8 +14,11 @@ client.ready.then(() => {
 	.queryHeadsets()
 	.then(headsets => {
 		console.log('headsets', headsets)
-		client.createSession({status: 'open'}).subscribe({streams: ['sys']}).then(session => {
+		client.createSession({status: 'open'}).subscribe({streams: ['mot', 'sys']}).then(session => {
 			sid=session.sid
+
+			client.on('mot', event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['mot', ...event.mot.slice(-3)])) }))
+
 
 			//Static server
 			app.use(express.static('client/'))
@@ -45,5 +48,3 @@ client.ready.then(() => {
 	});
 
 })
-
-// At some point this will be a general front-end for all the features in /src, but not yet
