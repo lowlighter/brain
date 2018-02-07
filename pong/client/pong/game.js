@@ -261,6 +261,7 @@ Game = {
     },
 
     drawStats: function(ctx) {
+      return null
       if (this.cfg.stats) {
         ctx.fillText("frame: "  + this.stats.count,         this.width - 100, this.height - 60);
         ctx.fillText("fps: "    + this.stats.fps,           this.width - 100, this.height - 50);
