@@ -8,6 +8,9 @@
     },
     "author": "lowlight(er)",
     "license": "MIT",
+    "scripts":{
+      "start" : "node index.js"
+    },
     "dependencies": {
         "express": "^4.16.2",
         "ws": "^4.0.0"

@@ -31,7 +31,7 @@ body {
   background-color: red;
 }
 
-#track-score {
+#track-score, #signal-strength {
   margin-left: 4px;
 }
 
