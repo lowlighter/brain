@@ -3,19 +3,19 @@
 //====================================================
 //====================================================
   const charts = {delta:10}
-  charts.emotions = new Chart(document.getElementById("chart-emotions").getContext('2d'), {
-      type:'radar',
+  charts.emotions = new Chart(document.getElementById("chart-emotions").getContext("2d"), {
+      type:"radar",
       data:{
-        labels:['Neutral', 'Angry', 'Sad', 'Surprised', 'Happy'],
+        labels:["Neutral", "Angry", "Sad", "Surprised", "Happy"],
         datasets:[{
             label:"Machine Learning",
-            backgroundColor:'rgba(255, 99, 132, 0.3)',
-            borderColor:'rgba(255, 99, 132, 1)',
+            backgroundColor:"rgba(255, 99, 132, 0.3)",
+            borderColor:"rgba(255, 99, 132, 1)",
             data:[0, 0, 0, 0, 0]
         }, {
             label:"EEG Headset",
-            backgroundColor:'rgba(54, 162, 235, 0.3)',
-            borderColor:'rgba(54, 162, 235, 1)',
+            backgroundColor:"rgba(54, 162, 235, 0.3)",
+            borderColor:"rgba(54, 162, 235, 1)",
             data:[0, 0, 0, 0, 0]
         }]
       },
@@ -39,12 +39,12 @@
       }
   })
 
-  charts.correlation = new Chart(document.getElementById("chart-correlation").getContext('2d'), {
-      type:'scatter',
+  charts.correlation = new Chart(document.getElementById("chart-correlation").getContext("2d"), {
+      type:"scatter",
       data:{
         labels:[0],
         datasets:[{
-            borderColor:'rgba(255, 99, 132, 1)',
+            borderColor:"rgba(255, 99, 132, 1)",
             fill:false,
             data:[],
             showLine:true,
@@ -81,43 +81,41 @@
       }
   })
 
-
-
-  charts.signals = new Chart(document.getElementById("chart-signals").getContext('2d'), {
-      type:'scatter',
+  charts.signals = new Chart(document.getElementById("chart-signals").getContext("2d"), {
+      type:"scatter",
       data:{
         labels:[0],
         datasets:[{
             label:"AF3",
-            borderColor:'rgba(255, 99, 132, 1)',
+            borderColor:"rgba(255, 99, 132, 1)",
             fill:false,
             showLine:true,
             borderWidth:2,
             data:[]
         },{
             label:"AF4",
-            borderColor:'rgba(255, 159, 64, 1)',
+            borderColor:"rgba(255, 159, 64, 1)",
             fill:false,
             showLine:true,
             borderWidth:2,
             data:[]
         },{
             label:"T7",
-            borderColor:'rgba(75, 192, 192, 1)',
+            borderColor:"rgba(75, 192, 192, 1)",
             fill:false,
             showLine:true,
             borderWidth:2,
             data:[]
         },{
             label:"T8",
-            borderColor:'rgba(54, 162, 235, 1)',
+            borderColor:"rgba(54, 162, 235, 1)",
             fill:false,
             showLine:true,
             borderWidth:2,
             data:[]
         },{
             label:"Pz",
-            borderColor:'rgba(153, 102, 255, 1)',
+            borderColor:"rgba(153, 102, 255, 1)",
             fill:false,
             showLine:true,
             borderWidth:2,
@@ -137,7 +135,7 @@
             display: true,
             ticks: {
               min:0,
-              max:1,
+              max:10,
             }
           }],
           xAxes:[{
@@ -157,24 +155,18 @@
   })
 
 
-
-
-
-
-
-
 //====================================================
 // VIDEO
 //====================================================
 //====================================================
   //Initialization
-    const video = document.getElementById('video')
-    const overlay = document.getElementById('overlay')
-    const overlayCC = overlay.getContext('2d')
+    const video = document.getElementById("video")
+    const overlay = document.getElementById("overlay")
+    const overlayCC = overlay.getContext("2d")
 
   //Enable start
     function enablestart() {
-      const button = document.getElementById('startbutton')
+      const button = document.getElementById("startbutton")
       button.innerHTML = "Start tracking"
       button.disabled = null
       startVideo()
@@ -211,7 +203,7 @@
 
   //Failed to retrieve camera stream
     function gumFail() {
-      alert("There was some problem trying to fetch video from your webcam. If you have a webcam, please make sure to accept when the browser asks for access to your webcam.");
+      alert("There was some problem trying to fetch video from your webcam. If you have a webcam, please make sure to accept when the browser asks for access to your webcam.")
     }
 
   //Camera API
@@ -220,13 +212,13 @@
 
   //Camera support
     if (navigator.mediaDevices) {
-      navigator.mediaDevices.getUserMedia({video : true}).then(gumSuccess).catch(gumFail);
+      navigator.mediaDevices.getUserMedia({video : true}).then(gumSuccess).catch(gumFail)
     } else if (navigator.getUserMedia) {
-      navigator.getUserMedia({video : true}, gumSuccess, gumFail);
+      navigator.getUserMedia({video : true}, gumSuccess, gumFail)
     } else {
-      alert("This demo depends on getUserMedia, which your browser does not seem to support. :(");
+      alert("This demo depends on getUserMedia, which your browser does not seem to support. :(")
     }
-    video.addEventListener('canplay', enablestart, false)
+    video.addEventListener("canplay", enablestart, false)
 
 
 //====================================================
@@ -245,7 +237,7 @@
 
   //Start tracking
     function startVideo() {
-      const button = document.getElementById('startbutton')
+      const button = document.getElementById("startbutton")
       button.innerHTML = "Tracking..."
       button.disabled = true
       video.play()
@@ -261,12 +253,12 @@
       overlayCC.clearRect(0, 0, video.width, video.height)
       if (ctrack.getCurrentPosition()) {
         ctrack.draw(overlay,undefined,"vertices")
-        document.getElementById('track-score').innerHTML = ctrack.getScore().toFixed(2)
+        document.getElementById("track-score").innerHTML = ctrack.getScore().toFixed(2)
         document.querySelector(".status.tracking").classList.remove("red")
         document.querySelector(".status.tracking").classList.add("green")
       }
       else {
-        document.getElementById('track-score').innerHTML = "0.00"
+        document.getElementById("track-score").innerHTML = "0.00"
         document.querySelector(".status.tracking").classList.remove("green")
         document.querySelector(".status.tracking").classList.add("red")
       }
@@ -349,21 +341,25 @@
 //====================================================
   //Show that headset is connected
     function connected(received) {
-      document.getElementById('status').innerHTML = "Connected"
-      document.getElementById('received').innerHTML = received
+      document.getElementById("status").innerHTML = "Connected"
+      document.getElementById("received").innerHTML = received
       document.querySelector(".status.headset").classList.remove("red")
       document.querySelector(".status.headset").classList.add("green")
     }
 
   //Websocket connection
-    const ws = new WebSocket('ws://localhost:3001');
+    const ws = new WebSocket("ws://localhost:3001")
     ws.onmessage = event => {
+      if (!trackingStarted) return null
       const data = JSON.parse(event.data)
       const type = data.shift()
       if (type === "dev") {
-        //====================================================
-        //TODO : Connectivity signals
-        console.log(data)
+        document.getElementById("signal-strength").innerHTML = (data[2].reduce((w, v) => w + v)/5/4).toFixed(2)
+      } else if (type === "pow") {
+        let channels = []
+        while (data.length > 0) channels.push(data.splice(0, 5))
+        channels = channels.map(channel => Math.log(channel.reduce((w, v) => w + v)))
+        updateEEGData(undefined, channels)
       } else if (type === "fac") {
         //====================================================
         //TODO : Sad scoring
@@ -371,6 +367,15 @@
         connected(event.data)
         scores[data[1]] = data[2]
         scores[data[3]] = data[4]
-        updateEEGData([scores.neutral, scores.frown, scores.sad, scores.surprise, Math.min(1, scores.smile + 1.5*scores.laugh)])
+        updateEEGData([scores.neutral, scores.frown, scores.sad, scores.surprise, Math.min(1, scores.smile + 1.5*scores.laugh)], undefined)
       }
+    }
+
+  //====================================================
+  // DEMO WITH RANDOM VALUES
+  //====================================================
+  //====================================================
+    function demo() {
+      updateEEGData([Math.random(), Math.random(), Math.random(), Math.random(), Math.random()], [Math.random(), Math.random(), Math.random(), Math.random(), Math.random()])
+      setTimeout(demo, 400+100*Math.random())
     }
