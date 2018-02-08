@@ -54,20 +54,20 @@
         // Eyes
         rectangle  = new THREE.PlaneGeometry(0.3, 0.3);
         //material = new THREE.MeshBasicMaterial( {color: 0x55AEFF} );
-        let texture = new THREE.TextureLoader().load( 'eye_L.png' );
+        let texture = new THREE.TextureLoader().load( 'eye_L_closed.png' );
         material =  new THREE.MeshBasicMaterial( { map: texture, transparent: true} );
         eye1 = new THREE.Mesh( rectangle, material );
         //material = new THREE.MeshBasicMaterial( {color: 0xFFAE55} );
-        texture = new THREE.TextureLoader().load( 'eye_R.png' );
+        texture = new THREE.TextureLoader().load( 'eye_R_closed.png' );
         material =  new THREE.MeshBasicMaterial( { map: texture, transparent: true} );
         eye2 = new THREE.Mesh( rectangle, material );
         eye1.position.x += 0.2;
         eye2.position.x -= 0.2;
 
         // Mouth
-        rectangle  = new THREE.PlaneGeometry(0.3, 0.1);
+        rectangle  = new THREE.PlaneGeometry(0.3, 0.15);
         //material = new THREE.MeshBasicMaterial( {color: 0xAE55FF} );
-        texture = new THREE.TextureLoader().load( 'mouth.png' );
+        texture = new THREE.TextureLoader().load( 'mouth_open.png' );
         material =  new THREE.MeshBasicMaterial( { map: texture, transparent: true} );
         mouth = new THREE.Mesh( rectangle, material );
         mouth.position.y -= 0.3
