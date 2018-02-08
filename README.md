@@ -9,9 +9,13 @@ Projet de M1 (semestre 2)
     * FACS via le casque Emotiv
 * Démonstrateurs
     * [Pong](https://github.com/lowlighter/brain/tree/master/pong)
-    * Kawashima
-    * Brain battle
+    * [Kawashima](https://github.com/lowlighter/brain/tree/master/kawashima)
+    * [Brain battle (v1)](https://github.com/lowlighter/brain/tree/master/battle)
+    * Brain battle (v2)
     * Contrôle du drone Parrot
+* Divers
+    * [Utilisation de l'API Cortex](https://github.com/lowlighter/brain/tree/master/miscelleanous/cortex)
+    * [Scanner de casques EEG](https://github.com/lowlighter/brain/tree/master/miscelleanous/scanner)
 
 ## Rapport continu
 [Lien vers le rapport](https://www.overleaf.com/13615904gxzjrcytrjpc#/52637951/).
