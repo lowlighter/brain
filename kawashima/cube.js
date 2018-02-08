@@ -6,7 +6,7 @@ ws.onmessage = (message) => {
 }*/
 
 // Model
-var camera, scene, renderer, light;
+var camera, scene, renderer, lights;
 var dice, eye1, eye2, mouth, brow1, brow2;
 var t_brow_L, t_brow_R, t_eye_L, t_eye_R, t_eye_L_closed, t_eye_R_closed, t_mouth, t_mouth_open
 var face, head;
@@ -22,11 +22,6 @@ function init(){
 	let far = 1000;
 	camera = new THREE.PerspectiveCamera( fov, aspect, near, far );
 	camera.position.z = 8;
-
-	// Light
-	light = new THREE.PointLight(0xffffff, 1.3, 50);
-	light.position.set(camera.position.x, camera.position.y, camera.position.z);
-	scene.add(light);
 
 	// Renderer
 	renderer = new THREE.WebGLRenderer({alpha: true});
@@ -115,6 +110,38 @@ function init(){
   head.add(dice);
   head.position.z = plane.position.z + 3;
   scene.add(head)
+
+
+	// Light
+	var sphere = new THREE.SphereGeometry( 0.1, 16, 8 );
+	lights = new THREE.Group();
+
+	let light1 = new THREE.PointLight(0xffffff, 0.7, 30);
+	let light2 = new THREE.PointLight(0xffffff, 0.5, 30);
+	let light3 = new THREE.PointLight(0xffffff, 0.5, 30);
+	let light4 = new THREE.PointLight(0xffffff, 0.4, 30);
+	let light5 = new THREE.PointLight(0xffffff, 0.4, 30);
+
+	/*
+	light1.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0x00ff40 } ) ) );
+	light2.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xff0040 } ) ) );
+	light3.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0x4000ff } ) ) );
+	light4.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0x40ffff } ) ) );
+	light5.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xff00ff } ) ) );
+	*/
+
+	light1.position.set(camera.position.x, camera.position.y - 1.5, camera.position.z - 2);
+	light2.position.set(camera.position.x + 2, camera.position.y + 1, head.position.z);
+	light3.position.set(camera.position.x - 2, camera.position.y + 1, head.position.z );
+	light4.position.set(camera.position.x - 2, camera.position.y + 2, camera.position.z - 2);
+	light5.position.set(camera.position.x + 2, camera.position.y + 2, camera.position.z - 2);
+
+	lights.add(light1);
+	lights.add(light2);
+	lights.add(light3);
+	lights.add(light4);
+	lights.add(light5);
+	scene.add(lights);
 
 	// Events
 	window.addEventListener( 'resize', onWindowResize, false );
