@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8>
+		<title>My first three.js app</title>
+		<style>
+			body { margin: 0; }
+			canvas { width: 100%; height: 100% }
+		</style>
+	</head>
+	<body>
+		<script src="../build/three.js"></script>
+		<script>
+			// Our Javascript will go here.
+			var camera, scene, renderer;
+			var cube;
+			init();
+			animate();
+
+			function init(){
+				scene = new THREE.Scene();
+
+				// Camera
+				let fov = 75;
+				let aspect = window.innerWidth / window.innerHeight;
+				let near = 0.1;
+				let far = 1000;
+				camera = new THREE.PerspectiveCamera( fov, aspect, near, far );
+				camera.position.z = 8;
+				camera.rotation.x += 0.5;
+				camera.position.y += -3;
+
+				// Renderer
+				renderer = new THREE.WebGLRenderer();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				document.body.appendChild( renderer.domElement );
+
+				// Grid
+				let gridHelper = new THREE.GridHelper( 10, 20 );
+				scene.add( gridHelper );
+
+				// Floor
+				let geometry = new THREE.PlaneGeometry(10, 10);
+				let material = new THREE.MeshBasicMaterial( {color: 0x555555, side: THREE.DoubleSide} );
+				let plane = new THREE.Mesh( geometry, material );
+				scene.add( plane );
+
+				// Object
+				geometry = new THREE.BoxGeometry( 1, 1, 1 );
+				let texture = new THREE.TextureLoader().load( 'RTS_Crate.png' );
+				material = [
+					new THREE.MeshBasicMaterial( { map: texture } ),
+					new THREE.MeshBasicMaterial( { color : 0xFF66B2 } ),
+					new THREE.MeshBasicMaterial( { color : 0xFF3399 } ),
+					new THREE.MeshBasicMaterial( { color : 0xFF007F } ),
+					new THREE.MeshBasicMaterial( { color : 0xCC0066 } ),
+					new THREE.MeshBasicMaterial( { color : 0xFF3399 } ),
+				]
+				cube = new THREE.Mesh( geometry, material );
+				cube.position.z = plane.position.z + 5;
+				cube.rotation.x += 0.5;
+				cube.rotation.z += 0.5;
+				scene.add( cube );
+
+				// Events
+				window.addEventListener( 'resize', onWindowResize, false );
+			}
+
+			// Animations
+			function animate() {
+				requestAnimationFrame( animate );
+				cubeAnimation();
+				cameraAnimation();
+				renderer.render( scene, camera );
+			}
+
+			function cubeAnimation() {
+				/*
+				let ts = Math.round((new Date).getTime()/1000 *100)/100;
+				cube.rotation.y += Math.sin(ts)/60;
+				cube.rotation.z += Math.sin(ts + 0.43)/35;
+				*/
+				cube.rotation.y += 0.02
+			}
+
+			function cameraAnimation(){
+				let ts = Math.round((new Date).getTime()/1000 *100)/100;
+				/*
+				camera.position.z += Math.sin(ts)/60;
+				*/
+				/*
+				camera.position.y += Math.sin(ts)/20;
+				camera.position.x += Math.cos(ts)/20;
+				*/
+			}
+
+			function onWindowResize() {
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+			}
+
+		</script>
+	</body>
+</html>
