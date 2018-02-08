@@ -7,6 +7,8 @@
   const Cortex = require('./js/cortex')
   const path = require('path')
 
+
+
 //Static server
   //app.use(express.static('.'))
   app.use('/battle1', express.static(path.join(__dirname, '../battle1')))
@@ -27,13 +29,28 @@
   })
 
 //Cortex API
-  let client = null, attempt = 0
+  let client = null, attempt = 0, isConnected = false;
   ;(function connect() {
     client = new Cortex({verbose:1, threshold:0})
     client.ready.then(() => client.init().queryHeadsets().then(headsets => {
-      if (headsets.length) { connected(headsets) } else { process.stdout.write(`\x1b[31mNo headsets found [attempt n°${attempt++}]\x1b[0m\r`) ; connect() }
+      if (headsets.length || isConnected) { connected(headsets) } else { process.stdout.write(`\x1b[31mNo headsets found [attempt n°${attempt++}]\x1b[0m\r`) ; connect(); checkConnection() }
     })).catch(error => process.stdout.write(`\x1b[31mFailed to initialize Cortex API\x1b[0m\r`))
   })()
+
+
+
+function checkConnection(){
+
+  client
+    .createSession({status: 'open'})
+    .subscribe({streams: ['pow', 'mot', 'met']})
+    .then(_subs => {
+      if(subs != undefined){
+        isConnected = true;
+      }
+    });
+}
+
 
 //Connected to Cortex API
   function connected(headsets) {
