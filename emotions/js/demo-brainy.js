@@ -9,11 +9,11 @@ function init(){
   // Camera
   let canvas_size = {width:500, height:300};
   let fov = 75;
-  let aspect =canvas_size.width / canvas_size.height
+  let aspect = canvas_size.width / canvas_size.height
   let near = 0.1;
   let far = 1000;
   camera = new THREE.PerspectiveCamera( fov, aspect, near, far );
-  camera.position.z = 8;
+  camera.position.z = 5;
 
   // Renderer
   renderer = new THREE.WebGLRenderer({alpha: true});
@@ -24,7 +24,7 @@ function init(){
   let rectangle = new THREE.PlaneGeometry(10, 10);
   let material = new THREE.MeshBasicMaterial( {color: 0x555555, side: THREE.DoubleSide} );
   let plane = new THREE.Mesh( rectangle, material );
-  scene.add( plane );
+  //scene.add( plane );
 
   // Dice
   let cube = new THREE.BoxGeometry( 1, 1, 1 );
@@ -38,15 +38,14 @@ function init(){
   ]
   dice = new THREE.Mesh( cube, materials );
 
-
   // Eyes
   rectangle  = new THREE.PlaneGeometry(0.3, 0.3);
   //material = new THREE.MeshBasicMaterial( {color: 0x55AEFF} );
-  let texture = new THREE.TextureLoader().load( 'eye_L.png' );
+  let texture = new THREE.TextureLoader().load( '../res/eye_L.png' );
   material =  new THREE.MeshBasicMaterial( { map: texture, transparent: true} );
   eye1 = new THREE.Mesh( rectangle, material );
   //material = new THREE.MeshBasicMaterial( {color: 0xFFAE55} );
-  texture = new THREE.TextureLoader().load( 'eye_R.png' );
+  texture = new THREE.TextureLoader().load( '../res/eye_R.png' );
   material =  new THREE.MeshBasicMaterial( { map: texture, transparent: true} );
   eye2 = new THREE.Mesh( rectangle, material );
   eye1.position.x += 0.2;
@@ -55,7 +54,7 @@ function init(){
   // Mouth
   rectangle  = new THREE.PlaneGeometry(0.3, 0.1);
   //material = new THREE.MeshBasicMaterial( {color: 0xAE55FF} );
-  texture = new THREE.TextureLoader().load( 'mouth.png' );
+  texture = new THREE.TextureLoader().load( '../res/mouth.png' );
   material =  new THREE.MeshBasicMaterial( { map: texture, transparent: true} );
   mouth = new THREE.Mesh( rectangle, material );
   mouth.position.y -= 0.3
@@ -63,11 +62,11 @@ function init(){
   // Brows
   rectangle  = new THREE.PlaneGeometry(0.3, 0.1);
   //material = new THREE.MeshBasicMaterial( {color: 0x5555CC} );
-  texture = new THREE.TextureLoader().load( 'brow_L.png' );
+  texture = new THREE.TextureLoader().load( '../res/brow_L.png' );
   material =  new THREE.MeshBasicMaterial( { map: texture, transparent: true} );
   brow1 = new THREE.Mesh( rectangle, material );
   //material = new THREE.MeshBasicMaterial( {color: 0xCC5555} );
-  texture = new THREE.TextureLoader().load( 'brow_R.png' );
+  texture = new THREE.TextureLoader().load( '../res/brow_R.png' );
   material =  new THREE.MeshBasicMaterial( { map: texture, transparent: true} );
   brow2 = new THREE.Mesh( rectangle, material );
   brow1.position.x += 0.2
