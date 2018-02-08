@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pong!</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <link href="pong/pong.css" media="screen, print" rel="stylesheet" type="text/css" />
+  <script src="jquery/dist/jquery.min.js"></script>
+</head>
+
+<body>
+
+  <div id="sidebar">
+
+    <h2>This is Pong!</h2>
+
+    <div class='description'>
+      <p>
+        This is a javascript version of Pong.
+      </p>
+      <p>
+        Press <b>1</b> for a single player game.<br>
+        Press <b>2</b> for a double player game.<br>
+        Press <b>0</b> to watch the computer play itself.
+      </p>
+      <p>
+        Player 1 moves using the <b>Q</b> and <b>A</b> keys.<br>
+        Player 2 moves using the <b>P</b> and <b>L</b> keys.
+      </p>
+      <p>
+        <b>Esc</b> can be used to abandon a game.
+      </p>
+    </div>
+
+    <div class='settings'>
+      <label for='sound'>sound: </label>
+      <input type='checkbox' id='sound' checked>
+    </div>
+
+    <div class='settings'>
+      <label for='stats'>stats: </label>
+      <input type='checkbox' id='stats' checked>
+    </div>
+
+    <div class='settings'>
+      <label for='footprints'>footprints: </label>
+      <input type='checkbox' id='footprints'>
+    </div>
+
+    <div class='settings'>
+      <label for='predictions'>predictions: </label>
+      <input type='checkbox' id='predictions'>
+    </div>
+
+  </div>
+
+  <canvas id="game">
+    <div id="unsupported">
+      Sorry, this example cannot be run because your browser does not support the &lt;canvas&gt; element
+    </div>
+  </canvas>
+  <div class="calibration">
+    <button type="button" name="button" onclick="player1.calibrate()">Calibrate P1</button>
+    <button type="button" name="button" onclick="player2.calibrate()">Calibrate P2</button>
+  </div>
+
+  <script src="pong/game.js" type="text/javascript"></script>
+  <script src="pong/pong.js" type="text/javascript"></script>
+  <script type="text/javascript">
+  Game.ready(function() {
+
+    var size        = document.getElementById('size');
+    var sound       = document.getElementById('sound');
+    var stats       = document.getElementById('stats');
+    var footprints  = document.getElementById('footprints');
+    var predictions = document.getElementById('predictions');
+
+    window.pong = Game.start('game', Pong, {
+      sound:       sound.checked,
+      stats:       stats.checked,
+      footprints:  footprints.checked,
+      predictions: predictions.checked
+    });
+
+    window.player1 = new Player("left")
+    window.player2 = new Player("right")
+
+    Game.addEvent(sound,       'change', function() { pong.enableSound(sound.checked);           });
+    Game.addEvent(stats,       'change', function() { pong.showStats(stats.checked);             });
+    Game.addEvent(footprints,  'change', function() { pong.showFootprints(footprints.checked);   });
+    Game.addEvent(predictions, 'change', function() { pong.showPredictions(predictions.checked); });
+  });
+  </script>
+  <script type="text/javascript">
+  //
+    class Player {
+      constructor(name) {
+        this.y = {start:NaN, current:NaN, delta:500}
+        this.samples = []
+        this.calibration = 30
+        this.name = name
+      }
+
+      get paddle() {
+        return window.pong[`${this.name}Paddle`]
+      }
+
+      calibrate() {
+        this.neutral()
+        this.samples = []
+        this.y.start = NaN
+        this.paddle.y = 210
+      }
+
+      neutral() {
+        this.paddle.stopMovingUp()
+        this.paddle.stopMovingDown()
+      }
+
+      up() {
+        this.neutral()
+        this.paddle.moveUp()
+      }
+
+      down() {
+        this.neutral()
+        this.paddle.moveDown()
+      }
+
+      update() {
+        //Calibration
+          if (this.samples.length < this.calibration) return this.samples.push(this.y.current)
+          if (!Number.isFinite(this.y.start)) this.y.start = this.samples.reduce((w, v) => w + v)/this.samples.length
+        //Movement
+          if (Math.abs(this.y.start - this.y.current) > this.y.delta) {
+            if (this.y.start > this.y.current) this.down()
+            if (this.y.start < this.y.current) this.up()
+          } else { this.neutral() }
+      }
+
+    }
+
+  //Websocket connection
+    const ws = new WebSocket("ws://localhost:3001")
+    ws.onmessage = event => {
+      //console.log(event.data)
+      const data = JSON.parse(event.data)
+      const type = data.shift()
+      if (type === "mot") {
+          if (player1) { player1.y.current = data[1] ; player1.update() }
+          if (player2) { /* TODO */ }
+      }
+    }
+  </script>
+
+</body>
+</html>

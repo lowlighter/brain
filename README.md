@@ -9,9 +9,13 @@ Projet de M1 (semestre 2)
     * FACS via le casque Emotiv
 * Démonstrateurs
     * [Pong](https://github.com/lowlighter/brain/tree/master/pong)
-    * Kawashima
-    * Brain battle
+    * [Kawashima](https://github.com/lowlighter/brain/tree/master/kawashima)
+    * [Brain battle (v1)](https://github.com/lowlighter/brain/tree/master/battle)
+    * Brain battle (v2)
     * Contrôle du drone Parrot
+* Divers
+    * [Utilisation de l'API Cortex](https://github.com/lowlighter/brain/tree/master/miscelleanous/cortex)
+    * [Scanner de casques EEG](https://github.com/lowlighter/brain/tree/master/miscelleanous/scanner)
 
 ## Rapport continu
 [Lien vers le rapport](https://www.overleaf.com/13615904gxzjrcytrjpc#/52637951/).
@@ -42,3 +46,7 @@ Projet de M1 (semestre 2)
 
 # May the Force be with us...
 ![La force](https://github.com/lowlighter/brain/blob/master/miscelleanous/imgs/demo.png)
+
+# Kawashima style mode of the dead
+* [animation from blender into threejs](http://unboring.net/workflows/animation.html)
+* [Create a Facial Animation Setup in Blender](https://cgi.tutsplus.com/tutorials/create-a-facial-animation-setup-in-blender-part-1--cg-32251)

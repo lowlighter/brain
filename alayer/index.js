@@ -1,0 +1,58 @@
+//Dependancies
+  process.stdout.write('\x1Bc')
+  const express = require('express')
+  const app = express()
+  const WebSocket = require('ws')
+  const wss = new WebSocket.Server({port:3001})
+  const Cortex = require('./js/cortex')
+  const path = require('path')
+
+//Static server
+  //app.use(express.static('.'))
+  app.use('/battle1', express.static(path.join(__dirname, '../battle1')))
+  app.use('/emotions', express.static(path.join(__dirname, '../emotions')))
+  app.use('/kawashima', express.static(path.join(__dirname, '../kawashima')))
+  app.use('/pong', express.static(path.join(__dirname, '../pong/client')))
+  app.use('/miscelleanous', express.static(path.join(__dirname, '../miscelleanous/imgs')))
+  app.use('/', express.static(path.join(__dirname, './client')))
+
+  app.listen(3000, () => process.stdout.write('Server started on port 3000\nWebSocket server started on port 3001\n'))
+
+//WebSockets
+  wss.on('connection', ws => {
+    //Log
+      process.stdout.write('\x1b[36mClient logged to wss                                                     \x1b[0m\n')
+    //Websockets events
+      ws.on('error', () => null)
+  })
+
+//Cortex API
+  let client = null, attempt = 0
+  ;(function connect() {
+    client = new Cortex({verbose:1, threshold:0})
+    client.ready.then(() => client.init().queryHeadsets().then(headsets => {
+      if (headsets.length) { connected(headsets) } else { process.stdout.write(`\x1b[31mNo headsets found [attempt n°${attempt++}]\x1b[0m\r`) ; connect() }
+    })).catch(error => process.stdout.write(`\x1b[31mFailed to initialize Cortex API\x1b[0m\r`))
+  })()
+
+//Connected to Cortex API
+  function connected(headsets) {
+    client
+      .createSession({status:'open'})
+      .subscribe({streams:['fac', 'dev', 'pow', 'mot', 'sys', 'met']})
+      .then(subs => {
+          if ((!subs[0].fac)||(!subs[1].dev)||(!subs[2].pow)||(!subs[3].mot)||(!subs[4].sys)||(!subs[5].met)) return console.error('Failed to subscribe to required channels')
+          client.on('fac', event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['fac', ...event.fac])) }))
+          client.on('dev', event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['dev', ...event.dev])) }))
+          client.on('pow', event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['pow', ...event.pow])) }))
+          client.on('mot', event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['mot', ...event.mot])) }))
+          client.on('sys', event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['sys', ...event.sys])) }))
+          client.on('met', event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['met', ...event.met])) }))
+          let time = 0
+          setInterval(() => client.queryHeadsets().then(headsets => {
+            let active = []
+            headsets.forEach(headset => active.push(headset.id))
+            process.stdout.write(`\x1b[32mConnected to headset (${active.join()}) [since ${time++} sec]\x1b[0m\r`)
+          }), 1000)
+      }).catch(error => console.error('\x1b[31mError : %s\x1b[0m', "Failed to connect to headset"))
+  }
