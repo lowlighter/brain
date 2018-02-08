@@ -1,4 +1,10 @@
+// Connection
+const ws = new WebSocket('ws://localhost:3001');
+ws.onmessage = (message) => {
+		//console.log(message);
+}
 
+// Model
 var camera, scene, renderer;
 var dice, eye1, eye2, mouth, brow1, brow2;
 var t_brow_L, t_brow_R, t_eye_L, t_eye_R, t_eye_L_closed, t_eye_R_closed, t_mouth, t_mouth_open
