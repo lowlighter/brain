@@ -13,37 +13,42 @@
 		<script src="./js/emotion_classifier.js"></script>
 		<script src="./js/emotionmodel.js"></script>
 		<script src="./models/model_pca_20_svm.js"></script>
+		<script src="./js/libs/three.min.js"></script>
 
 		<div class="content">
-			<div>
-				<div class="input">
-					<div class="placeholder"></div>
-					<video width="600" height="400" id="video" preload="auto" loop playsinline autoplay></video>
-					<canvas width="600" height="400" id="overlay"></canvas>
-				</div>
-				<div class="controls">
-					<button type="button" name="button" disabled="disabled" onclick="startVideo()" id="startbutton">Loading...</button>
-				</div>
-				<div class="headset">
-					<div class="wrapper">
-						<div class="status tracking red"></div>Tracking score<span id="track-score">0.00</span>
+			<div class="canvas-demo">
+				<div>
+					<div class="input">
+						<div class="placeholder"></div>
+						<video width="600" height="400" id="video" preload="auto" loop playsinline autoplay></video>
+						<canvas width="600" height="400" id="overlay"></canvas>
 					</div>
-					<div class="wrapper">
-						<div class="status headset red"></div><span id="status">Disconnected</span><span id="signal-strength">0.00</span><span id="received"></span>
+					<div class="controls">
+						<button type="button" name="button" disabled="disabled" onclick="startVideo()" id="startbutton">Loading...</button>
+					</div>
+					<div class="headset">
+						<div class="wrapper">
+							<div class="status tracking red"></div>Tracking score<span id="track-score">0.00</span>
+						</div>
+						<div class="wrapper">
+							<div class="status headset red"></div><span id="status">Disconnected</span><span id="signal-strength">0.00</span><span id="received"></span>
+						</div>
 					</div>
 				</div>
-				<div class="charts">
-					<canvas id="chart-signals" width="600" height="300"></canvas>
+				<div id="brainy">
+
 				</div>
 			</div>
 			<div>
 				<div class="charts">
-					<canvas id="chart-emotions" width="400" height="400"></canvas>
+					<canvas id="chart-emotions" width="300" height="300"></canvas>
+					<canvas id="chart-signals" width="600" height="300"></canvas>
 					<canvas id="chart-correlation" width="400" height="400"></canvas>
 				</div>
 			</div>
 		</div>
 
 		<script src="./js/demo.js"></script>
+		<script src="./js/demo-brainy.js"></script>
 	</body>
 </html>
