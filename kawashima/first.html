@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8 />
+		<title>First</title>
+		<style>
+			body { margin: 0; }
+			canvas { width: 100%; height: 100% }
+		</style>
+	</head>
+	<body>
+		<script src="three-js/build/three.js"></script>
+		<script>
+			/* Constants */
+			let fov = 75,
+				aspect = window.innerWidth / window.innerHeight,
+				near = 0.1,
+				far = 1000;
+
+			/* Scene */
+			let scene = new THREE.Scene();
+
+			/* Camera */
+			let camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+			camera.position.set(0, 0, 400);
+
+			/* Renderer */
+			let renderer = new THREE.WebGLRenderer();
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			document.body.appendChild(renderer.domElement);
+
+			/* Light */
+			let light = new THREE.DirectionalLight(0xffffff);
+			scene.add(light);
+
+			/* Animation */
+			let animate = (objects) => {
+				requestAnimationFrame(() => animate(objects));
+
+				// objects.forEach(o => o.rotation.x += 0.05);
+
+				light.position.set(
+					camera.position.x,
+					camera.position.y,
+					camera.position.z
+				).normalize();
+
+				renderer.render(scene, camera);
+			}
+
+			/* Face3 configuration */
+			
+			// Material
+			let material = new THREE.MeshStandardMaterial({
+				color: 0x00cc00
+			});
+
+			// Points
+			let v1 = new THREE.Vector3(-50, -50, 0), 
+				v2 = new THREE.Vector3( 50, -50, 0),
+				v3 = new THREE.Vector3( 50,  50, 0);
+
+			// Optionnals
+			let normal = new THREE.Vector3(0, 1, 0);
+			let color = new THREE.Color(0xffaa00);
+			let materialIndex = 0;
+			let face = new THREE.Face3(0, 1, 2, normal, color, materialIndex);
+
+			// Geometry
+			let makeGeometry = (v1, v2, v3, face) => {
+				let geom = new THREE.Geometry();
+				geom.vertices.push(v1);
+				geom.vertices.push(v2);
+				geom.vertices.push(v3);
+				geom.faces.push(face);
+				geom.computeFaceNormals();
+				geom.computeVertexNormals();
+				return geom;
+			};
+
+			/* Add to Scene */
+			let objects = [
+				new THREE.Mesh(makeGeometry(v1, v2, v3, face), material),
+				new THREE.Mesh(makeGeometry(v1, v3, v2, face.clone()), material)
+			];
+			objects.forEach(o => scene.add(o));
+
+			// Animate
+			animate(objects);
+		</script>
+	</body>
+</html>
