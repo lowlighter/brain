@@ -1,7 +1,8 @@
 # Etude sur l'activité électrique du cerveau
 
 Projet de M1 (semestre 2)
-
+* Interface principale
+    * [A-Layer](https://github.com/lowlighter/brain/tree/master/alayer)
 * Etude du marché et des casques EEG
     * Casques plus performants à prix abordable
 * Reconnaissance des émotions
@@ -44,9 +45,9 @@ Projet de M1 (semestre 2)
 * [DIY : MINI ARDUINO PORTABLE EEG - BRAIN WAVE MONITOR +](http://www.instructables.com/id/Mini-Arduino-Portable-EEG-Brain-Wave-Monitor-/)
 * [DIY : EEG (AND ECG) CIRCUIT](http://www.instructables.com/id/DIY-EEG-and-ECG-Circuit/)
 
-# May the Force be with us...
-![La force](https://github.com/lowlighter/brain/blob/master/miscelleanous/imgs/demo.png)
-
-# Kawashima style mode of the dead
+## Kawashima style mode of the dead
 * [animation from blender into threejs](http://unboring.net/workflows/animation.html)
 * [Create a Facial Animation Setup in Blender](https://cgi.tutsplus.com/tutorials/create-a-facial-animation-setup-in-blender-part-1--cg-32251)
+
+# May the Force be with us...
+![La force](https://github.com/lowlighter/brain/blob/master/miscelleanous/imgs/demo.png)
