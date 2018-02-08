@@ -1,11 +1,12 @@
 // Connection
+/*
 const ws = new WebSocket('ws://localhost:3001');
 ws.onmessage = (message) => {
 		//console.log(message);
-}
+}*/
 
 // Model
-var camera, scene, renderer;
+var camera, scene, renderer, light;
 var dice, eye1, eye2, mouth, brow1, brow2;
 var t_brow_L, t_brow_R, t_eye_L, t_eye_R, t_eye_L_closed, t_eye_R_closed, t_mouth, t_mouth_open
 var face, head;
@@ -22,6 +23,11 @@ function init(){
 	camera = new THREE.PerspectiveCamera( fov, aspect, near, far );
 	camera.position.z = 8;
 
+	// Light
+	light = new THREE.PointLight(0xffffff, 1.3, 50);
+	light.position.set(camera.position.x, camera.position.y, camera.position.z);
+	scene.add(light);
+
 	// Renderer
 	renderer = new THREE.WebGLRenderer({alpha: true});
 	renderer.setSize( window.innerWidth, window.innerHeight );
@@ -29,38 +35,42 @@ function init(){
 
 	// Textures
 	let texture;
-	texture = new THREE.TextureLoader().load( 'brow_L.png' );
+	texture = new THREE.TextureLoader().load( 'res/brow_L.png' );
   t_brow_L =  new THREE.MeshBasicMaterial( { map: texture, transparent: true} );
-	texture = new THREE.TextureLoader().load( 'brow_R.png' );
+	texture = new THREE.TextureLoader().load( 'res/brow_R.png' );
   t_brow_R =  new THREE.MeshBasicMaterial( { map: texture, transparent: true} );
-	texture = new THREE.TextureLoader().load( 'eye_L.png' );
+	texture = new THREE.TextureLoader().load( 'res/eye_L.png' );
   t_eye_L =  new THREE.MeshBasicMaterial( { map: texture, transparent: true} );
-	texture = new THREE.TextureLoader().load( 'eye_R.png' );
+	texture = new THREE.TextureLoader().load( 'res/eye_R.png' );
   t_eye_R =  new THREE.MeshBasicMaterial( { map: texture, transparent: true} );
-	texture = new THREE.TextureLoader().load( 'eye_L_closed.png' );
+	texture = new THREE.TextureLoader().load( 'res/eye_L_closed.png' );
   t_eye_L_closed =  new THREE.MeshBasicMaterial( { map: texture, transparent: true} );
-	texture = new THREE.TextureLoader().load( 'eye_R_closed.png' );
+	texture = new THREE.TextureLoader().load( 'res/eye_R_closed.png' );
   t_eye_R_closed =  new THREE.MeshBasicMaterial( { map: texture, transparent: true} );
-	texture = new THREE.TextureLoader().load( 'mouth.png' );
+	texture = new THREE.TextureLoader().load( 'res/mouth.png' );
   t_mouth =  new THREE.MeshBasicMaterial( { map: texture, transparent: true} );
-	texture = new THREE.TextureLoader().load( 'mouth_open.png' );
+	texture = new THREE.TextureLoader().load( 'res/mouth_open.png' );
   t_mouth_open =  new THREE.MeshBasicMaterial( { map: texture, transparent: true} );
+	texture = new THREE.TextureLoader().load( 'res/mouth_L_rictus.png' );
+  t_mouth_rictus_L =  new THREE.MeshBasicMaterial( { map: texture, transparent: true} );
+	texture = new THREE.TextureLoader().load( 'res/mouth_R_rictus.png' );
+  t_mouth_rictus_R =  new THREE.MeshBasicMaterial( { map: texture, transparent: true} );
 
 	// Floor
 	let rectangle = new THREE.PlaneGeometry(10, 10);
-	let material = new THREE.MeshBasicMaterial( {color: 0x555555, side: THREE.DoubleSide} );
+	let material = new THREE.MeshLambertMaterial( {color: 0x555555, side: THREE.DoubleSide} );
 	let plane = new THREE.Mesh( rectangle, material );
 	scene.add( plane );
 
 	// Dice
 	let cube = new THREE.BoxGeometry( 1, 1, 1 );
 	materials = [
-    new THREE.MeshBasicMaterial( { color : 0xCC0066 } ),
-    new THREE.MeshBasicMaterial( { color : 0xCC0066 } ),
-		new THREE.MeshBasicMaterial( { color : 0xFF3399 } ),
-		new THREE.MeshBasicMaterial( { color : 0xFF007F } ),
-		new THREE.MeshBasicMaterial( { color : 0xFF007F } ),
-		new THREE.MeshBasicMaterial( { color : 0xFF3399 } ),
+    new THREE.MeshLambertMaterial( { color : 0xCC0066 } ),
+    new THREE.MeshLambertMaterial( { color : 0xCC0066 } ),
+		new THREE.MeshLambertMaterial( { color : 0xFF3399 } ),
+		new THREE.MeshLambertMaterial( { color : 0xFF007F } ),
+		new THREE.MeshLambertMaterial( { color : 0xFF007F } ),
+		new THREE.MeshLambertMaterial( { color : 0xFF3399 } ),
 	]
 	dice = new THREE.Mesh( cube, materials );
 
@@ -130,6 +140,8 @@ function closeRightEye(){	eye1.material = t_eye_R_closed;	}
 function closeEyes(){ closeLeftEye(); closeRightEye(); }
 function smile(){ mouth.material = t_mouth; }
 function openMouth(){ mouth.material = t_mouth_open; }
+function rictusLeft(){  mouth.material = t_mouth_rictus_L; }
+function rictusRight(){  mouth.material = t_mouth_rictus_R; }
 function upLeftBrow(){ brow1.position.y = 0.35; }
 function upRightBrow(){ brow2.position.y = 0.35; }
 function upBrows(){ upLeftBrow(); upRightBrow(); }
@@ -142,7 +154,7 @@ function angryBrows(){ angryLeftBrow(); angryRightBrow(); }
 function calmLeftBrow(){ brow1.rotation.z = 0; }
 function calmRightBrow(){ brow2.rotation.z = 0; }
 function calmBrows(){ calmLeftBrow(); calmRightBrow(); }
-function cameraAnimation(){	}
+function cameraAnimation(){}
 
 // Head orientation
 function turnHeadZ( value ){ head.rotation.y = value; }
