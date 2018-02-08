@@ -59,15 +59,8 @@ function init(){
 
 	// Dice
 	let cube = new THREE.BoxGeometry( 1, 1, 1 );
-	materials = [
-    new THREE.MeshLambertMaterial( { color : 0xCC0066 } ),
-    new THREE.MeshLambertMaterial( { color : 0xCC0066 } ),
-		new THREE.MeshLambertMaterial( { color : 0xFF3399 } ),
-		new THREE.MeshLambertMaterial( { color : 0xFF007F } ),
-		new THREE.MeshLambertMaterial( { color : 0xFF007F } ),
-		new THREE.MeshLambertMaterial( { color : 0xFF3399 } ),
-	]
-	dice = new THREE.Mesh( cube, materials );
+	material = new THREE.MeshLambertMaterial( { color : 0xCC0066 } )
+	dice = new THREE.Mesh( cube, material );
 
   // Eyes
   rectangle  = new THREE.PlaneGeometry(0.3, 0.3);
@@ -116,11 +109,11 @@ function init(){
 	var sphere = new THREE.SphereGeometry( 0.1, 16, 8 );
 	lights = new THREE.Group();
 
-	let light1 = new THREE.PointLight(0xffffff, 0.7, 30);
-	let light2 = new THREE.PointLight(0xffffff, 0.5, 30);
-	let light3 = new THREE.PointLight(0xffffff, 0.5, 30);
-	let light4 = new THREE.PointLight(0xffffff, 0.4, 30);
-	let light5 = new THREE.PointLight(0xffffff, 0.4, 30);
+	let light1 = new THREE.PointLight(0xffffff, 1, 30);
+	let light2 = new THREE.PointLight(0xffffff, 0.9, 30);
+	let light3 = new THREE.PointLight(0xffffff, 0.9, 30);
+	let light4 = new THREE.PointLight(0xffffff, 0.6, 30);
+	let light5 = new THREE.PointLight(0xffffff, 0.6, 30);
 
 	/*
 	light1.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0x00ff40 } ) ) );
