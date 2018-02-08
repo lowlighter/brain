@@ -1,0 +1,18 @@
+{
+  "name": "pong",
+  "version": "1.0.0",
+  "description": "Une version de Pong contrôlable avec le casque EEG.",
+  "main": "index.js",
+  "scripts": {
+    "start":"node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.0.0",
+    "express": "^4.16.2",
+    "jquery": "^3.3.1",
+    "ws": "^4.0.0"
+  }
+}

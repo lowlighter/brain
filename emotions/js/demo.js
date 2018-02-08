@@ -3,23 +3,24 @@
 //====================================================
 //====================================================
   const charts = {delta:10}
-  charts.emotions = new Chart(document.getElementById("chart-emotions").getContext('2d'), {
-      type:'radar',
+  charts.emotions = new Chart(document.getElementById("chart-emotions").getContext("2d"), {
+      type:"radar",
       data:{
-        labels:['Angry', 'Disgusted', 'Fear', 'Sad', 'Surprised', 'Happy'],
+        labels:["Neutral", "Angry", "Sad", "Surprised", "Happy"],
         datasets:[{
             label:"Machine Learning",
-            backgroundColor:'rgba(255, 99, 132, 0.3)',
-            borderColor:'rgba(255, 99, 132, 1)',
-            data:[0, 0, 0, 0, 0, 0]
+            backgroundColor:"rgba(255, 99, 132, 0.3)",
+            borderColor:"rgba(255, 99, 132, 1)",
+            data:[0, 0, 0, 0, 0]
         }, {
             label:"EEG Headset",
-            backgroundColor:'rgba(54, 162, 235, 0.3)',
-            borderColor:'rgba(54, 162, 235, 1)',
-            data:[0, 0, 0, 0, 0, 0]
+            backgroundColor:"rgba(54, 162, 235, 0.3)",
+            borderColor:"rgba(54, 162, 235, 1)",
+            data:[0, 0, 0, 0, 0]
         }]
       },
       options:{
+        responsive: false,
         title:{
           display:true,
           fontSize:20,
@@ -39,17 +40,20 @@
       }
   })
 
-  charts.correlation = new Chart(document.getElementById("chart-correlation").getContext('2d'), {
-      type:'scatter',
+  charts.correlation = new Chart(document.getElementById("chart-correlation").getContext("2d"), {
+      type:"scatter",
       data:{
         labels:[0],
         datasets:[{
-            borderColor:'rgba(255, 99, 132, 1)',
+            borderColor:"rgba(255, 99, 132, 1)",
             fill:false,
-            data:[]
+            data:[],
+            showLine:true,
+            borderWidth:2,
         }]
       },
       options:{
+        responsive: false,
         title:{
           display:true,
           fontSize:20,
@@ -79,21 +83,95 @@
       }
   })
 
+  charts.signals = new Chart(document.getElementById("chart-signals").getContext("2d"), {
+      type:"scatter",
+      data:{
+        labels:[0],
+        datasets:[{
+            label:"AF3",
+            borderColor:"rgba(255, 99, 132, 1)",
+            fill:false,
+            showLine:true,
+            borderWidth:2,
+            data:[]
+        },{
+            label:"AF4",
+            borderColor:"rgba(255, 159, 64, 1)",
+            fill:false,
+            showLine:true,
+            borderWidth:2,
+            data:[]
+        },{
+            label:"T7",
+            borderColor:"rgba(75, 192, 192, 1)",
+            fill:false,
+            showLine:true,
+            borderWidth:2,
+            data:[]
+        },{
+            label:"T8",
+            borderColor:"rgba(54, 162, 235, 1)",
+            fill:false,
+            showLine:true,
+            borderWidth:2,
+            data:[]
+        },{
+            label:"Pz",
+            borderColor:"rgba(153, 102, 255, 1)",
+            fill:false,
+            showLine:true,
+            borderWidth:2,
+            data:[]
+        }]
+      },
+      options:{
+        responsive: false,
+
+        title:{
+          display:true,
+          fontSize:20,
+          text:"Band power values"
+        },
+        scales: {
+          yAxes: [{
+            display: true,
+            ticks: {
+              min:0,
+              max:10,
+            }
+          }],
+          xAxes:[{
+            ticks: {
+              min:0,
+              max:charts.delta * 1000,
+              maxRotation:0,
+              minRotation:0,
+              callback(label, index, labels) { return Math.floor(label/1000) }
+            }
+          }]
+        },
+        animation:{
+          duration:200
+        }
+      }
+  })
+
 
 //====================================================
 // VIDEO
 //====================================================
 //====================================================
   //Initialization
-    const video = document.getElementById('video')
-    const overlay = document.getElementById('overlay')
-    const overlayCC = overlay.getContext('2d')
+    const video = document.getElementById("video")
+    const overlay = document.getElementById("overlay")
+    const overlayCC = overlay.getContext("2d")
 
   //Enable start
     function enablestart() {
-      const button = document.getElementById('startbutton')
+      const button = document.getElementById("startbutton")
       button.innerHTML = "Start tracking"
       button.disabled = null
+      startVideo()
     }
 
   //Update video proportions when resized
@@ -127,7 +205,7 @@
 
   //Failed to retrieve camera stream
     function gumFail() {
-      alert("There was some problem trying to fetch video from your webcam. If you have a webcam, please make sure to accept when the browser asks for access to your webcam.");
+      alert("There was some problem trying to fetch video from your webcam. If you have a webcam, please make sure to accept when the browser asks for access to your webcam.")
     }
 
   //Camera API
@@ -136,13 +214,13 @@
 
   //Camera support
     if (navigator.mediaDevices) {
-      navigator.mediaDevices.getUserMedia({video : true}).then(gumSuccess).catch(gumFail);
+      navigator.mediaDevices.getUserMedia({video : true}).then(gumSuccess).catch(gumFail)
     } else if (navigator.getUserMedia) {
-      navigator.getUserMedia({video : true}, gumSuccess, gumFail);
+      navigator.getUserMedia({video : true}, gumSuccess, gumFail)
     } else {
-      alert("This demo depends on getUserMedia, which your browser does not seem to support. :(");
+      alert("This demo depends on getUserMedia, which your browser does not seem to support. :(")
     }
-    video.addEventListener('canplay', enablestart, false)
+    video.addEventListener("canplay", enablestart, false)
 
 
 //====================================================
@@ -161,7 +239,7 @@
 
   //Start tracking
     function startVideo() {
-      const button = document.getElementById('startbutton')
+      const button = document.getElementById("startbutton")
       button.innerHTML = "Tracking..."
       button.disabled = true
       video.play()
@@ -175,26 +253,56 @@
     function drawLoop() {
       requestAnimFrame(drawLoop)
       overlayCC.clearRect(0, 0, video.width, video.height)
-      if (ctrack.getCurrentPosition()) ctrack.draw(overlay)
+      if (ctrack.getCurrentPosition()) {
+        ctrack.draw(overlay,undefined,"vertices")
+        document.getElementById("track-score").innerHTML = ctrack.getScore().toFixed(2)
+        document.querySelector(".status.tracking").classList.remove("red")
+        document.querySelector(".status.tracking").classList.add("green")
+      }
+      else {
+        document.getElementById("track-score").innerHTML = "0.00"
+        document.querySelector(".status.tracking").classList.remove("green")
+        document.querySelector(".status.tracking").classList.add("red")
+      }
       const er = ec.meanPredict(ctrack.getCurrentParameters())
       if (er) updateData(er)
     }
 
   //Update chart data
     function updateData(data) {
-      const values = []
-      data.forEach(datum => values.push(datum.value))
-
+      const values = [0]
+      data.forEach(datum => {
+        if ((datum.emotion === "disgusted")||((datum.emotion === "fear"))) return null
+        values.push(datum.value)
+      })
+      values[0] = 1 - Math.max.apply(null, values)
       charts.emotions.data.datasets[0].data = values
       charts.emotions.update()
+    }
 
-      const t = Date.now() - timeOrigin
-      charts.correlation.data.datasets[0].data.push({x:t, y:0.7})
-      charts.correlation.data.datasets[0].data = charts.correlation.data.datasets[0].data.filter(v => v.x >= charts.correlation.options.scales.xAxes[0].ticks.min)
-      charts.correlation.options.scales.xAxes[0].ticks.min = Math.max(t - charts.delta * 1000, 0)
-      charts.correlation.options.scales.xAxes[0].ticks.max = Math.max(t, charts.delta * 1000)
+  //Update chart data (EEG)
+    function updateEEGData(values, signals) {
+      //Update scales
+        const t = Date.now() - timeOrigin, min = Math.max(t - charts.delta * 1000, 0), max = Math.max(t, charts.delta * 1000)
+        charts.correlation.options.scales.xAxes[0].ticks.min = min
+        charts.correlation.options.scales.xAxes[0].ticks.max = max
+        charts.correlation.update()
+        charts.signals.options.scales.xAxes[0].ticks.min = min
+        charts.signals.options.scales.xAxes[0].ticks.max = max
+        charts.signals.update()
+      //Updates values
+        if (Array.isArray(values)) {
+          charts.emotions.data.datasets[1].data = values
+          charts.emotions.update()
+          charts.correlation.data.datasets[0].data.push({x:t, y:Math.abs(correlation(values, charts.emotions.data.datasets[0].data))})
+          if (charts.correlation.data.datasets[0].data.length > 1000) charts.correlation.data.datasets[0].data = charts.correlation.data.datasets[0].data.filter(v => v.x >= charts.correlation.options.scales.xAxes[0].ticks.min)
+        }
+      //Update signals
+        if (Array.isArray(signals)) {
+          charts.signals.data.datasets.forEach((dataset, index) => dataset.data.push({x:t, y:signals[index]}))
 
-      charts.correlation.update()
+          if (charts.signals.data.datasets[0].data.length > 1000) charts.signals.data.datasets.forEach((dataset, index) => dataset.data = charts.signals.data.datasets[index].data.filter(v => v.x >= charts.signals.options.scales.xAxes[0].ticks.min))
+        }
     }
 
   //Initialization
@@ -227,4 +335,49 @@
     	sx = Math.sqrt(sx / n)
     	sy = Math.sqrt(sy / n)
     	return parseFloat((averages.sum / (n * sx * sy)).toFixed(8))
+    }
+
+//====================================================
+// EEG HEADSET
+//====================================================
+//====================================================
+  //Show that headset is connected
+    function connected(received) {
+      document.getElementById("status").innerHTML = "Connected"
+      document.getElementById("received").innerHTML = received
+      document.querySelector(".status.headset").classList.remove("red")
+      document.querySelector(".status.headset").classList.add("green")
+    }
+
+  //Websocket connection
+    const ws = new WebSocket("ws://localhost:3001")
+    ws.onmessage = event => {
+      if (!trackingStarted) return null
+      const data = JSON.parse(event.data)
+      const type = data.shift()
+      if (type === "dev") {
+        document.getElementById("signal-strength").innerHTML = (data[2].reduce((w, v) => w + v)/5/4).toFixed(2)
+      } else if (type === "pow") {
+        let channels = []
+        while (data.length > 0) channels.push(data.splice(0, 5))
+        channels = channels.map(channel => Math.log(channel.reduce((w, v) => w + v)))
+        updateEEGData(undefined, channels)
+      } else if (type === "fac") {
+        //====================================================
+        //TODO : Sad scoring
+        const scores = {frown:0, surprise:0, smile:0, laugh:0, neutral:0, sad:0}
+        connected(event.data)
+        scores[data[1]] = data[2]
+        scores[data[3]] = data[4]
+        updateEEGData([scores.neutral, scores.frown, scores.sad, scores.surprise, Math.min(1, scores.smile + 1.5*scores.laugh)], undefined)
+      }
+    }
+
+  //====================================================
+  // DEMO WITH RANDOM VALUES
+  //====================================================
+  //====================================================
+    function demo() {
+      updateEEGData([Math.random(), Math.random(), Math.random(), Math.random(), Math.random()], [Math.random(), Math.random(), Math.random(), Math.random(), Math.random()])
+      setTimeout(demo, 400+100*Math.random())
     }
