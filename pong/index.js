@@ -52,7 +52,6 @@
           let time = 0
           setInterval(() => client.queryHeadsets().then(headsets => {
             let active = []
-            if (!active.length) { time = 0 ; return process.stdout.write(`\x1b[31mConnection lost\x1b[0m\r`) }
             headsets.forEach(headset => active.push(headset.id))
             process.stdout.write(`\x1b[32mConnected to headset (${active.join()}) [since ${time++} sec]\x1b[0m\r`)
           }), 1000)
