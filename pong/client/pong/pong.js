@@ -27,9 +27,9 @@ Pong = {
   },
 
   Images: [
-    "images/press1.png",
-    "images/press2.png",
-    "images/winner.png"
+    "pong/images/press1.png",
+    "pong/images/press2.png",
+    "pong/images/winner.png"
   ],
 
   Levels: [
@@ -184,7 +184,7 @@ Pong = {
     initialize: function(pong) {
       //var press1 = pong.images["images/press1.png"];
       //var press2 = pong.images["images/press2.png"];
-      var winner = pong.images["images/winner.png"];
+      var winner = pong.images["pong/images/winner.png"];
       //this.press1  = { image: press1, x: 10,                                                 y: pong.cfg.wallWidth     };
       //this.press2  = { image: press2, x: (pong.width - press2.width - 10),                   y: pong.cfg.wallWidth     };
       this.winner1 = { image: winner, x: (pong.width/2) - winner.width - pong.cfg.wallWidth, y: 6 * pong.cfg.wallWidth };
@@ -217,10 +217,10 @@ Pong = {
       this.supported = Game.ua.hasAudio;
       if (this.supported) {
         this.files = {
-          ping: Game.createAudio("sounds/ping.wav"),
-          pong: Game.createAudio("sounds/pong.wav"),
-          wall: Game.createAudio("sounds/wall.wav"),
-          goal: Game.createAudio("sounds/goal.wav")
+          ping: Game.createAudio("pong/sounds/ping.wav"),
+          pong: Game.createAudio("pong/sounds/pong.wav"),
+          wall: Game.createAudio("pong/sounds/wall.wav"),
+          goal: Game.createAudio("pong/sounds/goal.wav")
         };
       }
     },
