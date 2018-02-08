@@ -17,6 +17,11 @@
           Battle (v1)
         </div>
       </div>
+      <div class="card disabled" style="background-image:url(miscelleanous/battle2.png)">
+        <div class="text">
+          Battle (v2)
+        </div>
+      </div>
       <div class="card" style="background-image:url(miscelleanous/correlation.png)" onclick="window.location.replace('/emotions')">
         <div class="text">
           Emotions
@@ -25,6 +30,11 @@
       <div class="card" style="background-image:url(miscelleanous/brainy.png)" onclick="window.location.replace('/kawashima')">
         <div class="text">
           Kawashima
+        </div>
+      </div>
+      <div class="card disabled" style="background-image:url(miscelleanous/parrot.png)">
+        <div class="text">
+          Drone parrot
         </div>
       </div>
     </div>
@@ -45,7 +55,7 @@
         justify-content: center;
         align-items: center;
         flex-wrap: wrap;
-        width: 525px;
+        width: 825px;
       }
       .wrapper > .card {
         border-radius: 5px;
@@ -72,6 +82,10 @@
         font-size: 24px;
         font-family: "Open Sans";
         text-shadow:3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      }
+      .card.disabled {
+        filter: brightness(0.2);
+        cursor: not-allowed;
       }
     </style>
   </body>
