@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="pixi/pixi.min.js"></script>
+  </head>
+  <body>
+    <script>
+      PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST
+      const app = new PIXI.Application({height:600, width:1000, transparent:true})
+      document.body.appendChild(app.view)
+
+      function player(textures) {
+        const sprite = new PIXI.extras.AnimatedSprite(textures.map(frame => PIXI.Texture.fromFrame(frame)))
+        sprite.animationSpeed = 0.05
+        sprite.play()
+        sprite.scale.set(2)
+        sprite.anchor.set(0.5)
+        app.stage.addChild(sprite)
+        return sprite
+      }
+
+      function attack(textures1, textures2, texture12, player, s = 1) {
+        player.score = 0
+        player.nscore = 0
+        const sprite1 = new PIXI.extras.AnimatedSprite(textures1.map(frame => PIXI.Texture.fromFrame(frame)))
+        sprite1.animationSpeed = 0.15
+        sprite1.play()
+        sprite1.position.set(player.x+(s*player.width/2), player.y-player.height/4)
+        sprite1.anchor.x = s < 0 ? 1 : 0
+        app.stage.addChild(sprite1)
+
+        const sprite12 = new PIXI.Sprite.fromFrame(texture12)
+        sprite12.position.set(sprite1.x+s*(sprite1.width), sprite1.y)
+        sprite12.anchor.x = s < 0 ? 1 : 0
+        app.stage.addChild(sprite12)
+
+        const sprite2 = new PIXI.extras.AnimatedSprite(textures2.map(frame => PIXI.Texture.fromFrame(frame)))
+        sprite2.animationSpeed = 0.15
+        sprite2.play()
+        sprite2.position.set(sprite12.x+s*(sprite12.width - 2), sprite12.y)
+        sprite2.anchor.x = s < 0 ? 1 : 0
+        app.stage.addChild(sprite2)
+        app.ticker.add(() => {
+          player.score += Math.sign(player.nscore - player.score)
+          sprite12.width = player.score||0 + 2
+          sprite2.position.set(sprite12.x+s*(sprite12.width - 2), sprite12.y)
+        })
+      }
+
+      app.loader.onComplete.add(() => {
+        const bg = new PIXI.Sprite.fromFrame("bg.png")
+        bg.alpha = 0.7
+        bg.height = app.view.height
+        bg.width = app.view.width
+        app.stage.addChild(bg)
+
+        const goku = player(["00.png", "01.png"])
+        goku.position.set(goku.width, app.view.height/2)
+        window.goku = goku
+        const vegeta = player(["20.png", "21.png"])
+        vegeta.position.set(app.view.width - vegeta.width, app.view.height/2)
+        window.vegeta = vegeta
+        new attack(["10.png", "11.png"], ["13.png", "14.png"], "12.png", goku)
+        new attack(["30.png", "31.png"], ["33.png", "34.png"], "32.png", vegeta, -1)
+
+        function update(scores, force) {
+          const total = scores[0] + scores[1]
+          goku.nscore = 365 * (scores[0]/total)
+          vegeta.nscore = 365 * (scores[1]/total)
+          if (force) {
+            goku.score = goku.nscore
+            vegeta.score = vegeta.nscore
+          }
+        }
+
+        update([1, 1], true)
+        window.update = update
+
+      })
+      app.loader.add("sprites/textures.json").load()
+    </script>
+    <style media="screen">
+      body {
+        display: flex;
+        height: 100vh;
+        width: 100vw;
+        background-color: black;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+      }
+
+      canvas {
+        border-radius: 5px;
+      }
+    </style>
+  </body>
+</html>
