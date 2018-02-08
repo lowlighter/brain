@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="card" style="background-image:url(miscelleanous/pong.png)" onclick="window.location.replace('/pong')">
+        <div class="text">
+          Pong
+        </div>
+      </div>
+      <div class="card" style="background-image:url(miscelleanous/battle1.png)" onclick="window.location.replace('/battle')">
+        <div class="text">
+          Battle (v1)
+        </div>
+      </div>
+      <div class="card" style="background-image:url(miscelleanous/correlation.png)" onclick="window.location.replace('/emotions')">
+        <div class="text">
+          Emotions
+        </div>
+      </div>
+      <div class="card" style="background-image:url(miscelleanous/brainy.png)" onclick="window.location.replace('/kawashima')">
+        <div class="text">
+          Kawashima
+        </div>
+      </div>
+    </div>
+    <style media="screen">
+      body {
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: url(bg.png);
+        background-position: center;
+        background-size: cover;
+      }
+      .wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        width: 525px;
+      }
+      .wrapper > .card {
+        border-radius: 5px;
+        width: 250px;
+        height: 250px;
+        background-color: rgba(0,0,0,0.4);
+        margin: 5px;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all .4s;
+        cursor: pointer;
+        border: 1px solid rgba(0,0,0,0.7);
+      }
+      .wrapper > .card:hover {
+        box-shadow: 0 0 2em black;
+        transform: scale(1.25);
+        z-index: 1000;
+      }
+      .wrapper > .card > .text {
+        color: white;
+        font-weight: bold;
+        font-size: 24px;
+        font-family: "Open Sans";
+        text-shadow:3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      }
+    </style>
+  </body>
+</html>
