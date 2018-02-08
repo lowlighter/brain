@@ -4,7 +4,7 @@
   const app = express()
   const WebSocket = require('ws')
   const wss = new WebSocket.Server({port:3001})
-  const Cortex = require('lib/cortex.js')
+  const Cortex = require('./lib/cortex')
 
 //Static server
   app.use(express.static('client/'))
