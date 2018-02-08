@@ -9,7 +9,7 @@
 
 //Static server
   //app.use(express.static('.'))
-  app.use('/battle', express.static(path.join(__dirname, '../battle')))
+  app.use('/battle1', express.static(path.join(__dirname, '../battle1')))
   app.use('/emotions', express.static(path.join(__dirname, '../emotions')))
   app.use('/pong', express.static(path.join(__dirname, '../pong/client')))
   app.use('/miscelleanous', express.static(path.join(__dirname, '../miscelleanous/imgs')))
