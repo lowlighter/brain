@@ -114,8 +114,24 @@ button[disabled] {
   opacity: 0.4;
 }
 
+.charts {
+  width: 90vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
 @media screen and (min-width: 1050px) {
   .content {
-    flex-direction: row;
+    /*flex-direction: row;*/
   }
+}
+
+.canvas-demo {
+  width: 90vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
 }
