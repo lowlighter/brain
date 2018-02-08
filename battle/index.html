@@ -80,6 +80,19 @@
 
       })
       app.loader.add("sprites/textures.json").load()
+
+      //Websocket connection
+        const ws = new WebSocket("ws://localhost:3001")
+        ws.onmessage = event => {
+          const data = JSON.parse(event.data)
+          const type = data.shift()
+          if ((type === "pow")&&(window.update)) {
+            let a = Math.log10(data.reduce((w, v) => w + v))
+            console.log(a)
+            update([a, 2])
+          }
+        }
+
     </script>
     <style media="screen">
       body {
