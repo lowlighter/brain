@@ -7,10 +7,16 @@
   const Cortex = require('./js/cortex')
   const path = require('path')
 
-
+//Error Handling
+  let crashed = false, reconnect = null
+  process.on('uncaughtException', error => {
+    if (!crashed) process.stdout.write(`\x1b[31m\nError : An error occured (${error}), however server should still be active\x1b[0m`)
+    crashed = true
+    clearTimeout(reconnect)
+    reconnect = setTimeout(connect, 5000)
+  })
 
 //Static server
-  //app.use(express.static('.'))
   app.use('/battle1', express.static(path.join(__dirname, '../battle1')))
   app.use('/emotions', express.static(path.join(__dirname, '../emotions')))
   app.use('/kawashima', express.static(path.join(__dirname, '../kawashima')))
@@ -23,33 +29,33 @@
 //WebSockets
   wss.on('connection', ws => {
     //Log
-      process.stdout.write('\x1b[36mClient logged to wss                                                     \x1b[0m\n')
+      process.stdout.write('\x1b[36m\nClient logged to wss\x1b[0m')
     //Websockets events
       ws.on('error', () => null)
   })
 
 //Cortex API
-  let client = null, attempt = 0, isConnected = false;
-  ;(function connect() {
+  let client = null, attempt = 1, isConnected = false;
+  function connect() {
     client = new Cortex({verbose:1, threshold:0})
     client.ready.then(() => client.init().queryHeadsets().then(headsets => {
-      if (headsets.length || isConnected) { connected(headsets) } else { process.stdout.write(`\x1b[31mNo headsets found [attempt n°${attempt++}]\x1b[0m\r`) ; connect(); checkConnection() }
-    })).catch(error => process.stdout.write(`\x1b[31mFailed to initialize Cortex API\x1b[0m\r`))
-  })()
+      if (headsets.length || isConnected) { connected(headsets) } else { process.stdout.write(`\r\x1b[35mSearching for an headset [since ${attempt++} sec]${" ".repeat(30)}\x1b[0m`) ; setTimeout(() => { connect(); checkConnection() }, 1000) }
+    })).catch(error => null)
+  }
 
-
-
-function checkConnection(){
-
-  client
-    .createSession({status: 'open'})
-    .subscribe({streams: ['pow', 'mot', 'met']})
-    .then(_subs => {
-      if(subs != undefined){
-        isConnected = true;
-      }
-    });
-}
+//Check connection
+  function checkConnection(){
+    try {
+      client
+        .createSession({status: 'open'})
+        .subscribe({streams: ['dev']})
+        .then(_subs => {
+          if(subs != undefined){
+            isConnected = true;
+          }
+        });
+    } catch (e) { isConnected = false }
+  }
 
 
 //Connected to Cortex API
@@ -58,18 +64,21 @@ function checkConnection(){
       .createSession({status:'open'})
       .subscribe({streams:['fac', 'dev', 'pow', 'mot', 'sys', 'met']})
       .then(subs => {
-          if ((!subs[0].fac)||(!subs[1].dev)||(!subs[2].pow)||(!subs[3].mot)||(!subs[4].sys)||(!subs[5].met)) return console.error('Failed to subscribe to required channels')
+          if ((!subs[0].fac)||(!subs[1].dev)||(!subs[2].pow)||(!subs[3].mot)||(!subs[4].sys)||(!subs[5].met)) return process.stdout.write(`\n\x1b[31mError : Failed to subscribe to required channels\x1b[0m`)
           client.on('fac', event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['fac', ...event.fac])) }))
           client.on('dev', event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['dev', ...event.dev])) }))
           client.on('pow', event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['pow', ...event.pow])) }))
           client.on('mot', event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['mot', ...event.mot])) }))
           client.on('sys', event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['sys', ...event.sys])) }))
           client.on('met', event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['met', ...event.met])) }))
-          let time = 0
+          let time = 1
           setInterval(() => client.queryHeadsets().then(headsets => {
             let active = []
             headsets.forEach(headset => active.push(headset.id))
-            process.stdout.write(`\x1b[32mConnected to headset (${active.join()}) [since ${time++} sec]\x1b[0m\r`)
+            process.stdout.write(`\r\x1b[32mConnected to headset (${active.join()}) [since ${time++} sec]${" ".repeat(30)}\x1b[0m`)
           }), 1000)
-      }).catch(error => console.error('\x1b[31mError : %s\x1b[0m', "Failed to connect to headset"))
+      }).catch(error => process.stdout.write(`\n\x1b[31mError : Connection to headset failed\x1b[0m`))
   }
+
+//Start
+  connect()
