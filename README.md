@@ -50,4 +50,3 @@ Projet de M1 (semestre 2)
 # Kawashima style mode of the dead
 * [animation from blender into threejs](http://unboring.net/workflows/animation.html)
 * [Create a Facial Animation Setup in Blender](https://cgi.tutsplus.com/tutorials/create-a-facial-animation-setup-in-blender-part-1--cg-32251)
-test
