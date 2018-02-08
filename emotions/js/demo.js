@@ -20,6 +20,7 @@
         }]
       },
       options:{
+        responsive: false,
         title:{
           display:true,
           fontSize:20,
@@ -52,6 +53,7 @@
         }]
       },
       options:{
+        responsive: false,
         title:{
           display:true,
           fontSize:20,
