@@ -31,11 +31,10 @@
   function connected(headsets) {
     client
       .createSession({status:'open'})
-      .subscribe({streams:['fac', 'dev', 'pow']})
+      .subscribe({streams:['met', 'pow']})
       .then(subs => {
-          if ((!subs[0].fac)||(!subs[1].dev)||(!subs[2].pow)) return console.error('Failed to subscribe to required channels')
-          client.on('fac', event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['fac', ...event.fac])) }))
-          client.on('dev', event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['dev', ...event.dev])) }))
+          if (!subs[0].met) return console.error('Failed to subscribe to required channels')
+          client.on('met', event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['met', ...event.met])) }))
           client.on('pow', event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['pow', ...event.pow])) }))
           let time = 0
           setInterval(() => client.queryHeadsets().then(headsets => {
