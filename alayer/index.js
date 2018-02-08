@@ -11,6 +11,7 @@
   //app.use(express.static('.'))
   app.use('/battle1', express.static(path.join(__dirname, '../battle1')))
   app.use('/emotions', express.static(path.join(__dirname, '../emotions')))
+  app.use('/kawashima', express.static(path.join(__dirname, '../kawashima')))
   app.use('/pong', express.static(path.join(__dirname, '../pong/client')))
   app.use('/miscelleanous', express.static(path.join(__dirname, '../miscelleanous/imgs')))
   app.use('/', express.static(path.join(__dirname, './client')))
