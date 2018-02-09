@@ -7,16 +7,27 @@ Projet de M1 (semestre 2)
     * Casques plus performants à prix abordable
 * Reconnaissance des émotions
     * [Corrélation entre ML et EEG](https://github.com/lowlighter/brain/tree/master/emotions)
-    * FACS via le casque Emotiv
+    * Enregistrement de l'activité cérébrale
 * Démonstrateurs
     * [Pong](https://github.com/lowlighter/brain/tree/master/pong)
     * [Kawashima](https://github.com/lowlighter/brain/tree/master/kawashima)
     * [Brain battle (v1)](https://github.com/lowlighter/brain/tree/master/battle)
     * Brain battle (v2)
-    * Contrôle du drone Parrot
+    * [Contrôle du drone Parrot](https://github.com/lowlighter/brain/tree/master/parrot)
+    * Cube field
 * Divers
     * [Utilisation de l'API Cortex](https://github.com/lowlighter/brain/tree/master/miscelleanous/cortex)
     * [Scanner de casques EEG](https://github.com/lowlighter/brain/tree/master/miscelleanous/scanner)
+
+## Usage
+Depuis la racine du projet, exécutez la commande suivante depuis un invite de commande :
+```
+npm start
+```
+Les dépendances de chaque module seront automatiquement ajoutées et le serveur principal sera également démarré.
+Ouvrez ensuite votre navigateur et rendez vous sur la page `localhost:3000`, où vous pourrez accéder à tous les démonstrateurs !
+
+*La machine doit être équipée de **NodeJS** et de **npm**.*
 
 ## Rapport continu
 [Lien vers le rapport](https://www.overleaf.com/13615904gxzjrcytrjpc#/52637951/).
