@@ -12,7 +12,44 @@ var t_brow_L, t_brow_R, t_eye_L, t_eye_R, t_eye_L_closed, t_eye_R_closed, t_mout
 var face, head;
 var ts;
 
+const ws = new WebSocket('ws://localhost:3001');
+
+function map(x, a, b, A, B){
+	return ((x-a)/(b-a)) * (B-A) + A
+}
+
+
 function init(){
+	console.log(ws);
+	ws.onmessage = event => {
+		//console.log(event.data)
+		const data = JSON.parse(event.data)
+		const type = data.shift()
+		if (type === "getId") {
+			console.log(data)
+		}
+		if (type === 'fac') {
+			//0 yeux, 1 sourcil, 2 score sourcils, 3-4 bouche
+			//console.log(data)
+		}
+		if (type === 'mot'){
+
+			//3 premiers gyro Accel Magneto
+			let magneto = data.slice(-3);
+			//console.log(magneto)
+			let tab_y = magneto[2];
+			console.log(map(tab_y, 5000, 12000, 0, 360));
+		}
+	}
+	ws.onopen = () => { 
+		ws.send(JSON.stringify({
+			action:"setId",
+			id:Math.floor(Date.now()*10000*Math.random())
+		}))
+		ws.send(JSON.stringify({
+			action:"kawashimaStart"
+		}))
+	}
 	scene = new THREE.Scene();
 
 	// Camera
