@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<script type="text/javascript">
+		//Websocket connection
+		const ws = new WebSocket('ws://localhost:3001');
+		console.log(ws);
+		ws.onmessage = event => {
+			//console.log(event.data)
+			const data = JSON.parse(event.data)
+			const type = data.shift()
+			if (type === 'mot') {
+				// console.log(data);
+			}
+		}
+		ws.send("id", Math.floor(performance.now()*Math.random()))
+	</script>
+</body>
+</html>
