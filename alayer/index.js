@@ -7,6 +7,18 @@
   const Cortex = require('./js/cortex')
   const path = require('path')
 
+//Callbacks list
+  const callbacks = {
+    fac:[event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['fac', ...event.fac])) })],
+    dev:[event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['dev', ...event.dev])) })],
+    pow:[event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['pow', ...event.pow])) })],
+    mot:[event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['mot', ...event.mot])) })],
+    sys:[event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['sys', ...event.sys])) })],
+    met:[event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['met', ...event.met])) })]
+  }
+
+  const parrot = require('./../parrot/index')(callbacks, wss)
+
 //Error Handling
   let crashed = false, reconnect = null
   process.on('uncaughtException', error => {
@@ -22,6 +34,7 @@
   app.use('/kawashima', express.static(path.join(__dirname, '../kawashima')))
   app.use('/pong', express.static(path.join(__dirname, '../pong/client')))
   app.use('/miscelleanous', express.static(path.join(__dirname, '../miscelleanous/imgs')))
+  app.use('/parrot', express.static(path.join(__dirname, '../parrot')))
   app.use('/', express.static(path.join(__dirname, './client')))
 
   app.listen(3000, () => process.stdout.write('Server started on port 3000\nWebSocket server started on port 3001\n'))
@@ -57,7 +70,6 @@
     } catch (e) { isConnected = false }
   }
 
-
 //Connected to Cortex API
   function connected(headsets) {
     client
@@ -65,12 +77,12 @@
       .subscribe({streams:['fac', 'dev', 'pow', 'mot', 'sys', 'met']})
       .then(subs => {
           if ((!subs[0].fac)||(!subs[1].dev)||(!subs[2].pow)||(!subs[3].mot)||(!subs[4].sys)||(!subs[5].met)) return process.stdout.write(`\n\x1b[31mError : Failed to subscribe to required channels\x1b[0m`)
-          client.on('fac', event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['fac', ...event.fac])) }))
-          client.on('dev', event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['dev', ...event.dev])) }))
-          client.on('pow', event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['pow', ...event.pow])) }))
-          client.on('mot', event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['mot', ...event.mot])) }))
-          client.on('sys', event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['sys', ...event.sys])) }))
-          client.on('met', event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['met', ...event.met])) }))
+          client.on('fac', event => callbacks.fac.forEach(callback => callback(event)))
+          client.on('dev', event => callbacks.dev.forEach(callback => callback(event)))
+          client.on('pow', event => callbacks.pow.forEach(callback => callback(event)))
+          client.on('mot', event => callbacks.mot.forEach(callback => callback(event)))
+          client.on('sys', event => callbacks.sys.forEach(callback => callback(event)))
+          client.on('met', event => callbacks.met.forEach(callback => callback(event)))
           let time = 1
           setInterval(() => client.queryHeadsets().then(headsets => {
             let active = []
