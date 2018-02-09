@@ -12,11 +12,18 @@
 			//console.log(event.data)
 			const data = JSON.parse(event.data)
 			const type = data.shift()
+			if (type === "getId") {
+				console.log(data)
+			}
 			if (type === 'mot') {
 				// console.log(data);
 			}
 		}
-		ws.send("id", Math.floor(performance.now()*Math.random()))
+		const data = JSON.stringify({
+				action:"setId",
+				id:Math.floor(Date.now()*10000*Math.random())
+			})
+		ws.onopen = () => ws.send(data)
 	</script>
 </body>
 </html>
