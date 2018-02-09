@@ -6,6 +6,7 @@
   const wss = new WebSocket.Server({port:3001})
   const Cortex = require('./js/cortex')
   const path = require('path')
+  const parrot = require('./../parrot/index')
 
 //Callbacks list
   const callbacks = {
@@ -17,7 +18,6 @@
     met:[event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['met', ...event.met])) })]
   }
 
-  const parrot = require('./../parrot/index')(callbacks, wss)
 
 //Error Handling
   let crashed = false, reconnect = null
@@ -48,6 +48,9 @@
       ws.on('message', data => {
         const parsed = JSON.parse(data)
         switch (parsed.action) {
+          case "parrotStart":
+            parrot(callbacks, wss)
+            break;
           case "setId":
             ws.alayer_id = parsed.id
           case "getId":
