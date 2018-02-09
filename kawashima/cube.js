@@ -4,13 +4,13 @@ var dice, eye1, eye2, mouth, brow1, brow2;
 var t_brow_L, t_brow_R, t_eye_L, t_eye_R, t_eye_L_closed, t_eye_R_closed, t_mouth, t_mouth_open;
 var face, head;
 var ts;
-let counter = 0;
+let counter;
 
 // Connection
 const ws = new WebSocket('ws://localhost:3001');
 ws.onmessage = event => {
 	//console.log(event.data)
-	counter = 100
+	counter = 100;
 	const data = JSON.parse(event.data)
 	const type = data.shift()
 	if (type === "getId") {
@@ -22,11 +22,13 @@ ws.onmessage = event => {
 	}
 	if (type === 'mot'){
 
-		//3 premiers gyro Accel Magneto
 		let magneto = data.slice(-3);
-		//console.log(magneto)
-		let tab_y = magneto[2];
-		console.log(map(tab_y, 0, 16000, 0, 2 * Math.PI));
+
+		let tab_y = magneto[1];
+		let tab_z = magneto[2];
+
+		turnHeadZ(map(tab_y, 2000, 12600, 0, 2 * Math.PI)/2 + Math.PI)
+		turnHeadY(map(tab_z, 1000, 13500, 0, 2 * Math.PI)/2 + Math.PI)
 	}
 }
 ws.onopen = () => {
@@ -44,8 +46,6 @@ function map(x, a, b, A, B){
 }
 
 function init(){
-	console.log(ws);
-
 	scene = new THREE.Scene();
 
 	// Camera
@@ -163,7 +163,6 @@ function init(){
 	lights.add(light4);
 	lights.add(light5);
 	scene.add(lights);
-
 	// Events
 	window.addEventListener( 'resize', onWindowResize, false );
 }
@@ -172,16 +171,19 @@ function init(){
 function animate() {
   ts = Math.round( (new Date).getTime()/1000 *100 )/100;
 	requestAnimationFrame( animate );
+	// awake();
 	// Sleep mode
-	if ( counter < 1 && counter != -10 ){ sleep(); counter = -10; }
-	else{if ( counter != -10 ){ counter -= 1; }	}
+
 	if( counter < 1 ){
 	  turnHeadZ( Math.sin(ts) * Math.cos(ts)/2 );
 	  turnHeadY( Math.sin(ts/3)/2 );
-	}
-  // ---
+		if ( counter != -10 ){
+			counter = -10;
+			sleep();
+		}
+	} else { counter -= 1; }
+
   standbyAnimation();
-  // ---
 	cameraAnimation();
 	renderer.render( scene, camera );
 }
@@ -216,7 +218,7 @@ function sleep(){
 	closeEyes();
 	downBrows();
 	openMouth();
-	dice.material =  new THREE.MeshLambertMaterial( { color : 0x9999CC } )
+	dice.material =  new THREE.MeshLambertMaterial( { color : 0x778899 } )
 }
 function awake(){
 	openEyes();
