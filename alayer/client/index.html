@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
   </head>
   <body>
-    <audio autoplay="true" hidden src="song1.mp3"></audio>
+    <audio autoplay="true" hidden src="song1.mp3" loop></audio>
     <script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <div id="particles-js">
 
@@ -57,8 +57,9 @@
       <div class="status headset red"></div><span id="status">Disconnected</span><span id="signal-strength">0.00</span><span id="received"></span>
     <div>
     <div class="bot">
-      <img src="miscelleanous/mario.gif">
-      <img src="miscelleanous/mush.png" style="margin-left:20px;height:42px;">
+      <img src="miscelleanous/luigi.gif" id="p2">
+      <img src="miscelleanous/mario.gif" id="p1">
+      <img src="miscelleanous/mush.png" style="height:42px;">
     </div>
     <style media="screen">
       body {
@@ -75,10 +76,10 @@
         overflow: hidden;
       }
       .bot {
-        width: 200px;
+        width: 350px;
         position: fixed;
         bottom: 0;
-        left: 0;
+        left: -350px;
         animation-duration: 5s;
         animation-name: move;
         animation-iteration-count: infinite;
@@ -86,8 +87,11 @@
         display: inline-flex;
         align-items:baseline;
       }
+      .bot > * {
+        margin-left:20px;
+      }
       @keyframes move {
-        0% { left:-10vw; }
+        0% { left:-350px; }
         100% { left: 105vw; }
       }
       .wrapper {
