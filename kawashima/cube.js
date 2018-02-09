@@ -14,6 +14,11 @@ var ts;
 
 const ws = new WebSocket('ws://localhost:3001');
 
+function map(x, a, b, A, B){
+	return ((x-a)/(b-a)) * (B-A) + A
+}
+
+
 function init(){
 	console.log(ws);
 	ws.onmessage = event => {
@@ -28,7 +33,12 @@ function init(){
 			//console.log(data)
 		}
 		if (type === 'mot'){
-			console.log(data)
+
+			//3 premiers gyro Accel Magneto
+			let magneto = data.slice(-3);
+			//console.log(magneto)
+			let tab_y = magneto[2];
+			console.log(map(tab_y, 5000, 12000, 0, 360));
 		}
 	}
 	ws.onopen = () => { 
