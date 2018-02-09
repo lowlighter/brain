@@ -27,6 +27,16 @@
           Battle (v2)
         </div>
       </a>
+      <a class="card disabled" style="background-image:url(miscelleanous/cube.png)">
+        <div class="text">
+          Cube field
+        </div>
+      </a>
+      <a class="card disabled" style="background-image:url(miscelleanous/record.png)">
+        <div class="text">
+          Recording
+        </div>
+      </a>
       <a class="card" style="background-image:url(miscelleanous/correlation.png)" href="emotions">
         <div class="text">
           Emotions
@@ -43,6 +53,13 @@
         </div>
       </a>
     </div>
+    <div class="wrapper" style="margin-top:8px;">
+      <div class="status headset red"></div><span id="status">Disconnected</span><span id="signal-strength">0.00</span><span id="received"></span>
+    <div>
+    <div class="bot">
+      <img src="miscelleanous/mario.gif">
+      <img src="miscelleanous/mush.png" style="margin-left:20px;height:42px;">
+    </div>
     <style media="screen">
       body {
         height: 100vh;
@@ -54,13 +71,31 @@
         background-image: url(bg.png);
         background-position: center;
         background-size: cover;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .bot {
+        width: 200px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        animation-duration: 5s;
+        animation-name: move;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        display: inline-flex;
+        align-items:baseline;
+      }
+      @keyframes move {
+        0% { left:-10vw; }
+        100% { left: 105vw; }
       }
       .wrapper {
         display: flex;
         justify-content: center;
         align-items: center;
         flex-wrap: wrap;
-        width: 825px;
+        /*width: 1225px;*/
         z-index: 9001;
       }
       .wrapper > .card {
@@ -102,21 +137,49 @@
         left: 0;
         opacity: 0.2;
       }
+      .status {
+        height: 12px;
+        width: 12px;
+        border-radius: 50%;
+        border: 2px solid black;
+        display: inline-block;
+        margin-right: 4px;
+      }
+
+      .status.green {
+        background-color: green;
+      }
+      .status.red {
+        background-color: red;
+      }
+
+      #signal-strength {
+        margin-left: 4px;
+      }
     </style>
     <script type="text/javascript">
       particlesJS("particles-js", {"particles":{"number":{"value":80,"density":{"enable":true,"value_area":800}},"color":{"value":"#000000"},"shape":{"type":"circle","stroke":{"width":0,"color":"#000000"},"polygon":{"nb_sides":5},"image":{"src":"img/github.svg","width":100,"height":100}},"opacity":{"value":0.5,"random":false,"anim":{"enable":false,"speed":1,"opacity_min":0.1,"sync":false}},"size":{"value":3,"random":true,"anim":{"enable":false,"speed":40,"size_min":0.1,"sync":false}},"line_linked":{"enable":true,"distance":150,"color":"#000000","opacity":1,"width":1},"move":{"enable":true,"speed":6,"direction":"none","random":false,"straight":false,"out_mode":"out","bounce":false,"attract":{"enable":false,"rotateX":600,"rotateY":1200}}},"interactivity":{"detect_on":"canvas","events":{"onhover":{"enable":true,"mode":"repulse"},"onclick":{"enable":true,"mode":"push"},"resize":true},"modes":{"grab":{"distance":400,"line_linked":{"opacity":1}},"bubble":{"distance":400,"size":40,"duration":2,"opacity":8,"speed":3},"repulse":{"distance":200,"duration":0.4},"push":{"particles_nb":4},"remove":{"particles_nb":2}}},"retina_detect":true});var count_particles, update; count_particles = document.querySelector('.js-count-particles'); update = function() { if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {  } requestAnimationFrame(update); }; requestAnimationFrame(update);;
     </script>
     <script>
     //Websocket connection
-        const ws = new WebSocket("ws://localhost:3001")
-        ws.onmessage = event => {
-          //console.log(event.data)
-          const data = JSON.parse(event.data)
-          const type = data.shift()
-          if (type === "dev") {
-            console.log(data)
-          }
+      const ws = new WebSocket("ws://localhost:3001")
+      ws.onmessage = event => {
+        //console.log(event.data)
+        const data = JSON.parse(event.data)
+        const type = data.shift()
+        if (type === "dev") {
+          connected(data)
+          document.getElementById("signal-strength").innerHTML = (data[2].reduce((w, v) => w + v)/5/4).toFixed(2)
         }
+      }
+
+    //Show that headset is connected
+      function connected(received) {
+        document.getElementById("status").innerHTML = "Connected"
+        document.getElementById("received").innerHTML = received
+        document.querySelector(".status.headset").classList.remove("red")
+        document.querySelector(".status.headset").classList.add("green")
+      }
     </script>
   </body>
 </html>
