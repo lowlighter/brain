@@ -1,55 +1,51 @@
-// Connection
-/*
-const ws = new WebSocket('ws://localhost:3001');
-ws.onmessage = (message) => {
-		//console.log(message);
-}*/
-
 // Model
 var camera, scene, renderer, lights;
 var dice, eye1, eye2, mouth, brow1, brow2;
-var t_brow_L, t_brow_R, t_eye_L, t_eye_R, t_eye_L_closed, t_eye_R_closed, t_mouth, t_mouth_open
+var t_brow_L, t_brow_R, t_eye_L, t_eye_R, t_eye_L_closed, t_eye_R_closed, t_mouth, t_mouth_open;
 var face, head;
 var ts;
+let counter;
 
+// Connection
 const ws = new WebSocket('ws://localhost:3001');
+ws.onmessage = event => {
+	//console.log(event.data)
+	counter = 100;
+	const data = JSON.parse(event.data)
+	const type = data.shift()
+	if (type === "getId") {
+		console.log(data)
+	}
+	if (type === 'fac') {
+		//0 yeux, 1 sourcil, 2 score sourcils, 3-4 bouche
+		//console.log(data)
+	}
+	if (type === 'mot'){
 
-function map(x, a, b, A, B){
-	return ((x-a)/(b-a)) * (B-A) + A
+		let magneto = data.slice(-3);
+
+		let tab_y = magneto[1];
+		let tab_z = magneto[2];
+
+		turnHeadZ(map(tab_y, 2000, 12600, 0, 2 * Math.PI)/2 + Math.PI)
+		turnHeadY(map(tab_z, 1000, 13500, 0, 2 * Math.PI)/2 + Math.PI)
+	}
+}
+ws.onopen = () => {
+	ws.send(JSON.stringify({
+		action:"setId",
+		id:Math.floor(Date.now()*10000*Math.random())
+	}))
+	ws.send(JSON.stringify({
+		action:"kawashimaStart"
+	}))
 }
 
+function map(x, a, b, A, B){
+	return ((x-a)/(b-a)) * (B-A) + A;
+}
 
 function init(){
-	console.log(ws);
-	ws.onmessage = event => {
-		//console.log(event.data)
-		const data = JSON.parse(event.data)
-		const type = data.shift()
-		if (type === "getId") {
-			console.log(data)
-		}
-		if (type === 'fac') {
-			//0 yeux, 1 sourcil, 2 score sourcils, 3-4 bouche
-			//console.log(data)
-		}
-		if (type === 'mot'){
-
-			//3 premiers gyro Accel Magneto
-			let magneto = data.slice(-3);
-			//console.log(magneto)
-			let tab_y = magneto[2];
-			console.log(map(tab_y, 5000, 12000, 0, 360));
-		}
-	}
-	ws.onopen = () => { 
-		ws.send(JSON.stringify({
-			action:"setId",
-			id:Math.floor(Date.now()*10000*Math.random())
-		}))
-		ws.send(JSON.stringify({
-			action:"kawashimaStart"
-		}))
-	}
 	scene = new THREE.Scene();
 
 	// Camera
@@ -90,7 +86,7 @@ function init(){
 
 	// Floor
 	let rectangle = new THREE.PlaneGeometry(10, 10);
-	let material = new THREE.MeshLambertMaterial( {color: 0x555555, side: THREE.DoubleSide} );
+	let material = new THREE.MeshBasicMaterial( {color: 0x555555, side: THREE.DoubleSide, transparent : true, opacity: 0.1} );
 	let plane = new THREE.Mesh( rectangle, material );
 	scene.add( plane );
 
@@ -101,24 +97,19 @@ function init(){
 
   // Eyes
   rectangle  = new THREE.PlaneGeometry(0.3, 0.3);
-  //material = new THREE.MeshBasicMaterial( {color: 0x55AEFF} );
   eye1 = new THREE.Mesh( rectangle, t_eye_L );
-  //material = new THREE.MeshBasicMaterial( {color: 0xFFAE55} );
   eye2 = new THREE.Mesh( rectangle, t_eye_R );
   eye1.position.x += 0.2;
   eye2.position.x -= 0.2;
 
   // Mouth
   rectangle  = new THREE.PlaneGeometry(0.3, 0.1);
-  //material = new THREE.MeshBasicMaterial( {color: 0xAE55FF} );
   mouth = new THREE.Mesh( rectangle, t_mouth );
   mouth.position.y -= 0.3
 
   // Brows
   rectangle  = new THREE.PlaneGeometry(0.3, 0.1);
-  //material = new THREE.MeshBasicMaterial( {color: 0x5555CC} );
   brow1 = new THREE.Mesh( rectangle, t_brow_L );
-  //material = new THREE.MeshBasicMaterial( {color: 0xCC5555} );
   brow2 = new THREE.Mesh( rectangle, t_brow_R );
   brow1.position.x += 0.2;
   brow1.position.y += 0.25;
@@ -172,7 +163,6 @@ function init(){
 	lights.add(light4);
 	lights.add(light5);
 	scene.add(lights);
-
 	// Events
 	window.addEventListener( 'resize', onWindowResize, false );
 }
@@ -181,20 +171,31 @@ function init(){
 function animate() {
   ts = Math.round( (new Date).getTime()/1000 *100 )/100;
 	requestAnimationFrame( animate );
-  // ---
+	// awake();
+	// Sleep mode
+
+	if( counter < 1 ){
+	  turnHeadZ( Math.sin(ts) * Math.cos(ts)/2 );
+	  turnHeadY( Math.sin(ts/3)/2 );
+		if ( counter != -10 ){
+			counter = -10;
+			sleep();
+		}
+	} else { counter -= 1; }
+
   standbyAnimation();
-  turnHeadZ( Math.sin(ts) * Math.cos(ts)/2 );
-  turnHeadY( Math.sin(ts/3)/2 );
-  // ---
 	cameraAnimation();
 	renderer.render( scene, camera );
 }
 
 // Animations
 function standbyAnimation(){ head.position.y = Math.sin(ts)/3; }
-function closeLeftEye(){ eye2.material = t_eye_L_closed; }
-function closeRightEye(){	eye1.material = t_eye_R_closed;	}
+function closeLeftEye(){ eye2.material = t_eye_R_closed; }
+function closeRightEye(){	eye1.material = t_eye_L_closed;	}
 function closeEyes(){ closeLeftEye(); closeRightEye(); }
+function openLeftEye(){ eye2.material = t_eye_R; }
+function openRightEye(){	eye1.material = t_eye_L;	}
+function openEyes(){ openLeftEye(); openRightEye(); }
 function smile(){ mouth.material = t_mouth; }
 function openMouth(){ mouth.material = t_mouth_open; }
 function rictusLeft(){  mouth.material = t_mouth_rictus_L; }
@@ -204,7 +205,7 @@ function upRightBrow(){ brow2.position.y = 0.35; }
 function upBrows(){ upLeftBrow(); upRightBrow(); }
 function downLeftBrow(){ brow1.position.y = 0.25; }
 function downRightBrow(){ brow2.position.y = 0.25; }
-function downBrows(){ downLeftBrow(); downRightBrows(); }
+function downBrows(){ downLeftBrow(); downRightBrow(); }
 function angryLeftBrow(){ brow1.rotation.z = 0.5; }
 function angryRightBrow(){ brow2.rotation.z = -0.5; }
 function angryBrows(){ angryLeftBrow(); angryRightBrow(); }
@@ -212,6 +213,19 @@ function calmLeftBrow(){ brow1.rotation.z = 0; }
 function calmRightBrow(){ brow2.rotation.z = 0; }
 function calmBrows(){ calmLeftBrow(); calmRightBrow(); }
 function cameraAnimation(){}
+
+function sleep(){
+	closeEyes();
+	downBrows();
+	openMouth();
+	dice.material =  new THREE.MeshLambertMaterial( { color : 0x778899 } )
+}
+function awake(){
+	openEyes();
+	downBrows();
+	smile();
+	dice.material = new THREE.MeshLambertMaterial( { color : 0xCC0066 } )
+}
 
 // Head orientation
 function turnHeadZ( value ){ head.rotation.y = value; }
