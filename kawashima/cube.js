@@ -1,16 +1,20 @@
-// Model
+// Globals
 var camera, scene, renderer, lights;
 var dice, eye1, eye2, mouth, brow1, brow2;
 var t_brow_L, t_brow_R, t_eye_L, t_eye_R, t_eye_L_closed, t_eye_R_closed, t_mouth, t_mouth_open;
 var face, head;
 var ts;
-let counter;
+var counter;
+var firstMessage = true;
 
 // Connection
 const ws = new WebSocket('ws://localhost:3001');
 ws.onmessage = event => {
 	//console.log(event.data)
-	counter = 100;
+
+	if (firstMessage){ counter = -1; firstMessage = false; }
+	else { counter = 100; }
+
 	const data = JSON.parse(event.data)
 	const type = data.shift()
 	if (type === "getId") {
@@ -171,21 +175,18 @@ function init(){
 function animate() {
   ts = Math.round( (new Date).getTime()/1000 *100 )/100;
 	requestAnimationFrame( animate );
-	// awake();
-	// Sleep mode
 
+	// Sleep mode
 	if( counter < 1 ){
 	  turnHeadZ( Math.sin(ts) * Math.cos(ts)/2 );
 	  turnHeadY( Math.sin(ts/3)/2 );
-		if ( counter != -10 ){
-			counter = -10;
-			sleep();
-		}
+		if ( counter != -10 ){ counter = -10; sleep(); }
 	} else { counter -= 1; }
 
+	// Standard animations
   standbyAnimation();
 	cameraAnimation();
-	renderer.render( scene, camera );
+	if(!firstMessage){ renderer.render( scene, camera ); }
 }
 
 // Animations
@@ -213,7 +214,6 @@ function calmLeftBrow(){ brow1.rotation.z = 0; }
 function calmRightBrow(){ brow2.rotation.z = 0; }
 function calmBrows(){ calmLeftBrow(); calmRightBrow(); }
 function cameraAnimation(){}
-
 function sleep(){
 	closeEyes();
 	downBrows();
