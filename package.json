@@ -1,0 +1,16 @@
+{
+    "name": "brain",
+    "description": "",
+    "version": "1.0.1",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/lowlighter/brain"
+    },
+    "author": "lowlight(er)",
+    "license": "MIT",
+    "scripts": {
+        "start": "node app.js"
+    },
+    "dependencies": {
+    }
+}
