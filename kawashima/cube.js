@@ -86,7 +86,7 @@ function init(){
 
 	// Floor
 	let rectangle = new THREE.PlaneGeometry(10, 10);
-	let material = new THREE.MeshLambertMaterial( {color: 0x555555, side: THREE.DoubleSide} );
+	let material = new THREE.MeshBasicMaterial( {color: 0x555555, side: THREE.DoubleSide, transparent : true, opacity: 0.1} );
 	let plane = new THREE.Mesh( rectangle, material );
 	scene.add( plane );
 
