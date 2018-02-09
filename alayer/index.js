@@ -45,6 +45,17 @@
       process.stdout.write('\x1b[36m\nClient logged to wss\x1b[0m')
     //Websockets events
       ws.on('error', () => null)
+      ws.on('message', data => {
+        const parsed = JSON.parse(data)
+        switch (parsed.action) {
+          case "setId":
+            ws.alayer_id = parsed.id
+          case "getId":
+            ws.send(JSON.stringify(["getId", ws.alayer_id]))
+            break
+          default:
+        }
+      });
   })
 
 //Cortex API
