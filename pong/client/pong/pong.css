@@ -57,6 +57,13 @@ body { background-color: black; color: #AAA; font-size: 12pt; height: 100vh; wid
   margin: 12px;
 }
 
+.homeButton{
+  position: fixed;
+  left: 10px;
+  top: 0;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
 button {
   min-width: 160px;
   display: inline-block;
