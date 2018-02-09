@@ -55,6 +55,7 @@ let samples = [];
 let calibrationSamples = 30;
 
 module.exports = function (callbacks, wss) {
+	console.log("parrot started")
 	drone.connect(() => drone.postureJumper());
 	drone.on('ready', () =>
 		callbacks.mot.push(data => {

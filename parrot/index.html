@@ -19,11 +19,15 @@
 				// console.log(data);
 			}
 		}
-		const data = JSON.stringify({
+		ws.onopen = () => { 
+			ws.send(JSON.stringify({
 				action:"setId",
 				id:Math.floor(Date.now()*10000*Math.random())
-			})
-		ws.onopen = () => ws.send(data)
+			}))
+			ws.send(JSON.stringify({
+				action:"parrotStart"
+			}))
+		}
 	</script>
 </body>
 </html>
