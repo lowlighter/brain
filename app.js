@@ -20,7 +20,7 @@
         process.stdout.write(` \x1b[33m(installing)\x1b[0m`)
         spawnSync("npm", ["install"], {cwd, shell:true})
       }
-      process.stdout.write(`\r    \x1b[32m${name}\x1b[0m\n`)
+      process.stdout.write(`\r    \x1b[32m${name}\x1b[0m${" ".repeat(14)}\n`)
   })
 
 //Start server
