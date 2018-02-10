@@ -42,6 +42,9 @@ Ouvrez ensuite votre navigateur et rendez vous sur la page `localhost:3000`, où
 
 # Sources et documentations
 
+## Emotiv
+* [Cortex documentation](https://emotiv.github.io/cortex-docs/)
+
 ## Expressions faciales
 * [Modèles de choix discrets pour la reconnaissance des expressions faciales statiques](https://infoscience.epfl.ch/record/183003/files/ExpressionsFaciales.pdf)
 * [Le Facial Action Coding System de Paul Ekman](http://www.la-communication-non-verbale.com/2013/03/facial-action-coding-system-6734.html)
@@ -57,7 +60,7 @@ Ouvrez ensuite votre navigateur et rendez vous sur la page `localhost:3000`, où
 * [DIY : EEG (AND ECG) CIRCUIT](http://www.instructables.com/id/DIY-EEG-and-ECG-Circuit/)
 
 ## Kawashima style mode of the dead
-* [animation from blender into threejs](http://unboring.net/workflows/animation.html)
+* [Animation from blender into threejs](http://unboring.net/workflows/animation.html)
 * [Create a Facial Animation Setup in Blender](https://cgi.tutsplus.com/tutorials/create-a-facial-animation-setup-in-blender-part-1--cg-32251)
 
 # May the Force be with us...
