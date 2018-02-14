@@ -14,6 +14,13 @@
     met:[event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['met', ...event.met])) })]
   }
 
+log = function () {
+  wss.clients.forEach(ws => {
+    console.log(!!ws.logger)
+    if ((ws.readyState === WebSocket.OPEN)) ws.send(JSON.stringify( ['log', ...Array.from(arguments)]))
+  })
+} 
+
 //Exports
   module.exports = function (app, status) {
     //Static server
@@ -29,6 +36,8 @@
 
     //WebSockets
       wss.on('connection', ws => {
+
+        log("BONJOUR");
         //Log
           ++status.socket
         //Websockets events
