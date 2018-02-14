@@ -20,13 +20,13 @@ let scanner = (status) => {
 			status.parrot_connected = false
 		})
 
-// 	wifi.getCurrentConnections()
-// 		.then(connections => status.parrot_connected = getStatus(connections))
-// 		.catch(err => {
-// 			console.log("CON")
-// 			status.parrot = false
-// 			status.parrot_connected = false
-// 		})
+	wifi.getCurrentConnections()
+		.then(connections => status.parrot_connected = getStatus(connections))
+		.catch(err => {
+			console.log("CON")
+			status.parrot = false
+			status.parrot_connected = false
+		})
 }
 
 module.exports = scanner;
