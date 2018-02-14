@@ -16,24 +16,70 @@
       <canvas id="channels"></canvas>
     </div>
     <div class="controls">
-      <div>
-        <button type="button">Enregistrer</button>
-        <div class="dropdown" style="display:inline-block;">
-          <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">Durée (sec)</span>
+      <div style="flex-direction:column; flex-grow:1">
+          <div style="width:100%;" class="flex">
+            <button type="button">Enregistrer</button>
+            <div>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Durée (sec)</span>
+                </div>
+                <input type="text" class="form-control" style="width:100px">
+              </div>
+            </div>
+
+            <div>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Itérations</span>
+                </div>
+                <input type="text" class="form-control" style="width:100px">
+              </div>
+            </div>
           </div>
-            <input type="text" class="form-control" style="width:100px">
+
+          <div style="width:100%;" class="flex">
+            <div>
+              <div class="input-group"  style="height:100%;">
+                  <div class="input-group-text">
+                  <input type="checkbox" aria-label="Checkbox for following text input">
+                  &nbsp;Band powers
+                  </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="input-group"  style="height:100%;">
+                  <div class="input-group-text">
+                  <input type="checkbox" aria-label="Checkbox for following text input">
+                  &nbsp;Metrics
+                  </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="input-group"  style="height:100%;">
+                  <div class="input-group-text">
+                  <input type="checkbox" aria-label="Checkbox for following text input">
+                  &nbsp;Facial
+                  </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="input-group"  style="height:100%;">
+                  <div class="input-group-text">
+                  <input type="checkbox" aria-label="Checkbox for following text input">
+                  &nbsp;Motion
+                  </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="dropdown" style="display:inline-block;">
-          <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">Itérations</span>
-          </div>
-            <input type="text" class="form-control" style="width:100px">
-          </div>
-        </div>
+
+
+
+
+
       </div>
       <div>
         <button type="button" onclick="download()">Exporter</button>
@@ -206,7 +252,11 @@
         justify-content: center;
         align-items: center;
       }
-      .controls > div > * {
+      .flex {
+        display: flex;
+        align-items: center;
+      }
+      .flex > * {
         margin: 5px;
       }
     </style>
