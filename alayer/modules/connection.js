@@ -2,6 +2,7 @@
   const Cortex = require('./../js/cortex')
 
 //Cortex API
+  let callbacks = null
   let status = {}, interval = null
   function connect(client) {
     clearInterval(interval)
@@ -31,7 +32,8 @@
   }
 
 //Exports
-  module.exports = function (state) {
+  module.exports = function (state, _callbacks) {
+    callbacks = _callbacks
     status = state
     const client = new Cortex({verbose:1, threshold:0})
     client.ready.then(() => {

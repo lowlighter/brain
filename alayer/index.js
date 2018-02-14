@@ -14,7 +14,7 @@
 
 
 //Cortex API
-  const connection = require('./modules/connection')(status)
+  const connection = require('./modules/connection')(status, callbacks)
 
 //Global Error Handling
   process.on('uncaughtException', error => {
