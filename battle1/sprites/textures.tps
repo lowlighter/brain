@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.6.1</string>
         <key>fileName</key>
-        <string>C:/Users/Lecoq/Documents/GitHub/brain/battle/sprites/textures.tps</string>
+        <string>C:/Users/Lecoq/Documents/GitHub/brain/battle1/sprites/textures.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -203,6 +203,10 @@
             <key type="filename">raw/01.png</key>
             <key type="filename">raw/20.png</key>
             <key type="filename">raw/21.png</key>
+            <key type="filename">raw/40.png</key>
+            <key type="filename">raw/41.png</key>
+            <key type="filename">raw/50.png</key>
+            <key type="filename">raw/51.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -237,6 +241,20 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">raw/60.png</key>
+            <key type="filename">raw/61.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>32,32,64,64</rect>
+                <key>scale9Paddings</key>
+                <rect>32,32,64,64</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">raw/bg.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -268,6 +286,12 @@
             <filename>raw/14.png</filename>
             <filename>raw/34.png</filename>
             <filename>raw/bg.png</filename>
+            <filename>raw/40.png</filename>
+            <filename>raw/41.png</filename>
+            <filename>raw/50.png</filename>
+            <filename>raw/51.png</filename>
+            <filename>raw/61.png</filename>
+            <filename>raw/60.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
