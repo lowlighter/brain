@@ -1,9 +1,15 @@
+//Cortex API
+  const Cortex = require('./js/cortex')
 
 //Cortex API
-  let client = new Cortex({verbose:1, threshold:0}), attempt = 1, isConnected = false;
-  function connect() {
+  function connect(client) {
     client.queryHeadsets().then(headsets => {
       console.log(headsets.join(",")+"\n\n")
+
+      try {
+        client.createSession({status: 'open'}).subscribe({streams: ['dev']}).then(() => null).catch(e => null)
+      } catch (e) {}
+
       if (headsets.length || isConnected) { connected(headsets) } else { status.headset = []; setTimeout(() => connect(), 1000) }
     }).catch(error => null)
   }
@@ -41,4 +47,13 @@
   }
 
 //Start
-  client.ready.then(() => { client.init() ; connect() })
+
+
+  module.exports = function () {
+    const client = new Cortex({verbose:1, threshold:0})
+
+    client.ready.then(() => {
+      client.init()
+      connect(client)
+    })
+  }
