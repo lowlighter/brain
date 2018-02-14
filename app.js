@@ -26,4 +26,3 @@
 //Start server
   console.log("\nStarting server...")
   spawn("npm", ["start"], {cwd:path.join(__dirname, "alayer"), shell:true, stdio:[0, 1, 2]})
-  spawn("node", ["logs.js"], {cwd:path.join(__dirname, "alayer"), shell:true, detached:true, stdio:[0, 1, 2]})
