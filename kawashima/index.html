@@ -4,7 +4,17 @@
 		<meta charset=utf-8>
 		<title>My first three.js app</title>
 		<style>
-			body { margin: 0; }
+			body {
+				margin: 0;
+				font-family: Calibri;
+				height: 100vh;
+				width: 100vw;
+				background-position: fixed;
+				background-image: url(res/bg.png);
+				background-repeat: no-repeat;
+				background-size: cover;
+				overflow: hidden;
+			}
 			canvas { width: 100%; height: 100% }
 
 			.homeButton{
@@ -44,7 +54,7 @@
 	</head>
 	<body>
 		<a href="/"><button class="homeButton" type="button" name="button" onclick="player2.calibrate()">Home</button></a>
-		<!-- <audio autoplay="true" hidden src="song2.mp3"> -->
+		<audio autoplay="true" hidden src="song2.mp3"></audio>
 		<script src="three.min.js"></script>
 		<script src="cube.js"></script>
 	</body>
