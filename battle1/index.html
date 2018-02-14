@@ -49,10 +49,18 @@
             this.sprite12.width = this.score||0 + 2
             this.sprite2.position.set(this.sprite12.x+this.textures.s*(this.sprite12.width - 2), this.sprite12.y)
           })
+
+          let sprite3 = this.sprite3 = new PIXI.extras.AnimatedSprite(["60.png", "61.png"].map(frame => PIXI.Texture.fromFrame(frame)))
+          sprite3.animationSpeed = 0.15
+          sprite3.anchor.set(0.5, 1)
+          sprite3.y = 35
+          sprite3.play()
+          this.sprite.addChild(sprite3)
+          sprite3.alpha = 0.5
+          sprite3.visible = false
         }
 
         position_init() {
-          const sprite = this.sprite
           this.sprite1.position.set(this.sprite.x+(this.textures.s*this.sprite.width/2), this.sprite.y-this.sprite.height/4)
           this.sprite12.position.set(this.sprite1.x+this.textures.s*(this.sprite1.width), this.sprite1.y)
           this.sprite2.position.set(this.sprite12.x+this.textures.s*(this.sprite12.width - 2), this.sprite12.y)
@@ -60,8 +68,9 @@
 
         set saiyan(v) {
           this._saiyan = v
-          this.textures = (v ? this.textures.saiyan : this.textures.normal).map(frame => PIXI.Texture.fromFrame(frame))
+          this.sprite.textures = (v ? this.textures.saiyan : this.textures.normal).map(frame => PIXI.Texture.fromFrame(frame))
           this.sprite.play()
+          this.sprite3.visible = v
         }
 
         get saiyan() {
