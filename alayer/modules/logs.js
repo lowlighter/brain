@@ -12,4 +12,3 @@ ws.on('message', function incoming(data) {
 	console.log(parsed);
 
 });
-

@@ -1,35 +1,23 @@
 //Cortex API
-  const Cortex = require('./js/cortex')
+  const Cortex = require('./../js/cortex')
 
 //Cortex API
+  let status = {}
   function connect(client) {
+    status.connect = !status.connect
     client.queryHeadsets().then(headsets => {
-      console.log(headsets.join(",")+"\n\n")
-
+      if (headsets.length) return connected(client, headsets)
       try {
         client.createSession({status: 'open'}).subscribe({streams: ['dev']}).then(() => null).catch(e => null)
+        //connected(client, headsets)
       } catch (e) {}
-
-      if (headsets.length || isConnected) { connected(headsets) } else { status.headset = []; setTimeout(() => connect(), 1000) }
+      setTimeout(() => connect(client), 1000)
     }).catch(error => null)
   }
 
-//Check connection
-  function checkConnection(){
-    try {
-      client
-        .createSession({status: 'open'})
-        .subscribe({streams: ['dev']})
-        .then(_subs => {
-          if(subs != undefined){
-            isConnected = true;
-          }
-        });
-    } catch (e) { isConnected = false }
-  }
-
 //Connected to Cortex API
-  function connected(headsets) {
+  function connected(client, headsets) {
+    console.log(`\n${JSON.stringify(headsets)}\n`)
     client
       .createSession({status:'open'/*, headset:hardware[0]*/})
       .subscribe({streams:['fac', 'dev', 'pow', 'mot', 'sys', 'met']})
@@ -42,16 +30,17 @@
           client.on('sys', event => callbacks.sys.forEach(callback => callback(event)))
           client.on('met', event => callbacks.met.forEach(callback => callback(event)))
           let time = 1
-          setInterval(() => client.queryHeadsets().then(headsets => { status.connected = headsets }), 1000)
+          setInterval(() => client.queryHeadsets().then(headsets => {
+            console.log(`\n${headsets}\n`)
+            status.headsets = headsets.map(h => h.id)
+          }), 1000)
       }).catch(error => null)
   }
 
-//Start
-
-
-  module.exports = function () {
+//Exports
+  module.exports = function (state) {
+    status = state
     const client = new Cortex({verbose:1, threshold:0})
-
     client.ready.then(() => {
       client.init()
       connect(client)

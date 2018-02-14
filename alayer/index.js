@@ -13,10 +13,11 @@
   const app = require('express')()
   const server = require('./modules/server')(app, status)
   const callbacks = server.callbacks
-  const parrot_wifi = require('./modules/parrot-wifi')(status)
+  //const parrot_wifi = require('./modules/parrot-wifi')(status)
+  const logs = require('./modules/logs')
 
 //Cortex API
-  //const connection = require('./modules/connection')
+  const connection = require('./modules/connection')(status)
 
 //Global Error Handling
   process.on('uncaughtException', error => console.error(error))
