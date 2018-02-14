@@ -3,17 +3,41 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="./js/chart.min.js"></script>
+    <script src="https://cdn.rawgit.com/eligrey/FileSaver.js/e9d941381475b5df8b7d7691013401e171014e89/FileSaver.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </head>
   <body>
     <a href="/"><button class="homeButton" type="button" name="button">Home</button></a>
     <div class="charts">
       <canvas id="channels"></canvas>
     </div>
-    <div class="calibration">
-      <button type="button">Enregistrer</button>
-      <button type="button">Arrêter</button>
-      <button type="button">Exporter</button>
+    <div class="controls">
+      <div>
+        <button type="button">Enregistrer</button>
+        <div class="dropdown" style="display:inline-block;">
+          <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Durée (sec)</span>
+          </div>
+            <input type="text" class="form-control" style="width:100px">
+          </div>
+        </div>
+        <div class="dropdown" style="display:inline-block;">
+          <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Itérations</span>
+          </div>
+            <input type="text" class="form-control" style="width:100px">
+          </div>
+        </div>
+      </div>
+      <div>
+        <button type="button" onclick="download()">Exporter</button>
+      </div>
     </div>
     <script type="text/javascript">
     const charts = {delta:10}
@@ -100,6 +124,25 @@
         }
       }
 
+      function download() {
+
+        const headers = ["record", "time",
+        "AF3_theta", "AF3_alpha", "AF3_betaL", "AF3_betaH", "AF3_gamma",
+        "T7_theta", "T7_alpha", "T7_betaL", "T7_betaH", "T7_gamma",
+        "Pz_theta", "Pz_alpha", "Pz_betaL", "Pz_betaH", "Pz_gamma",
+        "T8_theta", "T8_alpha", "T8_betaL", "T8_betaH", "T8_gamma",
+        "AF4_theta", "AF4_alpha", "AF4_betaL", "AF4_betaH", "AF4_gamma"].join(",")
+
+        const data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+        const date = new Date()
+
+        const file = new File([[headers, data].join("\r\n")], `${(date.getDate()).toString().padStart(2, "0")}-${(1+date.getMonth()).toString().padStart(2, "0")}-${date.getFullYear()}_${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}.csv`, {type: "text/csv"})
+
+        saveAs(file, file.name)
+      }
+
+
     </script>
     <style media="screen">
       body {
@@ -151,6 +194,20 @@
       .charts {
         max-width: 90vw;
         max-height: 90vh;
+      }
+      .controls {
+        display: flex;
+        max-width: 80vw;
+        width: 100%;
+        justify-content: space-between;
+      }
+      .controls > div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .controls > div > * {
+        margin: 5px;
       }
     </style>
   </body>
