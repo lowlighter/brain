@@ -22,7 +22,7 @@ ws.onmessage = event => {
 	}
 	if (type === 'fac') {
 		//0 yeux, 1 sourcil, 2 score sourcils, 3-4 bouche
-		//console.log(data)
+		console.log(data)
 	}
 	if (type === 'mot'){
 
