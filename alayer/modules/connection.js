@@ -2,22 +2,20 @@
   const Cortex = require('./../js/cortex')
 
 //Cortex API
-  let status = {}
+  let status = {}, interval = null
   function connect(client) {
+    clearInterval(interval)
     status.connect = !status.connect
     client.queryHeadsets().then(headsets => {
       if (headsets.length) return connected(client, headsets)
-      try {
-        client.createSession({status: 'open'}).subscribe({streams: ['dev']}).then(() => null).catch(e => null)
-        //connected(client, headsets)
-      } catch (e) {}
+      //try { client.createSession({status: 'open'}).then(() => null).catch(e => null) } catch (e) {}
       setTimeout(() => connect(client), 1000)
     }).catch(error => null)
   }
 
 //Connected to Cortex API
   function connected(client, headsets) {
-    console.log(`\n${JSON.stringify(headsets)}\n`)
+    interval = setInterval(() => client.queryHeadsets().then(headsets => status.headsets = headsets.map(h => h.id.toLocaleUpperCase())), 1000)
     client
       .createSession({status:'open'/*, headset:hardware[0]*/})
       .subscribe({streams:['fac', 'dev', 'pow', 'mot', 'sys', 'met']})
@@ -29,11 +27,6 @@
           client.on('mot', event => callbacks.mot.forEach(callback => callback(event)))
           client.on('sys', event => callbacks.sys.forEach(callback => callback(event)))
           client.on('met', event => callbacks.met.forEach(callback => callback(event)))
-          let time = 1
-          setInterval(() => client.queryHeadsets().then(headsets => {
-            console.log(`\n${headsets}\n`)
-            status.headsets = headsets.map(h => h.id)
-          }), 1000)
       }).catch(error => null)
   }
 
