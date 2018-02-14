@@ -1,5 +1,5 @@
 //Dependancies
-  const { spawnSync } = require('child_process')
+  const { spawnSync, spawn } = require('child_process')
   const path = require('path')
   const fs = require('fs')
   const ls = p => fs.readdirSync(p).filter(f => fs.statSync(path.join(p, f)).isDirectory())
@@ -24,7 +24,6 @@
   })
 
 //Start server
-  console.log("\nStarting server :")
-  spawnSync("npm", ["start"], {cwd:path.join(__dirname, "alayer"), shell:true, stdio:[0, 1, 2]})
-
-  spawnSync("node", ["logs.js"], {cwd:path.join(__dirname, "alayer"), shell:true, detached:true, stdio:[0, 1, 2]})
+  console.log("\nStarting server...")
+  spawn("npm", ["start"], {cwd:path.join(__dirname, "alayer"), shell:true, stdio:[0, 1, 2]})
+  spawn("node", ["logs.js"], {cwd:path.join(__dirname, "alayer"), shell:true, detached:true, stdio:[0, 1, 2]})
