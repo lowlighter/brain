@@ -36,26 +36,31 @@
 
 		//Websocket connection
 		const ws = new WebSocket('ws://localhost:3001');
-		console.log(ws);
+		// console.log(ws);
 		ws.onmessage = event => {
 			//console.log(event.data)
 			const data = JSON.parse(event.data)
 			const type = data.shift()
 			if (type === "getId") {
-				console.log(data);
-			} else if (type === 'left'){
+				// console.log(data);
+			} else if (type === 'left') {
 				console.log('left');
-				if(!left.classList.contains('left-active'))
+				if(!left.classList.contains('left-active')) {
+					console.log("left");
 					left.classList.add('left-active');
-			} else if (type === 'right'){
+				}
+			} else if (type === 'right') {
 				console.log('right');
-				if(!right.classList.contains('right-active'))
+				if(!right.classList.contains('right-active')) {
 					right.classList.add('right-active');
+				}
 			} else if (type === 'close') {
-				if(left.classList.contains('left-active'))
+				if(left.classList.contains('left-active')) {
 					left.classList.remove('left-active');
-				if(right.classList.contains('right-active'))
+				}
+				if(right.classList.contains('right-active')) {
 					right.classList.remove('right-active');
+				}
 			}
 
 		}
