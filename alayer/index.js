@@ -1,8 +1,11 @@
+
+
 //Dependancies
   process.stdout.write('\x1Bc')
 
 //Hardware and status
   const hardware = process.env.npm_package_config_hardware
+
   //const parrot = require('./../parrot/index')
   const status = require('./modules/status')(hardware)
 
