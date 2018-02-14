@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="./js/chart.min.js"></script>
+  </head>
+  <body>
+    <a href="/"><button class="homeButton" type="button" name="button">Home</button></a>
+    <div class="charts">
+      <canvas id="channels"></canvas>
+    </div>
+    <div class="calibration">
+      <button type="button">Enregistrer</button>
+      <button type="button">Arrêter</button>
+      <button type="button">Exporter</button>
+    </div>
+    <script type="text/javascript">
+    const charts = {delta:10}
+    charts.signals = new Chart(document.getElementById("channels").getContext("2d"), {
+        type:"scatter",
+        data:{
+          labels:[0],
+          datasets:[{
+              label:"AF3",
+              borderColor:"rgba(255, 99, 132, 1)",
+              fill:false,
+              showLine:true,
+              borderWidth:2,
+              data:[]
+          },{
+              label:"AF4",
+              borderColor:"rgba(255, 159, 64, 1)",
+              fill:false,
+              showLine:true,
+              borderWidth:2,
+              data:[]
+          },{
+              label:"T7",
+              borderColor:"rgba(75, 192, 192, 1)",
+              fill:false,
+              showLine:true,
+              borderWidth:2,
+              data:[]
+          },{
+              label:"T8",
+              borderColor:"rgba(54, 162, 235, 1)",
+              fill:false,
+              showLine:true,
+              borderWidth:2,
+              data:[]
+          },{
+              label:"Pz",
+              borderColor:"rgba(153, 102, 255, 1)",
+              fill:false,
+              showLine:true,
+              borderWidth:2,
+              data:[]
+          }]
+        },
+        options:{
+          title:{
+            display:true,
+            fontSize:20,
+            text:"Band power values"
+          },
+          scales: {
+            yAxes: [{
+              display: true,
+              ticks: {
+                min:0,
+                max:10,
+              }
+            }],
+            xAxes:[{
+              ticks: {
+                min:0,
+                max:charts.delta * 1000,
+                maxRotation:0,
+                minRotation:0,
+                callback(label, index, labels) { return Math.floor(label/1000) }
+              }
+            }]
+          },
+          animation:{
+            duration:200
+          }
+        }
+    })
+
+    //Websocket connection
+      const ws = new WebSocket("ws://localhost:3001")
+      ws.onmessage = event => {
+        const data = JSON.parse(event.data)
+        const type = data.shift()
+        if (type === "dev") {
+          //document.getElementById("signal-strength").innerHTML = (data[2].reduce((w, v) => w + v)/5/4).toFixed(2)
+        } else if (type === "pow") {
+          //
+        }
+      }
+
+    </script>
+    <style media="screen">
+      body {
+        font-family: 'Open Sans', sans-serif;
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: url(bg.png);
+        background-position: center;
+        background-size: cover;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      button {
+        min-width: 160px;
+        display: inline-block;
+        font-weight: 400;
+        line-height: 1.25;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        border: 1px solid transparent;
+        padding: .5rem 1rem;
+        font-size: 1rem;
+        border-radius: .25rem;
+        -webkit-transition: all .2s ease-in-out;
+        -o-transition: all .2s ease-in-out;
+        transition: all .2s ease-in-out;
+        color: #fff;
+        background-color: #5bc0de;
+        border-color: #5bc0de;
+        cursor: pointer;
+        filter: grayscale(1);
+      }
+      .homeButton{
+        position: fixed;
+        left: 10px;
+        top: 0;
+        margin-bottom: 10px;
+        margin-top: 10px;
+      }
+      .charts {
+        max-width: 90vw;
+        max-height: 90vh;
+      }
+    </style>
+  </body>
+</html>
