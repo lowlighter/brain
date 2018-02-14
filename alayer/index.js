@@ -8,6 +8,7 @@
   const path = require('path')
   const parrot = require('./../parrot/index')
 
+
 //Callbacks list
   const callbacks = {
     fac:[event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['fac', ...event.fac])) })],
@@ -27,9 +28,10 @@
     headsets:[],
     parrot:false,
     time:0,
+    log:"(no logs)",
     init() {
-      process.stdout.write(`| # | ${'Server'.padEnd(10)} | ${'Sockets'.padEnd(10)} | ${'Headsets'.padEnd(11)} | ${'Parrot'.padEnd(11)} |\n`)
-      process.stdout.write(`+---+${'-'.repeat(12)}+${'-'.repeat(12)}+${'-'.repeat(13)}+${'-'.repeat(13)}+\n`)
+      process.stdout.write(`| # | ${'Server'.padEnd(10)} | ${'Sockets'.padEnd(10)} | ${'Headsets'.padEnd(11)} | ${'Parrot'.padEnd(11)} | ${'Logs'.padEnd(40)} |\n`)
+      process.stdout.write(`+---+${'-'.repeat(12)}+${'-'.repeat(12)}+${'-'.repeat(13)}+${'-'.repeat(13)}+${'-'.repeat(42)}+\n`)
       status.update()
       setInterval(() => status.update(), 500)
     },
@@ -39,9 +41,11 @@
       let socket = `\x1b[${status.socket ? 32 : 31}m${(`${status.socket} client${status.socket > 1 ? 's' : ''}`).padEnd(10)}\x1b[0m`
       let headset = [`\x1b[${status.headsets.indexOf(hardware[0]) >= 0 ? 32 : 31}m${hardware[0].slice(-4)}\x1b[0m`, `\x1b[${status.headsets.indexOf(hardware[1]) >= 0 ? 32 : 31}m${hardware[1].slice(-4)}\x1b[0m`]
       let parrot = `\x1b[${status.parrot ? 32 : 31}m${(status.parrot ? "Available" : "Unavailable").padEnd(11)}\x1b[0m`
-      process.stdout.write(`\r| ${c} | ${server} | ${socket} | ${headset[0]} | ${headset[1]} | ${parrot} |`)
+      let log = status.log.padEnd(40)
+      process.stdout.write(`\r| ${c} | ${server} | ${socket} | ${headset[0]} | ${headset[1]} | ${parrot} | ${log} |`)
     }
   }
+  console.log = function (text) { status.log = text }
 
 //Global Error Handling
   {
