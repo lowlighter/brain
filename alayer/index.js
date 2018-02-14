@@ -19,6 +19,6 @@
 //Global Error Handling
   process.on('uncaughtException', error => {
     if(!/TypeError: Cannot read property 'match' of undefined/.test(error))
-      console.error("\n"+error)
+      console.error(error)
   })
   logger.callbacks(callbacks)

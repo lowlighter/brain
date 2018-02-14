@@ -57,35 +57,33 @@ let delta = 50;
 let samples = [];
 let calibrationSamples = 30;
 
-// module.exports = function (callbacks, wss) {
-// 	console.log("\nparrot started")
+module.exports = function (callbacks, wss) {
+	// console.log("\nparrot started")
 
-// 	/* Cortex part */
-// 	drone.connect(() => drone.postureJumper());
+	/* Cortex part */
+	// drone.connect(() => drone.postureJumper());
 // 	drone.on('ready', () =>
-// 		callbacks.mot.push(data => {
-// 			console.log(data.mot[MAG_X])
-// 			if(samples.length < calibrationSamples) {
-// 				samples.push(data.mot[MAG_X])
-// 			}
-// 			else {
-// 				if(start === NaN) {
-// 					start = samples.reduce((a,b) => a + b) / calibrationSamples;
-// 				}
-// 				if(Math.abs(data.mot[MAG_X] - start) > delta) {
-// 					if(data.mot[MAG_X] - start > 0) {
-// 						// console.log("right");
-// 						// wss.send(JSON.stringify({action:'right'}))
-// 					} else {
-// 						// console.log("left");
-// 						// wss.send(JSON.stringify({action:'left'}))
-// 					}
-// 				} else {
-// 					// wss.send(JSON.stringify({action:'close'}))
-// 				}
-// 			}
-// 		})
+		callbacks.mot.push(data => {
+			wss.send(JSON.stringify({action:'right'}))
+			
+			if(samples.length < calibrationSamples) {
+				samples.push(data.mot[MAG_Z])
+			} else {
+				if(start === NaN) {
+					start = samples.reduce((a,b) => a + b) / calibrationSamples;
+				}
+				if(Math.abs(data.mot[MAG_Z] - start) > delta) {
+					if(data.mot[MAG_Z] - start > 0) {
+						wss.send(JSON.stringify({action:'right'}))
+					} else {
+						wss.send(JSON.stringify({action:'left'}))
+					}
+				} else {
+					wss.send(JSON.stringify({action:'close'}))
+				}
+			}
+		})
 // 	);
 
-// 	return drone;
-// };
+	return drone;
+};
