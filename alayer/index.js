@@ -10,6 +10,7 @@
   const app = require('express')()
   const server = require('./modules/server')(app, status)
   const callbacks = server.callbacks
+  const parrot_wifi = require('./modules/parrot-wifi')(status)
 
 //Cortex API
   const Cortex = require('./js/cortex')
