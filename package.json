@@ -12,5 +12,9 @@
         "start": "node app.js"
     },
     "dependencies": {
+        "node-wifi": "^2.0.4"
+    }, 
+    "config": {
+        "hardware" : ["DKDK", "JDJODJ"]
     }
 }
