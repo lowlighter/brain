@@ -75,7 +75,7 @@ button {
 }
 
 button[disabled] {
-  opacity: 0.4;
+  opacity: 0.1;
 }
 
 @media screen and (min-width: 940px) {

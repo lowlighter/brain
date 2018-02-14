@@ -13,7 +13,6 @@
 		<script src="./js/emotion_classifier.js"></script>
 		<script src="./js/emotionmodel.js"></script>
 		<script src="./models/model_pca_20_svm.js"></script>
-		<script src="./js/libs/three.min.js"></script>
 
 		<div class="content">
 			<a href="/"><button class="homeButton" type="button" name="button" style="color: #fff;filter: grayscale(1);border-color: #5bc0de;z-index:9999;">Home</button></a>
@@ -38,7 +37,7 @@
 					</div>
 				</div>
 				<div id="brainy">
-
+					<iframe id="brainy-iframe" src="http://localhost:3000/kawashima/" width="400" height="400" onload="access()"></iframe>
 				</div>
 			</div>
 			<div>
@@ -51,6 +50,13 @@
 		</div>
 
 		<script src="./js/demo.js"></script>
-		<script src="./js/demo-brainy.js"></script>
+		<script type="text/javascript">
+			function access() {
+				const iframe = document.getElementById("brainy-iframe")
+				const innerDoc = iframe.contentDocument || iframe.contentWindow.document
+				innerDoc.querySelectorAll("a, audio").forEach(n => n.remove())
+				innerDoc.body.style.backgroundImage = ""
+			}
+		</script>
 	</body>
 </html>

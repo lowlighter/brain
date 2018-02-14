@@ -143,3 +143,7 @@ button[disabled] {
   margin-bottom: 10px;
   margin-top: 10px;
 }
+
+iframe {
+  border: none;
+}
