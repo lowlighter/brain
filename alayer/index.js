@@ -17,5 +17,8 @@
   const connection = require('./modules/connection')(status)
 
 //Global Error Handling
-  process.on('uncaughtException', error => console.error("\n"+error))
+  process.on('uncaughtException', error => {
+    if(!/TypeError: Cannot read property 'match' of undefined/.test(error))
+      console.error("\n"+error)
+  })
   logger.callbacks(callbacks)
