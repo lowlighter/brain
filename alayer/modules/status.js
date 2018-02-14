@@ -24,7 +24,7 @@
   }
 
 //Exports
-  module.exports = function (hardware) {
+  module.exports = function (hardware = ["", ""]) {
     status.init(hardware)
     return status
   }
