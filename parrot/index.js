@@ -1,7 +1,9 @@
 const sumo = require('node-sumo');
 const keypress = require('keypress');
 
+const MAG_X = 7;
 const MAG_Y = 8;
+const MAG_Z = 9;
 
 let drone = sumo.createClient();
 
@@ -36,40 +38,54 @@ let jump = drone => {
 	drone.animationsHighJump();
 }
 
-// drone.connect(() => {
-// 	process.stdin.on('keypress', (ch, key) => {
-// 		switch(key.name) {
-// 			case 'z':		forward(drone);	break;
-// 			case 'q':		left(drone);	break;
-// 			case 's':		backward(drone);break;
-// 			case 'd':		right(drone);	break;
-// 			case 't':		tap(drone);		break;
-// 			case 'space':	jump(drone);	break;
-// 		}
-// 	});
-// });
+/* Drone alone */
+drone.connect(() => {
+	process.stdin.on('keypress', (ch, key) => {
+		switch(key.name) {
+			case 'z':		forward(drone);	break;
+			case 'q':		left(drone);	break;
+			case 's':		backward(drone);break;
+			case 'd':		right(drone);	break;
+			case 't':		tap(drone);		break;
+			case 'space':	jump(drone);	break;
+		}
+	});
+});
 
 let start = NaN;
-let delta = 500;
+let delta = 50;
 let samples = [];
 let calibrationSamples = 30;
 
-module.exports = function (callbacks, wss) {
-	console.log("parrot started")
-	drone.connect(() => drone.postureJumper());
-	drone.on('ready', () =>
-		callbacks.mot.push(data => {
-			if(samples.length < calibrationSamples)
-				samples.push(data.mot[MAG_Y])
-			else 
-				if(start === NaN)
-					start = samples.reduce((a,b) => a + b) / calibrationSamples;
-				if(Math.abs(data.mot[MAG_Y] - start) > delta)
-					if(data.mot[MAG_Y] - start > 0)
-						null
-					else
-						null
-		})
-	);
-	return drone;
-};
+// module.exports = function (callbacks, wss) {
+// 	console.log("\nparrot started")
+
+// 	/* Cortex part */
+// 	drone.connect(() => drone.postureJumper());
+// 	drone.on('ready', () =>
+// 		callbacks.mot.push(data => {
+// 			console.log(data.mot[MAG_X])
+// 			if(samples.length < calibrationSamples) {
+// 				samples.push(data.mot[MAG_X])
+// 			}
+// 			else {
+// 				if(start === NaN) {
+// 					start = samples.reduce((a,b) => a + b) / calibrationSamples;
+// 				}
+// 				if(Math.abs(data.mot[MAG_X] - start) > delta) {
+// 					if(data.mot[MAG_X] - start > 0) {
+// 						// console.log("right");
+// 						// wss.send(JSON.stringify({action:'right'}))
+// 					} else {
+// 						// console.log("left");
+// 						// wss.send(JSON.stringify({action:'left'}))
+// 					}
+// 				} else {
+// 					// wss.send(JSON.stringify({action:'close'}))
+// 				}
+// 			}
+// 		})
+// 	);
+
+// 	return drone;
+// };
