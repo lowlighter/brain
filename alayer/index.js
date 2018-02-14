@@ -12,7 +12,7 @@
   const callbacks = server.callbacks
 
 //Cortex API
-  const Cortex = require('./js/cortex')
+  //const connection = require('./modules/connection')
 
 //Global Error Handling
   process.on('uncaughtException', error => console.error(error))
