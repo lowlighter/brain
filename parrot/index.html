@@ -1,10 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Parrot</title>
+	<style type="text/css">
+		body {
+			height: 100vh;
+			width: 100vw;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		div {
+			margin: 2%;	
+			padding: 2%;
+			width: 20%;	
+			border: 1px solid black;
+			background-color: #ccc;
+			color: white;
+		}
+		h1 { text-align: center; }
+		.left-active	{ background-color: #f00; }
+		.right-active	{ background-color: #00f; }
+	</style>
 </head>
 <body>
+	<div id="left">
+		<h1>LEFT</h1>
+	</div>
+	<div id="right">
+		<h1>RIGHT</h1>
+	</div>
 	<script type="text/javascript">
+		let left = document.getElementById('left');
+		let right = document.getElementById('right');
+
 		//Websocket connection
 		const ws = new WebSocket('ws://localhost:3001');
 		console.log(ws);
@@ -13,11 +42,22 @@
 			const data = JSON.parse(event.data)
 			const type = data.shift()
 			if (type === "getId") {
-				console.log(data)
+				console.log(data);
+			} else if (type === 'left'){
+				console.log('left');
+				if(!left.classList.contains('left-active'))
+					left.classList.add('left-active');
+			} else if (type === 'right'){
+				console.log('right');
+				if(!right.classList.contains('right-active'))
+					right.classList.add('right-active');
+			} else if (type === 'close') {
+				if(left.classList.contains('left-active'))
+					left.classList.remove('left-active');
+				if(right.classList.contains('right-active'))
+					right.classList.remove('right-active');
 			}
-			if (type === 'mot') {
-				// console.log(data);
-			}
+
 		}
 		ws.onopen = () => { 
 			ws.send(JSON.stringify({
