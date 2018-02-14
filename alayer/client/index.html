@@ -6,8 +6,7 @@
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
   </head>
   <body>
-    <audio autoplay="true" hidden src="song1.mp3"></audio>
-    <script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <audio autoplay="true" hidden src="song1.mp3" loop></audio>
     <div id="particles-js">
 
     </div>
@@ -27,6 +26,16 @@
           Battle (v2)
         </div>
       </a>
+      <a class="card disabled" style="background-image:url(miscelleanous/cube.png)">
+        <div class="text">
+          Cube field
+        </div>
+      </a>
+      <a class="card disabled" style="background-image:url(miscelleanous/record.png)">
+        <div class="text">
+          Recording
+        </div>
+      </a>
       <a class="card" style="background-image:url(miscelleanous/correlation.png)" href="emotions">
         <div class="text">
           Emotions
@@ -43,8 +52,15 @@
         </div>
       </a>
     </div>
+    <div class="bot">
+      <img src="miscelleanous/rob.gif" id="parrot">
+      <img src="miscelleanous/luigi.gif" id="p2">
+      <img src="miscelleanous/mario.gif" id="p1">
+      <img src="miscelleanous/mush.png" style="height:42px;">
+    </div>
     <style media="screen">
       body {
+        font-family: 'Open Sans', sans-serif;
         height: 100vh;
         width: 100vw;
         margin: 0;
@@ -54,14 +70,37 @@
         background-image: url(bg.png);
         background-position: center;
         background-size: cover;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .bot {
+        width: 350px;
+        position: fixed;
+        bottom: 0;
+        left: -350px;
+        animation-duration: 5s;
+        animation-name: move;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        display: inline-flex;
+        align-items:baseline;
+        z-index: 9001;
+      }
+      .bot > * {
+        margin-left:20px;
+      }
+      @keyframes move {
+        0% { left:-350px; }
+        100% { left: 105vw; }
       }
       .wrapper {
         display: flex;
         justify-content: center;
         align-items: center;
         flex-wrap: wrap;
-        width: 825px;
+        padding: 60px 0px;
         z-index: 9001;
+        overflow: auto;
       }
       .wrapper > .card {
         border-radius: 5px;
@@ -102,9 +141,43 @@
         left: 0;
         opacity: 0.2;
       }
+      .status {
+        height: 12px;
+        width: 12px;
+        border-radius: 50%;
+        border: 2px solid black;
+        display: inline-block;
+        margin-right: 4px;
+      }
+
+      .status.green {
+        background-color: green;
+      }
+      .status.red {
+        background-color: red;
+      }
+
+      #signal-strength {
+        margin-left: 4px;
+      }
     </style>
-    <script type="text/javascript">
-      particlesJS("particles-js", {"particles":{"number":{"value":80,"density":{"enable":true,"value_area":800}},"color":{"value":"#000000"},"shape":{"type":"circle","stroke":{"width":0,"color":"#000000"},"polygon":{"nb_sides":5},"image":{"src":"img/github.svg","width":100,"height":100}},"opacity":{"value":0.5,"random":false,"anim":{"enable":false,"speed":1,"opacity_min":0.1,"sync":false}},"size":{"value":3,"random":true,"anim":{"enable":false,"speed":40,"size_min":0.1,"sync":false}},"line_linked":{"enable":true,"distance":150,"color":"#000000","opacity":1,"width":1},"move":{"enable":true,"speed":6,"direction":"none","random":false,"straight":false,"out_mode":"out","bounce":false,"attract":{"enable":false,"rotateX":600,"rotateY":1200}}},"interactivity":{"detect_on":"canvas","events":{"onhover":{"enable":true,"mode":"repulse"},"onclick":{"enable":true,"mode":"push"},"resize":true},"modes":{"grab":{"distance":400,"line_linked":{"opacity":1}},"bubble":{"distance":400,"size":40,"duration":2,"opacity":8,"speed":3},"repulse":{"distance":200,"duration":0.4},"push":{"particles_nb":4},"remove":{"particles_nb":2}}},"retina_detect":true});var count_particles, stats, update; stats = new Stats; stats.setMode(0); stats.domElement.style.position = 'absolute'; stats.domElement.style.left = '0px'; stats.domElement.style.top = '0px'; document.body.appendChild(stats.domElement); count_particles = document.querySelector('.js-count-particles'); update = function() { stats.begin(); stats.end(); if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) { count_particles.innerText = window.pJSDom[0].pJS.particles.array.length; } requestAnimationFrame(update); }; requestAnimationFrame(update);;
+    <script>
+    //Websocket connection
+      const ws = new WebSocket("ws://localhost:3001")
+      ws.onmessage = event => {
+        //console.log(event.data)
+        const data = JSON.parse(event.data)
+        const type = data.shift()
+        if (type === "dev") {
+          connected(data)
+          document.getElementById("signal-strength").innerHTML = (data[2].reduce((w, v) => w + v)/5/4).toFixed(2)
+        }
+      }
+
+    //Show that headset is connected
+      function connected(received) {
+
+      }
     </script>
   </body>
 </html>
