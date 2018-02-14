@@ -1,3 +1,6 @@
+//
+  String.prototype.padEnd = function () { return this }
+
 //Status
   const status = {
     hardware:[],
