@@ -23,7 +23,6 @@ let scanner = (status) => {
 	wifi.getCurrentConnections()
 		.then(connections => status.parrot_connected = getStatus(connections))
 		.catch(err => {
-			console.log("CON")
 			status.parrot = false
 			status.parrot_connected = false
 		})
