@@ -12,43 +12,79 @@
       const app = new PIXI.Application({height:600, width:1000, transparent:true})
       document.body.appendChild(app.view)
 
-      function player(textures) {
-        const sprite = new PIXI.extras.AnimatedSprite(textures.map(frame => PIXI.Texture.fromFrame(frame)))
-        sprite.animationSpeed = 0.05
-        sprite.play()
-        sprite.scale.set(2)
-        sprite.anchor.set(0.5)
-        app.stage.addChild(sprite)
-        return sprite
+      class Player {
+        constructor(normal, saiyan, attack_start, attack_end, attack_middle, s) {
+          this.textures = {normal, saiyan, attack_start, attack_end, attack_middle, s}
+          this.sprite_init(normal, attack_start, attack_end, attack_middle, s)
+          this.score = 0
+          this.nscore = 0
+        }
+
+        sprite_init() {
+          let sprite = this.sprite = new PIXI.extras.AnimatedSprite(this.textures.normal.map(frame => PIXI.Texture.fromFrame(frame)))
+          sprite.animationSpeed = 0.05
+          sprite.play()
+          sprite.scale.set(2)
+          sprite.anchor.set(0.5)
+          app.stage.addChild(sprite)
+
+          let sprite1 = this.sprite1 = new PIXI.extras.AnimatedSprite(this.textures.attack_start.map(frame => PIXI.Texture.fromFrame(frame)))
+          sprite1.animationSpeed = 0.15
+          sprite1.play()
+          sprite1.anchor.x = this.textures.s < 0 ? 1 : 0
+          app.stage.addChild(sprite1)
+
+          let sprite12 = this.sprite12 = new PIXI.Sprite.fromFrame(this.textures.attack_middle)
+          sprite12.anchor.x = this.textures.s < 0 ? 1 : 0
+          app.stage.addChild(sprite12)
+
+          let sprite2 = this.sprite2 = new PIXI.extras.AnimatedSprite(this.textures.attack_end.map(frame => PIXI.Texture.fromFrame(frame)))
+          sprite2.animationSpeed = 0.15
+          sprite2.play()
+
+          sprite2.anchor.x = this.textures.s < 0 ? 1 : 0
+          app.stage.addChild(sprite2)
+          app.ticker.add(() => {
+            this.score += Math.sign(this.nscore - this.score)
+            this.sprite12.width = this.score||0 + 2
+            this.sprite2.position.set(this.sprite12.x+this.textures.s*(this.sprite12.width - 2), this.sprite12.y)
+          })
+        }
+
+        position_init() {
+          const sprite = this.sprite
+          this.sprite1.position.set(this.sprite.x+(this.textures.s*this.sprite.width/2), this.sprite.y-this.sprite.height/4)
+          this.sprite12.position.set(this.sprite1.x+this.textures.s*(this.sprite1.width), this.sprite1.y)
+          this.sprite2.position.set(this.sprite12.x+this.textures.s*(this.sprite12.width - 2), this.sprite12.y)
+        }
+
+        set saiyan(v) {
+          this._saiyan = v
+          this.textures = (v ? this.textures.saiyan : this.textures.normal).map(frame => PIXI.Texture.fromFrame(frame))
+          this.sprite.play()
+        }
+
+        get saiyan() {
+          return !!this._saiyan
+        }
       }
 
-      function attack(textures1, textures2, texture12, player, s = 1) {
-        player.score = 0
-        player.nscore = 0
-        const sprite1 = new PIXI.extras.AnimatedSprite(textures1.map(frame => PIXI.Texture.fromFrame(frame)))
-        sprite1.animationSpeed = 0.15
-        sprite1.play()
-        sprite1.position.set(player.x+(s*player.width/2), player.y-player.height/4)
-        sprite1.anchor.x = s < 0 ? 1 : 0
-        app.stage.addChild(sprite1)
-
-        const sprite12 = new PIXI.Sprite.fromFrame(texture12)
-        sprite12.position.set(sprite1.x+s*(sprite1.width), sprite1.y)
-        sprite12.anchor.x = s < 0 ? 1 : 0
-        app.stage.addChild(sprite12)
-
-        const sprite2 = new PIXI.extras.AnimatedSprite(textures2.map(frame => PIXI.Texture.fromFrame(frame)))
-        sprite2.animationSpeed = 0.15
-        sprite2.play()
-        sprite2.position.set(sprite12.x+s*(sprite12.width - 2), sprite12.y)
-        sprite2.anchor.x = s < 0 ? 1 : 0
-        app.stage.addChild(sprite2)
-        app.ticker.add(() => {
-          player.score += Math.sign(player.nscore - player.score)
-          sprite12.width = player.score||0 + 2
-          sprite2.position.set(sprite12.x+s*(sprite12.width - 2), sprite12.y)
-        })
+      class Goku extends Player {
+        constructor() {
+          super(["00.png", "01.png"], ["40.png", "41.png"], ["10.png", "11.png"], ["13.png", "14.png"], "12.png", 1)
+          this.sprite.position.set(this.sprite.width, app.view.height/2)
+          this.position_init()
+        }
       }
+
+      class Vegeta extends Player {
+        constructor() {
+          super(["20.png", "21.png"], ["50.png", "51.png"], ["30.png", "31.png"], ["33.png", "34.png"], "32.png", -1)
+          this.sprite.position.set(app.view.width - this.sprite.width, app.view.height/2)
+          this.position_init()
+        }
+      }
+
 
       app.loader.onComplete.add(() => {
         const bg = new PIXI.Sprite.fromFrame("bg.png")
@@ -57,14 +93,10 @@
         bg.width = app.view.width
         app.stage.addChild(bg)
 
-        const goku = player(["00.png", "01.png"])
-        goku.position.set(goku.width, app.view.height/2)
+        const goku = new Goku()
         window.goku = goku
-        const vegeta = player(["20.png", "21.png"])
-        vegeta.position.set(app.view.width - vegeta.width, app.view.height/2)
+        const vegeta = new Vegeta()
         window.vegeta = vegeta
-        new attack(["10.png", "11.png"], ["13.png", "14.png"], "12.png", goku)
-        new attack(["30.png", "31.png"], ["33.png", "34.png"], "32.png", vegeta, -1)
 
         function update(scores, force) {
           const total = scores[0] + scores[1]
@@ -111,7 +143,7 @@
       canvas {
         border-radius: 5px;
       }
-            
+
       .homeButton{
         position: fixed;
         left: 10px;
