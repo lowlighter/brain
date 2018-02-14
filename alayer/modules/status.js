@@ -24,7 +24,7 @@
   }
 
 //Exports
-  module.exports = function (hardware) {
+  module.exports = function (hardware = ["INSIGHT-56A88E2E", "INSIGHT-56A88E44"]) {
     status.init(hardware)
     return status
   }
