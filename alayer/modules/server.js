@@ -14,9 +14,10 @@
     met:[event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['met', ...event.met])) })]
   }
 
-console.log = function () {
+log = function () {
   wss.clients.forEach(ws => {
-    if ((ws.readyState === WebSocket.OPEN)&&(ws.logger)) ws.send(JSON.stringify( ...Array.from(arguments)))
+    console.log(!!ws.logger)
+    if ((ws.readyState === WebSocket.OPEN)) ws.send(JSON.stringify( ['log', ...Array.from(arguments)]))
   })
 } 
 
@@ -35,6 +36,8 @@ console.log = function () {
 
     //WebSockets
       wss.on('connection', ws => {
+
+        log("BONJOUR");
         //Log
           ++status.socket
         //Websockets events
