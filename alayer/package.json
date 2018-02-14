@@ -15,5 +15,8 @@
         "express": "^4.16.2",
         "node-sumo": "git+https://github.com/forgeByAcision/node-sumo.git",
         "ws": "^4.0.0"
+    },
+    "config": {
+        "hardware": ["INSIGHT-56A88E2E", "INSIGHT-56A88E44"]
     }
 }
