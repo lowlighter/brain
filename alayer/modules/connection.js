@@ -3,7 +3,7 @@
 
 //Cortex API
   let callbacks = null
-  let status = {}, interval = null, hardware = []
+  let status = {}, interval = null, sid = null, hardware = []
   function connect(client) {
     clearInterval(interval)
     status.connect = !status.connect
@@ -19,8 +19,9 @@
     interval = setInterval(() => client.queryHeadsets().then(headsets => status.headsets = headsets.map(h => h.id.toLocaleUpperCase())), 1000)
     client
       .createSession({status:'open'/*, headset:hardware[0]*/})
-      .subscribe({streams:['fac', 'dev', 'pow', 'mot', 'sys', 'met']})
+      .subscribe({streams:['fac', 'dev', 'pow', 'mot', 'sys', 'met', 'com']})
       .then(subs => {
+          sid = subs.sid
           if ((!subs[0].fac)||(!subs[1].dev)||(!subs[2].pow)||(!subs[3].mot)||(!subs[4].sys)||(!subs[5].met)) throw new Error("Couldn't subscribe to required channels")
           client.on('fac', event => callbacks.fac.forEach(callback => callback(event)))
           client.on('dev', event => callbacks.dev.forEach(callback => callback(event)))
@@ -28,6 +29,7 @@
           client.on('mot', event => callbacks.mot.forEach(callback => callback(event)))
           client.on('sys', event => callbacks.sys.forEach(callback => callback(event)))
           client.on('met', event => callbacks.met.forEach(callback => callback(event)))
+          client.on('com', event => callbacks.com.forEach(callback => callback(event)))
       }).catch(error => {
         console.log(error)
         setTimeout(() => connected(client, headsets), 1000)
@@ -40,8 +42,11 @@
     hardware = _hardware
     status = state
     const client = new Cortex({verbose:1, threshold:0})
-    client.ready.then(() => {
-      client.init()
-      connect(client)
+    return new Promise((solve, reject) => {
+        client.ready.then(() => {
+        client.init()
+        connect(client)
+        solve({client, sid() { return sid }})
+      })
     })
   }
