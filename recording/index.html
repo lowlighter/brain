@@ -3,262 +3,77 @@
   <head>
     <meta charset="utf-8">
     <title></title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/bootstrap.css">
     <script src="./js/chart.min.js"></script>
-    <script src="https://cdn.rawgit.com/eligrey/FileSaver.js/e9d941381475b5df8b7d7691013401e171014e89/FileSaver.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="./js/filesaver.js"></script>
+    <script src="./js/jquery.js"></script>
+    <script src="./js/popper.js"></script>
+    <script src="./js/bootstrap.js"></script>
+    <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
     <a href="/"><button class="homeButton" type="button" name="button">Home</button></a>
-    <div class="charts">
-      <canvas id="channels"></canvas>
-    </div>
-    <div class="controls">
-      <div style="flex-direction:column; flex-grow:1">
-          <div style="width:100%;" class="flex">
-            <button type="button">Enregistrer</button>
-            <div>
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">Durée (sec)</span>
-                </div>
-                <input type="text" class="form-control" style="width:100px">
-              </div>
-            </div>
-
-            <div>
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">Itérations</span>
-                </div>
-                <input type="text" class="form-control" style="width:100px">
-              </div>
-            </div>
-          </div>
-
-          <div style="width:100%;" class="flex">
-            <div>
-              <div class="input-group"  style="height:100%;">
-                  <div class="input-group-text">
-                  <input type="checkbox" aria-label="Checkbox for following text input">
-                  &nbsp;Band powers
-                  </div>
-              </div>
-            </div>
-
-            <div>
-              <div class="input-group"  style="height:100%;">
-                  <div class="input-group-text">
-                  <input type="checkbox" aria-label="Checkbox for following text input">
-                  &nbsp;Metrics
-                  </div>
-              </div>
-            </div>
-
-            <div>
-              <div class="input-group"  style="height:100%;">
-                  <div class="input-group-text">
-                  <input type="checkbox" aria-label="Checkbox for following text input">
-                  &nbsp;Facial
-                  </div>
-              </div>
-            </div>
-
-            <div>
-              <div class="input-group"  style="height:100%;">
-                  <div class="input-group-text">
-                  <input type="checkbox" aria-label="Checkbox for following text input">
-                  &nbsp;Motion
-                  </div>
-              </div>
-            </div>
-          </div>
-
-
-
-
-
+    <div class="wrapper">
+      <ul class="nav nav-tabs" style="width:100%">
+        <li class="nav-item input-group-text">
+          <span id="signal-strength">0</span>
+        </li>
+        <li class="nav-item input-group-text">
+          <input type="checkbox" name="pow" checked>&nbsp;
+          <a href="#tab_pow" class="active" role="tab" data-toggle="tab" aria-controls="tab_pow">Powers</a>
+        </li>
+        <li class="nav-item input-group-text">
+          <input type="checkbox" name="met">&nbsp;
+          <a href="#tab_met" role="tab" data-toggle="tab" aria-controls="tab_met">Metrics</a>
+        </li>
+        <li class="nav-item input-group-text">
+          <input type="checkbox" name="fac">&nbsp;
+          <a href="#tab_fac" role="tab" data-toggle="tab" aria-controls="tab_fac">Facial</a>
+        </li>
+        <li class="nav-item input-group-text">
+          <input type="checkbox" name="mot">&nbsp;
+          <a href="#tab_mot" role="tab" data-toggle="tab" aria-controls="tab_mot">Motion</a>
+        </li>
+        <li class="nav-item input-group-text">
+          <input type="checkbox" name="com">&nbsp;
+          <a href="#tab_com" role="tab" data-toggle="tab" aria-controls="tab_com">Commands</a>
+        </li>
+        <li class="nav-item input-group-text">
+          <input type="checkbox" name="dev">&nbsp;
+          <a href="#tab_dev" role="tab" data-toggle="tab" aria-controls="tab_dev">Receptivity</a>
+        </li>
+      </ul>
+      <div class="controls">
+        <div class="input-group">
+          <div class="input-group-prepend"><span class="input-group-text">Durée (sec)</span></div>
+          <input type="number" class="form-control" name="duration" value="5" onkeyup="timeCharts()">
+        </div>
+        <div class="input-group">
+          <div class="input-group-prepend"><span class="input-group-text">Itérations</span></div>
+          <input type="number" class="form-control" name="iteration" value="1">
+        </div>
+        <div class="input-group">
+          <div class="input-group-prepend"><span class="input-group-text">Raffraichissement (ms)</span></div>
+          <input type="number" class="form-control" name="frequency" value="100" onkeyup="updateCharts.start()">
+        </div>
+        <div class="input-group">
+          <button type="button" name="record" onclick="record()">Enregistrer</button>
+        </div>
+        <div class="input-group">
+          <button type="button" name="export" onclick="download()">Exporter</button>
+        </div>
       </div>
-      <div>
-        <button type="button" onclick="download()">Exporter</button>
+      <div class="charts tab-content">
+        <div class="tab-pane active" id="tab_pow" aria-labelledby="tab_pow" role="tabpanel"><canvas id="chart_pow"></canvas></div>
+        <div class="tab-pane" id="tab_met" aria-labelledby="tab_met" role="tabpanel"><canvas id="chart_met"></canvas></div>
+        <div class="tab-pane" id="tab_fac" aria-labelledby="tab_fac" role="tabpanel"><canvas id="chart_fac"></canvas></div>
+        <div class="tab-pane" id="tab_mot" aria-labelledby="tab_mot" role="tabpanel"><canvas id="chart_mot"></canvas></div>
+        <div class="tab-pane" id="tab_com" aria-labelledby="tab_com" role="tabpanel"><canvas id="chart_com"></canvas></div>
+        <div class="tab-pane" id="tab_dev" aria-labelledby="tab_dev" role="tabpanel"><canvas id="chart_dev"></canvas></div>
       </div>
     </div>
-    <script type="text/javascript">
-    const charts = {delta:10}
-    charts.signals = new Chart(document.getElementById("channels").getContext("2d"), {
-        type:"scatter",
-        data:{
-          labels:[0],
-          datasets:[{
-              label:"AF3",
-              borderColor:"rgba(255, 99, 132, 1)",
-              fill:false,
-              showLine:true,
-              borderWidth:2,
-              data:[]
-          },{
-              label:"AF4",
-              borderColor:"rgba(255, 159, 64, 1)",
-              fill:false,
-              showLine:true,
-              borderWidth:2,
-              data:[]
-          },{
-              label:"T7",
-              borderColor:"rgba(75, 192, 192, 1)",
-              fill:false,
-              showLine:true,
-              borderWidth:2,
-              data:[]
-          },{
-              label:"T8",
-              borderColor:"rgba(54, 162, 235, 1)",
-              fill:false,
-              showLine:true,
-              borderWidth:2,
-              data:[]
-          },{
-              label:"Pz",
-              borderColor:"rgba(153, 102, 255, 1)",
-              fill:false,
-              showLine:true,
-              borderWidth:2,
-              data:[]
-          }]
-        },
-        options:{
-          title:{
-            display:true,
-            fontSize:20,
-            text:"Band power values"
-          },
-          scales: {
-            yAxes: [{
-              display: true,
-              ticks: {
-                min:0,
-                max:10,
-              }
-            }],
-            xAxes:[{
-              ticks: {
-                min:0,
-                max:charts.delta * 1000,
-                maxRotation:0,
-                minRotation:0,
-                callback(label, index, labels) { return Math.floor(label/1000) }
-              }
-            }]
-          },
-          animation:{
-            duration:200
-          }
-        }
-    })
 
-    //Websocket connection
-      const ws = new WebSocket("ws://localhost:3001")
-      ws.onmessage = event => {
-        const data = JSON.parse(event.data)
-        const type = data.shift()
-        if (type === "dev") {
-          //document.getElementById("signal-strength").innerHTML = (data[2].reduce((w, v) => w + v)/5/4).toFixed(2)
-        } else if (type === "pow") {
-          //
-        }
-      }
-
-      function download() {
-
-        const headers = ["record", "time",
-        "AF3_theta", "AF3_alpha", "AF3_betaL", "AF3_betaH", "AF3_gamma",
-        "T7_theta", "T7_alpha", "T7_betaL", "T7_betaH", "T7_gamma",
-        "Pz_theta", "Pz_alpha", "Pz_betaL", "Pz_betaH", "Pz_gamma",
-        "T8_theta", "T8_alpha", "T8_betaL", "T8_betaH", "T8_gamma",
-        "AF4_theta", "AF4_alpha", "AF4_betaL", "AF4_betaH", "AF4_gamma"].join(",")
-
-        const data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-
-        const date = new Date()
-
-        const file = new File([[headers, data].join("\r\n")], `${(date.getDate()).toString().padStart(2, "0")}-${(1+date.getMonth()).toString().padStart(2, "0")}-${date.getFullYear()}_${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}.csv`, {type: "text/csv"})
-
-        saveAs(file, file.name)
-      }
-
-
-    </script>
-    <style media="screen">
-      body {
-        font-family: 'Open Sans', sans-serif;
-        height: 100vh;
-        width: 100vw;
-        margin: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-image: url(bg.png);
-        background-position: center;
-        background-size: cover;
-        flex-direction: column;
-        overflow: hidden;
-      }
-      button {
-        min-width: 160px;
-        display: inline-block;
-        font-weight: 400;
-        line-height: 1.25;
-        text-align: center;
-        white-space: nowrap;
-        vertical-align: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        border: 1px solid transparent;
-        padding: .5rem 1rem;
-        font-size: 1rem;
-        border-radius: .25rem;
-        -webkit-transition: all .2s ease-in-out;
-        -o-transition: all .2s ease-in-out;
-        transition: all .2s ease-in-out;
-        color: #fff;
-        background-color: #5bc0de;
-        border-color: #5bc0de;
-        cursor: pointer;
-        filter: grayscale(1);
-      }
-      .homeButton{
-        position: fixed;
-        left: 10px;
-        top: 0;
-        margin-bottom: 10px;
-        margin-top: 10px;
-      }
-      .charts {
-        max-width: 90vw;
-        max-height: 90vh;
-      }
-      .controls {
-        display: flex;
-        max-width: 80vw;
-        width: 100%;
-        justify-content: space-between;
-      }
-      .controls > div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      .flex {
-        display: flex;
-        align-items: center;
-      }
-      .flex > * {
-        margin: 5px;
-      }
-    </style>
+    <script src="./js/charts.js"></script>
+    <script src="./js/script.js"></script>
   </body>
 </html>

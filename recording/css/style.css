@@ -1,0 +1,112 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url(./../bg.png);
+  background-position: center;
+  background-size: cover;
+  flex-direction: row;
+  overflow: hidden;
+}
+button {
+  min-width: 160px;
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.25;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: .5rem 1rem;
+  font-size: 1rem;
+  border-radius: .25rem;
+  -webkit-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+  color: #fff;
+  background-color: #5bc0de;
+  border-color: #5bc0de;
+  cursor: pointer;
+  filter: grayscale(1);
+}
+.homeButton{
+  position: fixed;
+  left: 10px;
+  top: 0;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+.charts {
+  width: 100%;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+
+.flex {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.flex > * {
+  margin: 5px;
+}
+[name="duration"], [name="iteration"] {
+  width: 100px;
+}
+.logs {
+  font-size: 0.7rem;
+  overflow-y: auto;
+  margin: 4px;
+}
+
+.badge {
+  margin-right: 4px;
+}
+
+.wrapper, .logs {
+  height: 80vh;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-group {
+  width: auto;
+}
+.controls {
+  display: flex;
+  justify-content: flex-start;
+}
+.nav {
+  width: 100%;
+  text-align: center;
+}
+
+.nav > * {
+  flex-grow: 1;
+}
+
+
+[role="tab"] {
+  color: inherit;
+  text-decoration: none;
+}
+[role="tab"]:hover {
+  text-decoration: none;
+}
+[role="tab"].active {
+  color: #007bff;
+}
