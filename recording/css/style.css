@@ -101,6 +101,9 @@ button {
 .nav > * {
   flex-grow: 1;
 }
+#cmatrix {
+  transform: scale(4);
+}
 
 
 [role="tab"] {

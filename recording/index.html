@@ -60,7 +60,7 @@
           <button type="button" name="record" onclick="record()">Enregistrer</button>
         </div>
         <div class="input-group">
-          <button type="button" name="read" onclick="read()">Lire</button>
+          <button type="button" name="read" onclick="listen()">Ecouter</button>
         </div>
         <div class="input-group">
           <button type="button" name="export" onclick="download()">Exporter</button>
@@ -75,6 +75,8 @@
         <div class="tab-pane" id="tab_dev" aria-labelledby="tab_dev" role="tabpanel"><canvas id="chart_dev"></canvas></div>
       </div>
     </div>
+
+    <canvas id="cmatrix" width="25" height="25" style="position:fixed;bottom:0;left:0"></canvas>
 
     <script src="./js/charts.js"></script>
     <script src="./js/script.js"></script>
