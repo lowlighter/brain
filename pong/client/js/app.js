@@ -35,7 +35,7 @@ function updateTrainingText(){
 function startTraining(){
 	console.log("hello");
 	document.querySelector("#trainingButton").disabled = true;
-	ws.send(JSON.stringify({ "method" :"training", "action" : actionList[actionIndex], "status" : "start"}));
+	ws.send(JSON.stringify({ "action" :"training", "trainingAction" : actionList[actionIndex], "status" : "start"}));
 }
 
 function startTimer(){
@@ -51,9 +51,9 @@ function startTimer(){
 			clearInterval(timerInterval);
 
 			if (confirm('Do you accept the training?')) {
-				ws.send(JSON.stringify({ "method" :"training", "action" : actionList[actionIndex], "status" : "accept"}));
+				ws.send(JSON.stringify({ "action" :"training", "trainingAction" : actionList[actionIndex], "status" : "accept"}));
 			} else {
-				ws.send(JSON.stringify({ "method" :"training", "action" : actionList[actionIndex], "status" : "reject"}));
+				ws.send(JSON.stringify({ "action" :"training", "trainingAction" : actionList[actionIndex], "status" : "reject"}));
 			}
 		}
 	}, 1000);

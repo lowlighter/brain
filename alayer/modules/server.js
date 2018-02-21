@@ -41,6 +41,9 @@
           ws.on('message', data => {
             const parsed = JSON.parse(data)
             switch (parsed.action) {
+              case "training":
+                console.log(parsed.trainingAction, parsed.status);
+                break;
               case "parrotStart":
                 parrot(callbacks, wss)
                 break;
