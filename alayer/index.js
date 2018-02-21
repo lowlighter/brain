@@ -14,7 +14,10 @@
 
 
 //Cortex API
-  const connection = require('./modules/connection')(status, callbacks)
+  const client = require('./modules/connection')(status, callbacks).then(d => {
+    server.client(d.client, d.sid)  
+  })
+  
 
 //Global Error Handling
   process.on('uncaughtException', error => {

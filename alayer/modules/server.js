@@ -4,6 +4,7 @@
   const WebSocket = require('ws')
   const wss = new WebSocket.Server({port:3001})
   const parrot = require('../../parrot/index')
+  let client = null, sid = null
 
 //Callbacks list
   const callbacks = {
@@ -42,7 +43,13 @@
             const parsed = JSON.parse(data)
             switch (parsed.action) {
               case "training":
-                console.log(parsed.trainingAction, parsed.status);
+                client.call("training", {
+                  "_auth": client._auth,
+                  "detection": "mentalCommand",
+                  "session": sid(),
+                  "action": parsed.trainingAction,
+                  "status": parsed.status
+                }).then((a)=> console.log(a));
                 break;
               case "parrotStart":
                 parrot(callbacks, wss)
@@ -60,5 +67,5 @@
           });
       })
     //Callbacks
-      return {app, callbacks, wss}
+      return {app, callbacks, wss, client(c, s) { client = c ; sid = s }}
   }
