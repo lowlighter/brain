@@ -38,7 +38,7 @@
 
 
 //Exports
-  module.exports = function (hardware = ["INSIGHT-5A688E2E", "INSIGHT-5A688E44"]) {
+  module.exports = function (hardware) {
     status.init(hardware)
     return {status, callbacks(c) { callbacks = c }}
   }
