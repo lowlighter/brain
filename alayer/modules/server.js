@@ -29,6 +29,8 @@
       app.use('/miscelleanous', express.static(path.join(__dirname, '../../miscelleanous/imgs')))
       app.use('/parrot', express.static(path.join(__dirname, '../../parrot')))
       app.use('/recording', express.static(path.join(__dirname, '../../recording')))
+      app.use('/training', express.static(path.join(__dirname, '../../training')))
+      app.use('/static', express.static(path.join(__dirname, '../../miscelleanous/static')))
       app.use('/', express.static(path.join(__dirname, './../client')))
 
       app.listen(3000, () => { status.server = true ; status.socket = 0 })
