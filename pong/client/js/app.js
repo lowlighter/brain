@@ -1,28 +1,59 @@
 const actionList = ["neutral", "left", "right"];
 
 let actionIndex = 0;
+let timerInterval;
 
-
-const learningTime = 10;
+const learningTime = 8;
+let timerText;
 
 const ws = new WebSocket('ws://localhost:3001');
-ws.onmessage = (message) => {
-	const data = JSON.parse(event.data)
-	const type = data.shift()
 
+function createTable(){
+	let trainingTable = document.querySelector(".training-table")
+	let table = "<table class='table table-stripped'><thead><tr><th>Action</th><th>Start</th></tr></thead>"
+
+	for (let i = 0; i < actionList.length; i++){
+		table += "<tr><th>";
+		table += actionList[i];
+		table += "</th><th>";
+		table += "<button onClick=startTraining(" + i + ")>Start</button>"
+		table += "</th></tr>"
+	}
+
+	table+="</table>"
+	trainingTable.innerHTML = table
+}
+
+$(document).ready(function (){
+	createTable();
+});
+
+ws.onmessage = (message) => {
+	const data = JSON.parse(message.data)
+	const type = data.shift()
+	if(type == "com"){
+		console.log(data)
+	}
 	if(type == "sys"){
+		console.log(data)
 		let receiveStatus;
-		if(message.data.includes("start")){
+		if(data[1].includes("MC_Started")){
 			receiveStatus = 0;
 			startTimer();
 		}
-		if(message.data.includes("accept")){
+		if(data[1].includes("MC_Succeeded")){
+			clearInterval(timerInterval);
+			if (confirm('Do you accept the training?')) {
+				ws.send(JSON.stringify({ "action" :"training", "trainingAction" : actionList[actionIndex], "status" : "accept"}));
+			} else {
+				ws.send(JSON.stringify({ "action" :"training", "trainingAction" : actionList[actionIndex], "status" : "reject"}));
+			}
+		}
+		if(data[1].includes("MC_Completed")){
 			receiveStatus = 1;
-			actionIndex++;
-			document.querySelector("#trainingButton").disabled = false;
 			updateTrainingText();
 		}
-		if(message.data.includes("reject")){
+		if(data[1].includes("MC_Failed")){
 			receiveStatus = 2;
 		}
 
@@ -33,34 +64,27 @@ ws.onmessage = (message) => {
 }
 
 function updateTrainingText(){
-	document.querySelector("trainingText").innerHTML = actionList[actionIndex];
+	document.querySelector("#trainedAction").innerHTML = actionList[actionIndex];
 }
 
-function startTraining(){
-	console.log("hello");
-	document.querySelector("#trainingButton").disabled = true;
-	ws.send(JSON.stringify({ "action" :"training", "trainingAction" : actionList[actionIndex], "status" : "start"}));
+function startTraining(index){
+	actionIndex = index;
+	updateTrainingText();
+	ws.send(JSON.stringify({ "action" :"training", "trainingAction" : actionList[index], "status" : "start"}));
 
 }
 
 function startTimer(){
 	let timeLeft = learningTime;
-	let timerText = document.querySelector("#timer");
+	timerText = document.querySelector("#timer");
 	timerText.innerHTML = timeLeft + "";
 
-	let timerInterval = setInterval(() => {
+	timerInterval = setInterval(() => {
 		if(timeLeft >0){
 			timeLeft--;
 			timerText.innerHTML = timeLeft + "";
 		}else{
 			clearInterval(timerInterval);
-
-			if (confirm('Do you accept the training?')) {
-				ws.send(JSON.stringify({ "action" :"training", "trainingAction" : actionList[actionIndex], "status" : "accept"}));
-			} else {
-				ws.send(JSON.stringify({ "action" :"training", "trainingAction" : actionList[actionIndex], "status" : "reject"}));
-
-			}
 		}
 	}, 1000);
 
