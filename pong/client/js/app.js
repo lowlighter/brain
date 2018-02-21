@@ -1,4 +1,4 @@
-const actionList = ["neutral", "left", "right"];
+const actionList = ["neutral", "push", "pull", "left", "right"];
 
 let actionIndex = 0;
 let timerInterval;
@@ -10,13 +10,13 @@ const ws = new WebSocket('ws://localhost:3001');
 
 function createTable(){
 	let trainingTable = document.querySelector(".training-table")
-	let table = "<table class='table table-stripped'><thead><tr><th>Action</th><th>Start</th></tr></thead>"
+	let table = "<table class='table table-stripped'><thead><tr><th>Action</th><th>Start</th><th>Reset</th></tr></thead>"
 
 	for (let i = 0; i < actionList.length; i++){
 		table += "<tr><th>";
 		table += actionList[i];
 		table += "</th><th>";
-		table += "<button onClick=startTraining(" + i + ")>Start</button>"
+		table += "<button onClick=startTraining(" + i + ")>Start</button>"+"<th><button onClick=resetTraining(" + i + ")>Reset</button>"
 		table += "</th></tr>"
 	}
 
@@ -32,7 +32,8 @@ ws.onmessage = (message) => {
 	const data = JSON.parse(message.data)
 	const type = data.shift()
 	if(type == "com"){
-		console.log(data)
+		document.querySelector("#trainResult").innerHTML = data[0]
+		document.querySelector("#trainPourcentage").innerHTML = data[1]
 	}
 	if(type == "sys"){
 		console.log(data)
@@ -54,6 +55,7 @@ ws.onmessage = (message) => {
 			updateTrainingText();
 		}
 		if(data[1].includes("MC_Failed")){
+			alert("training failed");
 			receiveStatus = 2;
 		}
 
@@ -73,6 +75,13 @@ function startTraining(index){
 	ws.send(JSON.stringify({ "action" :"training", "trainingAction" : actionList[index], "status" : "start"}));
 
 }
+
+function resetTraining(index){
+	actionIndex = index;
+	ws.send(JSON.stringify({ "action" :"training", "trainingAction" : actionList[index], "status" : "reset"}));
+
+}
+
 
 function startTimer(){
 	let timeLeft = learningTime;
