@@ -4,6 +4,7 @@
   const WebSocket = require('ws')
   const wss = new WebSocket.Server({port:3001})
   const parrot = require('../../parrot/index')
+  let client = null, sid = null
 
 //Callbacks list
   const callbacks = {
@@ -13,7 +14,9 @@
     mot:[event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['mot', ...event.mot])) })],
     sys:[event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['sys', ...event.sys])) })],
     met:[event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['met', ...event.met])) })],
-    hdw:[event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['hdw', ...event.hdw])) })]
+    hdw:[event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['hdw', ...event.hdw])) })],
+    com:[event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['com', ...event.com])) })],
+
   }
 
 //Exports
@@ -26,6 +29,8 @@
       app.use('/miscelleanous', express.static(path.join(__dirname, '../../miscelleanous/imgs')))
       app.use('/parrot', express.static(path.join(__dirname, '../../parrot')))
       app.use('/recording', express.static(path.join(__dirname, '../../recording')))
+      app.use('/training', express.static(path.join(__dirname, '../../training')))
+      app.use('/static', express.static(path.join(__dirname, '../../miscelleanous/static')))
       app.use('/', express.static(path.join(__dirname, './../client')))
 
       app.listen(3000, () => { status.server = true ; status.socket = 0 })
@@ -41,6 +46,15 @@
           ws.on('message', data => {
             const parsed = JSON.parse(data)
             switch (parsed.action) {
+              case "training":
+                client.call("training", {
+                  "_auth": client._auth,
+                  "detection": "mentalCommand",
+                  "session": sid(),
+                  "action": parsed.trainingAction,
+                  "status": parsed.status
+                }).then((a)=> console.log(a));
+                break;
               case "parrotStart":
                 parrot(callbacks, wss)
                 break;
@@ -57,5 +71,5 @@
           });
       })
     //Callbacks
-      return {app, callbacks, wss}
+      return {app, callbacks, wss, client(c, s) { client = c ; sid = s }}
   }
