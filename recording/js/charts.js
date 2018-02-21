@@ -7,11 +7,6 @@ document.querySelectorAll(".charts canvas").forEach(chart => {
         datasets:[]
       },
       options:{
-        title:{
-          display:true,
-          fontSize:20,
-          text:chart.id
-        },
         scales: {
           yAxes: [{
             display: true,
