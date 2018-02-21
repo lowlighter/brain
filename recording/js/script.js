@@ -65,6 +65,10 @@
         //Mise à jour
           chart.update()
       }
+    //
+      if (recorded.pow) {
+        drawMatrix()
+      }
     //Download current data and go to next record
       if (t > record.duration) {
         download()
@@ -123,8 +127,9 @@
   record.iterations_init = 0
 
 //Lecture simple
-  function read() {
+  function listen() {
     record.stopped = false
+    initCharts()
   }
 
 //Téléchargement
@@ -177,4 +182,42 @@
   window.onload = function () {
     initCharts()
     updateCharts.start()
+  }
+
+
+//Average
+  function average(a) {
+  	return parseFloat((a.reduce((w, v) => w + v, 0)/a.length).toFixed(8))
+  }
+
+//Correlation
+  function correlation(a, b) {
+  	const length = a.length, n = length - 1
+  	const averages = {a:average(a), b:average(b), sum:0}
+  	let sx = 0, sy = 0
+  	for (let i = 0; i < length; i++) {
+  		const x = a[i] - averages.a
+  		const y = b[i] - averages.b
+  		averages.sum += (x * y)
+  		sx += (x ** 2)
+  		sy += (y ** 2)
+  	}
+  	sx = Math.sqrt(sx / n)
+  	sy = Math.sqrt(sy / n)
+  	return parseFloat((averages.sum / (n * sx * sy)).toFixed(8))
+  }
+
+  function drawMatrix() {
+    const c = document.getElementById("cmatrix")
+    const ctx = c.getContext("2d")
+
+    ctx.putImageData(drawMatrix.data, 0, 0)
+  }
+  drawMatrix.data = new ImageData(25, 25)
+  for (let i = 3; i < drawMatrix.data.data.length; i+=4) {
+    drawMatrix.data.data[i] = 255
+  }
+
+  for (let i = 0; i < drawMatrix.data.data.length; i+=4) {
+    drawMatrix.data.data[i] = 255
   }
