@@ -4,19 +4,18 @@ var dice, eye1, eye2, mouth, brow1, brow2;
 var t_brow_L, t_brow_R, t_eye_L, t_eye_R, t_eye_L_closed, t_eye_R_closed, t_mouth, t_mouth_open;
 var face, head;
 var ts;
-var counter;
-var firstMessage = true;
-
+var counter = -1;
 // Connection
 const ws = new WebSocket('ws://localhost:3001');
 ws.onmessage = event => {
-	//console.log(event.data)
-
-	if (firstMessage){ counter = -1; firstMessage = false; }
-	else { counter = 100; }
 
 	const data = JSON.parse(event.data)
 	const type = data.shift()
+	if(type === "hdw"){
+		if (data[1]){
+				counter = 100;
+		}
+	}
 	if (type === "getId") {
 		console.log(data)
 	}
@@ -173,6 +172,7 @@ function init(){
 
 // Render
 function animate() {
+	//console.log(counter);
   ts = Math.round( (new Date).getTime()/1000 *100 )/100;
 	requestAnimationFrame( animate );
 
@@ -186,7 +186,7 @@ function animate() {
 	// Standard animations
   standbyAnimation();
 	cameraAnimation();
-	if(!firstMessage){ renderer.render( scene, camera ); }
+	renderer.render( scene, camera );
 }
 
 // Animations
