@@ -7,24 +7,28 @@ const learningTime = 10;
 
 const ws = new WebSocket('ws://localhost:3001');
 ws.onmessage = (message) => {
-	console.log(message.data);
-	let receiveStatus;
-	if(message.data.includes("start")){
-		receiveStatus = 0;
-		startTimer();
-	}
-	if(message.data.includes("accept")){
-		receiveStatus = 1;
-		actionIndex++;
-		document.querySelector("#trainingButton").disabled = false;
-		updateTrainingText();
-	}
-	if(message.data.includes("reject")){
-		receiveStatus = 2;
-	}
+	const data = JSON.parse(event.data)
+	const type = data.shift()
 
-	if(actionIndex == 0){
-		console.log("neutral", receiveStatus);
+	if(type == "sys"){
+		let receiveStatus;
+		if(message.data.includes("start")){
+			receiveStatus = 0;
+			startTimer();
+		}
+		if(message.data.includes("accept")){
+			receiveStatus = 1;
+			actionIndex++;
+			document.querySelector("#trainingButton").disabled = false;
+			updateTrainingText();
+		}
+		if(message.data.includes("reject")){
+			receiveStatus = 2;
+		}
+
+		if(actionIndex == 0){
+			console.log("neutral", receiveStatus);
+		}
 	}
 }
 
@@ -36,6 +40,7 @@ function startTraining(){
 	console.log("hello");
 	document.querySelector("#trainingButton").disabled = true;
 	ws.send(JSON.stringify({ "action" :"training", "trainingAction" : actionList[actionIndex], "status" : "start"}));
+
 }
 
 function startTimer(){
@@ -54,6 +59,7 @@ function startTimer(){
 				ws.send(JSON.stringify({ "action" :"training", "trainingAction" : actionList[actionIndex], "status" : "accept"}));
 			} else {
 				ws.send(JSON.stringify({ "action" :"training", "trainingAction" : actionList[actionIndex], "status" : "reject"}));
+
 			}
 		}
 	}, 1000);

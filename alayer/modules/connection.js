@@ -3,7 +3,7 @@
 
 //Cortex API
   let callbacks = null
-  let status = {}, interval = null
+  let status = {}, interval = null, sid = null
   function connect(client) {
     clearInterval(interval)
     status.connect = !status.connect
@@ -21,6 +21,7 @@
       .createSession({status:'open'/*, headset:hardware[0]*/})
       .subscribe({streams:['fac', 'dev', 'pow', 'mot', 'sys', 'met']})
       .then(subs => {
+          sid = subs.sid
           if ((!subs[0].fac)||(!subs[1].dev)||(!subs[2].pow)||(!subs[3].mot)||(!subs[4].sys)||(!subs[5].met)) throw new Error("Couldn't subscribe to required channels")
           client.on('fac', event => callbacks.fac.forEach(callback => callback(event)))
           client.on('dev', event => callbacks.dev.forEach(callback => callback(event)))
@@ -36,8 +37,11 @@
     callbacks = _callbacks
     status = state
     const client = new Cortex({verbose:1, threshold:0})
-    client.ready.then(() => {
-      client.init()
-      connect(client)
+    return new Promise((solve, reject) => {
+        client.ready.then(() => {
+        client.init()
+        connect(client)
+        solve({client, sid() { return sid }})
+      })
     })
   }
