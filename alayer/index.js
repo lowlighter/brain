@@ -2,7 +2,7 @@
   process.stdout.write('\x1Bc')
 
 //Hardware and status
-  const hardware = process.env.npm_package_config_hardware
+  const hardware = process.env.npm_package_config_hardware||["INSIGHT-5A688E2E", "INSIGHT-5A688E44"]
   const logger = require('./modules/status')(hardware)
   const status = logger.status
 
@@ -14,7 +14,7 @@
 
 
 //Cortex API
-  const connection = require('./modules/connection')(status, callbacks)
+  const connection = require('./modules/connection')(status, callbacks, hardware)
 
 //Global Error Handling
   process.on('uncaughtException', error => {

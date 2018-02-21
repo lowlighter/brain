@@ -3,7 +3,7 @@
 
 //Cortex API
   let callbacks = null
-  let status = {}, interval = null
+  let status = {}, interval = null, hardware = []
   function connect(client) {
     clearInterval(interval)
     status.connect = !status.connect
@@ -28,12 +28,16 @@
           client.on('mot', event => callbacks.mot.forEach(callback => callback(event)))
           client.on('sys', event => callbacks.sys.forEach(callback => callback(event)))
           client.on('met', event => callbacks.met.forEach(callback => callback(event)))
-      }).catch(error => null)
+      }).catch(error => {
+        console.log(error)
+        setTimeout(() => connected(client, headsets), 1000)
+      })
   }
 
 //Exports
-  module.exports = function (state, _callbacks) {
+  module.exports = function (state, _callbacks, _hardware) {
     callbacks = _callbacks
+    hardware = _hardware
     status = state
     const client = new Cortex({verbose:1, threshold:0})
     client.ready.then(() => {
