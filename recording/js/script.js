@@ -68,9 +68,14 @@
     //Download current data and go to next record
       if (t > record.duration) {
         download()
-        if (--record.iterations <= 0) { record.stopped = true }
-        else { record(true) }
-        document.querySelector("[name=iteration]").value = record.iterations
+        if (--record.iterations <= 0) {
+          record.stopped = true
+          record(false, true)
+        }
+        else {
+          record(true)
+          document.querySelector("[name=iteration]").value = record.iterations
+        }
       }
   }
   updateCharts.interval = null
@@ -81,7 +86,7 @@
 
 
 //Record function
-  function record(next = false) {
+  function record(next = false, restore = false) {
     if (next) {
       initCharts()
     }
@@ -90,18 +95,23 @@
         record.recording = false
         record.stopped = true
         record.duration = Infinity
-        document.querySelectorAll("[name=duration], [name=iteration]").forEach(n => n.disabled = false)
+        document.querySelectorAll("[name=duration], [name=iteration], [name=frequency]").forEach(n => n.disabled = false)
         document.querySelector("[name=record]").innerHTML = "Enregistrer"
+        if (restore) {
+          document.querySelector("[name=duration]").value = Number.isFinite(record.duration) ? record.duration : 5
+          document.querySelector("[name=iteration]").value = record.iterations_init
+        }
     } else {
       //Démarre un enregistrement
         record.data = []
         record.recording = true
         record.stopped = false
-        document.querySelectorAll("[name=duration], [name=iteration]").forEach(n => n.disabled = true)
+        document.querySelectorAll("[name=duration], [name=iteration], [name=frequency]").forEach(n => n.disabled = true)
         document.querySelector("[name=record]").innerHTML = "Stopper"
       //Réinitialise les graphes et récupère les paramètres
         initCharts()
         record.duration = parseInt(document.querySelector("[name=duration]").value)*1000
+        record.iterations_init = parseInt(document.querySelector("[name=iteration]").value)
         record.iterations = parseInt(document.querySelector("[name=iteration]").value)
     }
   }
@@ -110,6 +120,12 @@
   record.stopped = false
   record.duration = Infinity
   record.iterations = 0
+  record.iterations_init = 0
+
+//Lecture simple
+  function read() {
+    record.stopped = false
+  }
 
 //Téléchargement
   function download() {

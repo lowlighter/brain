@@ -46,8 +46,8 @@ button {
 }
 .charts {
   width: 100%;
-  max-width: 90vw;
-  max-height: 90vh;
+  max-width: 95vw;
+  max-height: 95vh;
 }
 
 
@@ -87,10 +87,13 @@ button {
   width: auto;
 }
 .controls {
+  min-height: 34px;
+  max-width: 95vw;
   display: flex;
   justify-content: flex-start;
 }
 .nav {
+  min-height: 34px;
   width: 100%;
   text-align: center;
 }
