@@ -4,23 +4,22 @@
   const WebSocket = require('ws')
   const wss = new WebSocket.Server({port:3001})
   const parrot = require('../../parrot/index')
-  let client = null, sid = null
+  let client = null, sid = null, rws = null
 
 //Callbacks list
   const callbacks = {
-    fac:[event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['fac', ...event.fac])) })],
-    dev:[event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['dev', ...event.dev])) })],
-    pow:[event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['pow', ...event.pow])) })],
-    mot:[event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['mot', ...event.mot])) })],
-    sys:[event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['sys', ...event.sys])) })],
-    met:[event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['met', ...event.met])) })],
-    hdw:[event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['hdw', ...event.hdw])) })],
-    com:[event => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['com', ...event.com])) })],
-
+    fac:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['fac'/*, headset*/, ...event.fac])) })],
+    dev:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['dev'/*, headset*/, ...event.dev])) })],
+    pow:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['pow'/*, headset*/, ...event.pow])) })],
+    mot:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['mot'/*, headset*/, ...event.mot])) })],
+    sys:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['sys'/*, headset*/, ...event.sys])) })],
+    met:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['met'/*, headset*/, ...event.met])) })],
+    hdw:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['hdw'/*, headset*/, ...event.hdw])) })],
+    com:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['com'/*, headset*/, ...event.com])) })],
   }
 
 //Exports
-  module.exports = function (app, status) {
+  module.exports = function (app, status, remote) {
     //Static server
       app.use('/battle1', express.static(path.join(__dirname, '../../battle1')))
       app.use('/emotions', express.static(path.join(__dirname, '../../emotions')))
@@ -34,6 +33,15 @@
       app.use('/', express.static(path.join(__dirname, './../client')))
 
       app.listen(3000, () => { status.server = true ; status.socket = 0 })
+
+    //Send received data from another server which is connected to headsets to the clients
+      if (remote) {
+          rws = new WebSocket(`ws://${remote}`)
+          rws.on("open", () => status.remote = true)
+          rws.on("error", () => status.remote = false)
+          rws.on("close", () => status.remote = false)
+          rws.on("message", data => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(data) }))
+      }
 
     //WebSockets
       wss.on('connection', ws => {
@@ -71,5 +79,5 @@
           });
       })
     //Callbacks
-      return {app, callbacks, wss, client(c, s) { client = c ; sid = s }}
+      return {app, callbacks, wss, rws, client(c, s) { client = c ; sid = s }}
   }
