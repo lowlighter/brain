@@ -17,19 +17,20 @@
 //Connected to Cortex API
   function connected(client, headsets) {
     interval = setInterval(() => client.queryHeadsets().then(headsets => status.headsets = headsets.map(h => h.id.toLocaleUpperCase())), 1000)
+    //TODO : Create a session for each headset
     client
       .createSession({status:'open'/*, headset:hardware[0]*/})
       .subscribe({streams:['fac', 'dev', 'pow', 'mot', 'sys', 'met', 'com']})
       .then(subs => {
           sid = subs.sid
           if ((!subs[0].fac)||(!subs[1].dev)||(!subs[2].pow)||(!subs[3].mot)||(!subs[4].sys)||(!subs[5].met)) throw new Error("Couldn't subscribe to required channels")
-          client.on('fac', event => callbacks.fac.forEach(callback => callback(event)))
-          client.on('dev', event => callbacks.dev.forEach(callback => callback(event)))
-          client.on('pow', event => callbacks.pow.forEach(callback => callback(event)))
-          client.on('mot', event => callbacks.mot.forEach(callback => callback(event)))
-          client.on('sys', event => callbacks.sys.forEach(callback => callback(event)))
-          client.on('met', event => callbacks.met.forEach(callback => callback(event)))
-          client.on('com', event => callbacks.com.forEach(callback => callback(event)))
+          client.on('fac', event => callbacks.fac.forEach(callback => callback(event, subs.headset.id)))
+          client.on('dev', event => callbacks.dev.forEach(callback => callback(event, subs.headset.id)))
+          client.on('pow', event => callbacks.pow.forEach(callback => callback(event, subs.headset.id)))
+          client.on('mot', event => callbacks.mot.forEach(callback => callback(event, subs.headset.id)))
+          client.on('sys', event => callbacks.sys.forEach(callback => callback(event, subs.headset.id)))
+          client.on('met', event => callbacks.met.forEach(callback => callback(event, subs.headset.id)))
+          client.on('com', event => callbacks.com.forEach(callback => callback(event, subs.headset.id)))
       }).catch(error => {
         console.log(error)
         setTimeout(() => connected(client, headsets), 1000)
