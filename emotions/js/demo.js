@@ -355,6 +355,7 @@
       if (!trackingStarted) return null
       const data = JSON.parse(event.data)
       const type = data.shift()
+      const headset = data.shift()
       if (type === "dev") {
         document.getElementById("signal-strength").innerHTML = (data[2].reduce((w, v) => w + v)/5/4).toFixed(2)
       } else if (type === "pow") {

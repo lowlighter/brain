@@ -184,9 +184,9 @@
           document.getElementById("signal-strength").innerHTML = (data[2].reduce((w, v) => w + v)/5/4).toFixed(2)
         }
         if (type === "hdw") {
-          document.getElementById("p1").style.opacity = data[0] ? 1 : 0.1
-          document.getElementById("p2").style.opacity = data[1] ? 1 : 0.1
-          document.getElementById("parrot").style.opacity = data[2] ? 1 : 0.1
+          document.getElementById("p1").style.opacity = data[1] ? 1 : 0.1
+          document.getElementById("p2").style.opacity = data[2] ? 1 : 0.1
+          document.getElementById("parrot").style.opacity = data[3] ? 1 : 0.1
         }
       }
 

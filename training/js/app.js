@@ -31,6 +31,7 @@ $(document).ready(function (){
 ws.onmessage = (message) => {
 	const data = JSON.parse(message.data)
 	const type = data.shift()
+	const headset = data.shift()
 	if(type == "com"){
 		document.querySelector("#trainResult").innerHTML = data[0]
 		document.querySelector("#trainPourcentage").innerHTML = data[1]

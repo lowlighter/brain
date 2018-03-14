@@ -11,9 +11,9 @@
 			justify-content: center;
 		}
 		div {
-			margin: 2%;	
+			margin: 2%;
 			padding: 2%;
-			width: 20%;	
+			width: 20%;
 			border: 1px solid black;
 			background-color: #ccc;
 			color: white;
@@ -76,6 +76,7 @@
 			const data = JSON.parse(event.data)
 			// debugger
 			const type = data.shift()
+			const headset = data.shift()
 			if(type === 'action') {
 				const action = data[0]
 				if (x++ %100 == 0) console.log(action)
@@ -100,7 +101,7 @@
 				}
 			}
 		}
-		ws.onopen = () => { 
+		ws.onopen = () => {
 			ws.send(JSON.stringify({
 				action:"setId",
 				id:Math.floor(Date.now()*10000*Math.random())
