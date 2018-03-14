@@ -9,7 +9,7 @@
     status.connect = !status.connect
     client.queryHeadsets().then(headsets => {
       status.headsets = headsets.map(h => h.id.toLocaleUpperCase())
-      console.log(status.headsets)
+      //console.log(status.headsets)
       if (headsets.length) connected(client, headsets)
       //try { client.createSession({status: 'open'}).then(() => null).catch(e => null) } catch (e) {}
       setTimeout(() => connect(client), 1000)
@@ -21,7 +21,7 @@
     //TODO : Create a session for each headset
     headsets.forEach(headset => {
       if (connected.headsets.has(headset.id)) return null
-      console.log("CREATE SESSION "+headset.id)
+      //console.log("CREATE SESSION "+headset.id)
       connected.headsets.add(headset.id)
       client
         .createSession({status:'open', headset:headset.id})
