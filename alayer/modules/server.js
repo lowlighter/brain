@@ -8,14 +8,14 @@
 
 //Callbacks list
   const callbacks = {
-    fac:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['fac'/*, headset*/, ...event.fac])) })],
-    dev:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['dev'/*, headset*/, ...event.dev])) })],
-    pow:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['pow'/*, headset*/, ...event.pow])) })],
-    mot:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['mot'/*, headset*/, ...event.mot])) })],
-    sys:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['sys'/*, headset*/, ...event.sys])) })],
-    met:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['met'/*, headset*/, ...event.met])) })],
-    hdw:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['hdw'/*, headset*/, ...event.hdw])) })],
-    com:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['com'/*, headset*/, ...event.com])) })],
+    fac:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['fac', headset, ...event.fac])) })],
+    dev:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['dev', headset, ...event.dev])) })],
+    pow:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['pow', headset, ...event.pow])) })],
+    mot:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['mot', headset, ...event.mot])) })],
+    sys:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['sys', headset, ...event.sys])) })],
+    met:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['met', headset, ...event.met])) })],
+    hdw:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['hdw', headset, ...event.hdw])) })],
+    com:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['com', headset, ...event.com])) })],
   }
 
 //Exports
