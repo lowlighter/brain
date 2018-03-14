@@ -11,6 +11,7 @@ ws.onmessage = event => {
 
 	const data = JSON.parse(event.data)
 	const type = data.shift()
+	const headset = data.shift()
 	if(type === "hdw"){
 		if (data[1]){
 				counter = 100;

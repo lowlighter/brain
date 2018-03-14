@@ -128,6 +128,7 @@
         ws.onmessage = event => {
           const data = JSON.parse(event.data)
           const type = data.shift()
+          const headset = data.shift()
           if ((type === "pow")&&(window.update)) {
             let a = Math.log10(data.reduce((w, v) => w + v))
             console.log(a)

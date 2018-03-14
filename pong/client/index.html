@@ -149,6 +149,7 @@
       //console.log(event.data)
       const data = JSON.parse(event.data)
       const type = data.shift()
+      const headset = data.shift()
       if (type === "mot") {
           if (player1) { player1.y.current = data[1] ; player1.update() }
           if (player2) { /* TODO */ }
