@@ -33,7 +33,7 @@
       let headset = [`\x1b[${status.headsets.indexOf(status.hardware[0]) >= 0 ? 32 : 31}m${status.hardware[0].slice(-4)}\x1b[0m`, `\x1b[${status.headsets.indexOf(status.hardware[1]) >= 0 ? 32 : 31}m${status.hardware[1].slice(-4)}\x1b[0m`]
       let parrot = `\x1b[${status.parrot ? 32 : 31}m${(status.parrot_connected ? "Connected" : status.parrot ? "Available" : "Unavailable").padEnd(11)}\x1b[0m`
       process.stdout.write(`\r| ${c} | ${d} | ${rs} | ${server} | ${socket} | ${headset[0]} | ${headset[1]} | ${parrot} |`)
-      emitter.emit("event", {hdw:[status.headsets.indexOf(status.hardware[0]) >= 0, status.headsets.indexOf(status.hardware[1]) >= 0, status.parrot]})
+      emitter.emit("event", {hdw:[status.headsets.indexOf(status.hardware[0]) >= 0 ? status.hardware[0] : false, status.headsets.indexOf(status.hardware[1]) >= 0 ? status.hardware[1] : false, status.parrot]})
     }
   }
 
