@@ -6,7 +6,7 @@ let timerInterval;
 const learningTime = 8;
 let timerText;
 
-const ws = new WebSocket('ws://localhost:3001');
+const ws = new WebSocket(`ws://${window.location.href.match(/\d+\.\d+\.\d+\.\d+/)[0]}:3001`)
 
 function createTable(){
 	let trainingTable = document.querySelector(".training-table")

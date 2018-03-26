@@ -38,9 +38,12 @@
       if (remote) {
           rws = new WebSocket(`ws://${remote}`)
           rws.on("open", () => status.remote = true)
-          rws.on("error", () => status.remote = false)
+          rws.on("error", (e) =>{ console.log(e) ; status.remote = false})
           rws.on("close", () => status.remote = false)
-          rws.on("message", data => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(data) }))
+          rws.on("message", data => wss.clients.forEach(ws => {
+            console.log("DATA:"+data)
+            if (ws.readyState === WebSocket.OPEN) ws.send(data)
+          }))
       }
 
     //WebSockets

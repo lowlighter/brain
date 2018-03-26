@@ -174,7 +174,7 @@
     //Timeouts
       const timeouts = [null, null, null]
     //Websocket connection
-      const ws = new WebSocket("ws://localhost:3001")
+      const ws = new WebSocket(`ws://${window.location.href.match(/\d+\.\d+\.\d+\.\d+/)[0]}:3001`)
       ws.onmessage = event => {
         //console.log(event.data)
         const data = JSON.parse(event.data)
