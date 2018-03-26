@@ -12,7 +12,8 @@
         "start": "node app.js"
     },
     "dependencies": {
-        "node-wifi": "^2.0.4"
+        "node-wifi": "^2.0.4",
+        "npm": "^5.8.0"
     },
     "config": {
         "hardware": [
