@@ -1,9 +1,10 @@
 //Websocket connection
-  const ws = new WebSocket("ws://localhost:3001")
+  const ws = new WebSocket(`ws://${(window.location.href.match(/\d+\.\d+\.\d+\.\d+/)||["localhost"])[0]}:3001`)
   ws.onmessage = event => {
     //Data
       const d = JSON.parse(event.data)
       const type = d.shift()
+      const headset = d.shift()
     //
       if (type === "dev") document.getElementById("signal-strength").innerHTML = (d[2].reduce((w, v) => w + v)/5/4).toFixed(2)
       if (type !== "hdw") {

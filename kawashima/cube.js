@@ -6,11 +6,12 @@ var face, head;
 var ts;
 var counter = -1;
 // Connection
-const ws = new WebSocket('ws://localhost:3001');
+const ws = new WebSocket(`ws://${(window.location.href.match(/\d+\.\d+\.\d+\.\d+/)||["localhost"])[0]}:3001`)
 ws.onmessage = event => {
 
 	const data = JSON.parse(event.data)
 	const type = data.shift()
+	const headset = data.shift()
 	if(type === "hdw"){
 		if (data[1]){
 				counter = 100;

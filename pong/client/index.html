@@ -53,7 +53,6 @@
 
   </div>
   <a href="/"><button class="homeButton" type="button" name="button">Home</button></a>
-  <a href="training.html"><button class="homeButton" type="button" name="button" style="left:185px">Training</button></a>
   <canvas id="game">
     <div id="unsupported">
       Sorry, this example cannot be run because your browser does not support the &lt;canvas&gt; element
@@ -145,11 +144,12 @@
     }
 
   //Websocket connection
-    const ws = new WebSocket("ws://localhost:3001")
+    const ws = new WebSocket(`ws://${(window.location.href.match(/\d+\.\d+\.\d+\.\d+/)||["localhost"])[0]}:3001`)
     ws.onmessage = event => {
       //console.log(event.data)
       const data = JSON.parse(event.data)
       const type = data.shift()
+      const headset = data.shift()
       if (type === "mot") {
           if (player1) { player1.y.current = data[1] ; player1.update() }
           if (player2) { /* TODO */ }
