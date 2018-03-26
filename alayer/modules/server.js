@@ -36,6 +36,7 @@
 
     //Send received data from another server which is connected to headsets to the clients
       if (remote) {
+          console.log(`ws://${remote}`)
           rws = new WebSocket(`ws://${remote}`)
           rws.on("open", () => status.remote = true)
           rws.on("error", (e) =>{ console.log(e) ; status.remote = false})

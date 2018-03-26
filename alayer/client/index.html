@@ -174,14 +174,14 @@
     //Timeouts
       const timeouts = [null, null, null]
     //Websocket connection
-      const ws = new WebSocket(`ws://${window.location.href.match(/\d+\.\d+\.\d+\.\d+/)[0]}:3001`)
+      const ws = new WebSocket(`ws://${(window.location.href.match(/\d+\.\d+\.\d+\.\d+/)||["localhost"])[0]}:3001`)
       ws.onmessage = event => {
         //console.log(event.data)
         const data = JSON.parse(event.data)
         const type = data.shift()
         if (type === "dev") {
           connected(data)
-          document.getElementById("signal-strength").innerHTML = (data[2].reduce((w, v) => w + v)/5/4).toFixed(2)
+          if (data[2].reduce) document.getElementById("signal-strength").innerHTML = (data[2].reduce((w, v) => w + v)/5/4).toFixed(2)
         }
         if (type === "hdw") {
           document.getElementById("p1").style.opacity = data[1] ? 1 : 0.1

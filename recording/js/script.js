@@ -1,5 +1,5 @@
 //Websocket connection
-  const ws = new WebSocket(`ws://${window.location.href.match(/\d+\.\d+\.\d+\.\d+/)[0]}:3001`)
+  const ws = new WebSocket(`ws://${(window.location.href.match(/\d+\.\d+\.\d+\.\d+/)||["localhost"])[0]}:3001`)
   ws.onmessage = event => {
     //Data
       const d = JSON.parse(event.data)
