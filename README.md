@@ -5,13 +5,14 @@ Projet de M1 (semestre 2)
     * [A-Layer](https://github.com/lowlighter/brain/tree/master/alayer)
 * Etude du marché et des casques EEG
     * Casques plus performants à prix abordable
-* Reconnaissance des émotions
+* Reconnaissance des émotions et utilisation du casque
     * [Corrélation entre ML et EEG](https://github.com/lowlighter/brain/tree/master/emotions)
-    * Enregistrement de l'activité cérébrale
+    * [Enregistrement de l'activité cérébrale](https://github.com/lowlighter/brain/tree/master/recording)
+    * [Entraînement de commande cérébrales](https://github.com/lowlighter/brain/tree/master/training)
 * Démonstrateurs
     * [Pong](https://github.com/lowlighter/brain/tree/master/pong)
     * [Kawashima](https://github.com/lowlighter/brain/tree/master/kawashima)
-    * [Brain battle (v1)](https://github.com/lowlighter/brain/tree/master/battle)
+    * [Brain battle (v1)](https://github.com/lowlighter/brain/tree/master/battle1)
     * Brain battle (v2)
     * [Contrôle du drone Parrot](https://github.com/lowlighter/brain/tree/master/parrot)
     * Cube field
@@ -27,7 +28,18 @@ npm start
 Les dépendances de chaque module seront automatiquement ajoutées et le serveur principal sera également démarré.
 Ouvrez ensuite votre navigateur et rendez vous sur la page `localhost:3000`, où vous pourrez accéder à tous les démonstrateurs !
 
-*La machine doit être équipée de **NodeJS** et de **npm**.*
+*La machine doit être équipée de **NodeJS** de **npm** ainsi que de [**Cortex UI**](https://www.emotiv.com/developer/).*
+
+### Usage avancée
+Pour éviter de vérifier les dépendances de chaque modules, vous pouvez exécuter la commande suivante pour démarrer le serveur principal.
+```
+node alayer
+```
+
+Il est possible de connecter le serveur principal à un serveur déjà existant (afin de partager les données des éventuels casques connectés à chacun des serveurs) en utilisant l'argument `server` suivi de l'addresse ip du serveur distant.
+```
+node alayer server=127.0.0.0
+```
 
 ## Rapport continu
 [Lien vers le rapport](https://www.overleaf.com/13615904gxzjrcytrjpc#/52637951/).

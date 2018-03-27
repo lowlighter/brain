@@ -6,6 +6,14 @@ body{
   width: 100vw;
 }
 
+.homeButton{
+  position: fixed;
+  left: 10px;
+  top: 0;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
 .content {
   position: fixed;
   top:0;
