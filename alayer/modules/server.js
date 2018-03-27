@@ -19,7 +19,7 @@
   }
 
 //Exports
-  module.exports = function (app, status, remote) {
+  module.exports = function (app, status, remote, id) {
     //Static server
       app.use('/battle1', express.static(path.join(__dirname, '../../battle1')))
       app.use('/emotions', express.static(path.join(__dirname, '../../emotions')))
@@ -36,14 +36,14 @@
 
     //Send received data from another server which is connected to headsets to the clients
       if (remote) {
-          console.log(`ws://${remote}`)
-          rws = new WebSocket(`ws://${remote}`)
+          status.remote_ip = remote
+          rws = new WebSocket(`ws://${remote}:3001`)
           rws.on("open", () => status.remote = true)
-          rws.on("error", (e) =>{ console.log(e) ; status.remote = false})
+          rws.on("error", (e) => status.remote = false)
           rws.on("close", () => status.remote = false)
           rws.on("message", data => wss.clients.forEach(ws => {
-            console.log("DATA:"+data)
-            if (ws.readyState === WebSocket.OPEN) ws.send(data)
+            if (/^."hdw"/.test(data)) { let d = JSON.parse(data) ; status.remote_hdw = [d[2], d[3]]; return }
+            if ((ws.readyState === WebSocket.OPEN)&&(!data.includes(`#${id}`))) ws.send(data)
           }))
       }
 

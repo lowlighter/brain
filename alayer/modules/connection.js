@@ -3,7 +3,7 @@
 
 //Cortex API
   let callbacks = null
-  let status = {}, interval = null, sid = null, hardware = []
+  let status = {}, interval = null, sid = null, hardware = [], id = ""
   function connect(client) {
     clearInterval(interval)
     status.connect = !status.connect
@@ -20,7 +20,7 @@
   function connected(client, headsets) {
     //TODO : Create a session for each headset
     headsets.forEach(headset => {
-      if (connected.headsets.has(headset.id)) return null
+      if ((connected.headsets.has(headset.id))||(connected.headsets.size > 0)) return null
       //console.log("CREATE SESSION "+headset.id)
       connected.headsets.add(headset.id)
       client
@@ -29,13 +29,13 @@
         .then(subs => {
             sid = subs.sid
             if ((!subs[0].fac)||(!subs[1].dev)||(!subs[2].pow)||(!subs[3].mot)||(!subs[4].sys)||(!subs[5].met)) throw new Error("Couldn't subscribe to required channels")
-            client.on('fac', event => callbacks.fac.forEach(callback => callback(event, headset.id)))
-            client.on('dev', event => callbacks.dev.forEach(callback => callback(event, headset.id)))
-            client.on('pow', event => callbacks.pow.forEach(callback => callback(event, headset.id)))
-            client.on('mot', event => callbacks.mot.forEach(callback => callback(event, headset.id)))
-            client.on('sys', event => callbacks.sys.forEach(callback => callback(event, headset.id)))
-            client.on('met', event => callbacks.met.forEach(callback => callback(event, headset.id)))
-            client.on('com', event => callbacks.com.forEach(callback => callback(event, headset.id)))
+            client.on('fac', event => callbacks.fac.forEach(callback => callback(event, `${headset.id}#${id}`)))
+            client.on('dev', event => callbacks.dev.forEach(callback => callback(event, `${headset.id}#${id}`)))
+            client.on('pow', event => callbacks.pow.forEach(callback => callback(event, `${headset.id}#${id}`)))
+            client.on('mot', event => callbacks.mot.forEach(callback => callback(event, `${headset.id}#${id}`)))
+            client.on('sys', event => callbacks.sys.forEach(callback => callback(event, `${headset.id}#${id}`)))
+            client.on('met', event => callbacks.met.forEach(callback => callback(event, `${headset.id}#${id}`)))
+            client.on('com', event => callbacks.com.forEach(callback => callback(event, `${headset.id}#${id}`)))
         }).catch(error => {
           //console.log(error)
           connected.headsets.delete(headset.id)
@@ -46,9 +46,10 @@
   connected.headsets = new Set()
 
 //Exports
-  module.exports = function (state, _callbacks, _hardware) {
+  module.exports = function (state, _callbacks, _hardware, _id) {
     callbacks = _callbacks
     hardware = _hardware
+    id = _id
     status = state
     const client = new Cortex({verbose:1, threshold:0})
     return new Promise((solve, reject) => {
