@@ -29,13 +29,13 @@
         .then(subs => {
             sid = subs.sid
             if ((!subs[0].fac)||(!subs[1].dev)||(!subs[2].pow)||(!subs[3].mot)||(!subs[4].sys)||(!subs[5].met)) throw new Error("Couldn't subscribe to required channels")
-            client.on('fac', event => callbacks.fac.forEach(callback => callback(event, `${headset.id}#${id}`)))
-            client.on('dev', event => callbacks.dev.forEach(callback => callback(event, `${headset.id}#${id}`)))
-            client.on('pow', event => callbacks.pow.forEach(callback => callback(event, `${headset.id}#${id}`)))
-            client.on('mot', event => callbacks.mot.forEach(callback => callback(event, `${headset.id}#${id}`)))
-            client.on('sys', event => callbacks.sys.forEach(callback => callback(event, `${headset.id}#${id}`)))
-            client.on('met', event => callbacks.met.forEach(callback => callback(event, `${headset.id}#${id}`)))
-            client.on('com', event => callbacks.com.forEach(callback => callback(event, `${headset.id}#${id}`)))
+            client.on('fac', event => callbacks.fac.forEach(callback => callback(event, `${headset.id.toLocaleUpperCase()}#${id}`)))
+            client.on('dev', event => callbacks.dev.forEach(callback => callback(event, `${headset.id.toLocaleUpperCase()}#${id}`)))
+            client.on('pow', event => callbacks.pow.forEach(callback => callback(event, `${headset.id.toLocaleUpperCase()}#${id}`)))
+            client.on('mot', event => callbacks.mot.forEach(callback => callback(event, `${headset.id.toLocaleUpperCase()}#${id}`)))
+            client.on('sys', event => callbacks.sys.forEach(callback => callback(event, `${headset.id.toLocaleUpperCase()}#${id}`)))
+            client.on('met', event => callbacks.met.forEach(callback => callback(event, `${headset.id.toLocaleUpperCase()}#${id}`)))
+            client.on('com', event => callbacks.com.forEach(callback => callback(event, `${headset.id.toLocaleUpperCase()}#${id}`)))
         }).catch(error => {
           //console.log(error)
           connected.headsets.delete(headset.id)
