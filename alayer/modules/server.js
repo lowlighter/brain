@@ -71,7 +71,7 @@
                 parrot(callbacks, wss)
                 break;
               case "kawashimaStart":
-                console.log("KAWASHIMA");
+                //console.log("KAWASHIMA");
                 break;
               case "setId":
                 ws.alayer_id = parsed.id
