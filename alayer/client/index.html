@@ -195,7 +195,7 @@
           let ps = `miscelleanous/${data[7] ? "mush2" : "mush"}.png`
           if (document.getElementById("p1").src != p1) document.getElementById("p1").src = p1
           if (document.getElementById("p2").src != p2) document.getElementById("p2").src = p2
-          if (document.getElementById("ls").src != ls) document.getElementById("ls").src = p3
+          if (document.getElementById("ls").src != ls) document.getElementById("ls").src = ls
           clearTimeout(ls_timeout)
           ls_timeout = setTimeout(() => {document.getElementById("ls").style.opacity = 0.1}, 1700)
         }
