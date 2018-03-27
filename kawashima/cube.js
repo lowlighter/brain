@@ -14,6 +14,7 @@ ws.onmessage = event => {
 	const type = data.shift()
 	const headset = data.shift()
 	if(type === "hdw"){
+		console.log(data[1])
 		if (data[1]){
 				animate.awake = true;
 		}	else {
@@ -25,10 +26,9 @@ ws.onmessage = event => {
 	}
 	if (type === 'fac') {
 		//0 yeux, 1 sourcil, 2 score sourcils, 3-4 bouche
-		console.log(data)
+		//console.log(data)
 	}
 	if (type === 'mot'){
-
 		let magneto = data.slice(-3);
 
 		let tab_y = magneto[1];
@@ -185,7 +185,6 @@ function animate() {
 	  turnHeadY( Math.sin(ts/3)/2 );
 		sleep();
 	} else {
-		animate.awake = true
 		awake();
 	}
 
