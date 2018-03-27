@@ -22,7 +22,7 @@
   function received(data) {
     wss.clients.forEach(ws => {
       console.log(data)
-      if (/^."hdw"/.test(data)) { let d = JSON.parse(data) ; status.remote_hdw = [d[1], d[2]]; }
+      if (/^."hdw"/.test(data)) { let d = JSON.parse(data) ; status.remote_hdw = [d[2], d[3]]; }
       if ((ws.readyState === WebSocket.OPEN)&&(!data.includes(`#${id}`))) ws.send(data)
     })
   }
