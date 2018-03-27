@@ -42,7 +42,7 @@
           rws.on("error", (e) => status.remote = false)
           rws.on("close", () => status.remote = false)
           rws.on("message", data => wss.clients.forEach(ws => {
-            if (/^."hdw"/.test(data)) { let d = JSON.parse(data) ; status.remote_hdw = [d[2], d[3]]; return }
+            if (/^."hdw"/.test(data)) { let d = JSON.parse(data) ; status.remote_hdw = [d[2], d[3]]; }
             if ((ws.readyState === WebSocket.OPEN)&&(!data.includes(`#${id}`))) ws.send(data)
           }))
       }
