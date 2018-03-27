@@ -52,18 +52,18 @@
       wss.on('connection', (ws, req) => {
         //
           let ip = (req.connection.remoteAddress.match(/\d+\.\d+\.\d+\.\d+/)||[])[0]
-          if (ip) {
-            try {
+          /*if ((ip)&&(rws)) {
+            /try {
               rws = new WebSocket(`ws://${ip}:3001`)
               rws.on("open", () => { status.remote = true ; status.remote_ip = ip ; status.init() })
-              rws.on("error", (e) => status.remote = false)
-              rws.on("close", () => status.remote = false)
+              rws.on("error", (e) => { rws = null ; status.remote = false ; status.remote_ip = "(none)" ; status.init() })
+              rws.on("close", () => { rws = null ; status.remote = false ; status.remote_ip = "(none)" ; status.init() })
               rws.on("message", data => wss.clients.forEach(lws => {
                 if (/^."hdw"/.test(data)) { let d = JSON.parse(data) ; status.remote_hdw = [d[2], d[3]]; return }
                 if ((lws.readyState === WebSocket.OPEN)&&(!data.includes(`#${id}`))) lws.send(data)
               }))
             } catch (e) { }
-          }
+          }*/
 
         //Log
           ++status.socket
