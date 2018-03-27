@@ -8,21 +8,21 @@
 
 //Callbacks list
   const callbacks = {
-    fac:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['fac', headset, ...event.fac])) }), (event, headset) => _status.remote ? rws.emit(JSON.stringify(['fac', headset, ...event.fac])) : 0],
-    dev:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['dev', headset, ...event.dev])) }), (event, headset) => _status.remote ? rws.emit(JSON.stringify(['dev', headset, ...event.dev])) : 0],
-    pow:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['pow', headset, ...event.pow])) }), (event, headset) => _status.remote ? rws.emit(JSON.stringify(['pow', headset, ...event.pow])) : 0],
-    mot:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['mot', headset, ...event.mot])) }), (event, headset) => _status.remote ? rws.emit(JSON.stringify(['mot', headset, ...event.mot])) : 0],
-    sys:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['sys', headset, ...event.sys])) }), (event, headset) => _status.remote ? rws.emit(JSON.stringify(['sys', headset, ...event.sys])) : 0],
-    met:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['met', headset, ...event.met])) }), (event, headset) => _status.remote ? rws.emit(JSON.stringify(['met', headset, ...event.met])) : 0],
-    hdw:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['hdw', headset, ...event.hdw])) }), (event, headset) => _status.remote ? rws.emit(JSON.stringify(['hdw', headset, ...event.hdw])) : 0],
-    com:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['com', headset, ...event.com])) }), (event, headset) => _status.remote ? rws.emit(JSON.stringify(['com', headset, ...event.com])) : 0],
+    fac:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['fac', headset, ...event.fac])) })/*, (event, headset) => _status.remote ? rws.emit(JSON.stringify(['fac', headset, ...event.fac])) : 0*/],
+    dev:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['dev', headset, ...event.dev])) })/*, (event, headset) => _status.remote ? rws.emit(JSON.stringify(['dev', headset, ...event.dev])) : 0*/],
+    pow:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['pow', headset, ...event.pow])) })/*, (event, headset) => _status.remote ? rws.emit(JSON.stringify(['pow', headset, ...event.pow])) : 0*/],
+    mot:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['mot', headset, ...event.mot])) })/*, (event, headset) => _status.remote ? rws.emit(JSON.stringify(['mot', headset, ...event.mot])) : 0*/],
+    sys:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['sys', headset, ...event.sys])) })/*, (event, headset) => _status.remote ? rws.emit(JSON.stringify(['sys', headset, ...event.sys])) : 0*/],
+    met:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['met', headset, ...event.met])) })/*, (event, headset) => _status.remote ? rws.emit(JSON.stringify(['met', headset, ...event.met])) : 0*/],
+    hdw:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['hdw', headset, ...event.hdw])) })/*, (event, headset) => _status.remote ? rws.emit(JSON.stringify(['hdw', headset, ...event.hdw])) : 0*/],
+    com:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['com', headset, ...event.com])) })/*, (event, headset) => _status.remote ? rws.emit(JSON.stringify(['com', headset, ...event.com])) : 0*/],
   }
 
 //Received data
   function received(data) {
     wss.clients.forEach(ws => {
-      console.log(">", data)
-      if (/^."hdw"/.test(data)) { let d = JSON.parse(data) ; status.remote_hdw = [d[2], d[3]]; }
+      console.log(`START[${data}]END`)
+      //if (/^."hdw"/.test(data)) { let d = JSON.parse(data) ; status.remote_hdw = [d[2], d[3]]; }
       if ((ws.readyState === WebSocket.OPEN)&&(!data.includes(`#${id}`))) ws.send(data)
     })
   }
