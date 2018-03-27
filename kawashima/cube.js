@@ -4,7 +4,8 @@ var dice, eye1, eye2, mouth, brow1, brow2;
 var t_brow_L, t_brow_R, t_eye_L, t_eye_R, t_eye_L_closed, t_eye_R_closed, t_mouth, t_mouth_open;
 var face, head;
 var ts;
-var counter = -1;
+animate.awake = false
+
 // Connection
 const ws = new WebSocket(`ws://${(window.location.href.match(/\d+\.\d+\.\d+\.\d+/)||["localhost"])[0]}:3001`)
 ws.onmessage = event => {
@@ -13,9 +14,10 @@ ws.onmessage = event => {
 	const type = data.shift()
 	const headset = data.shift()
 	if(type === "hdw"){
-		//console.log(data)
 		if (data[1]){
-				counter = 100;
+				animate.awake = true;
+		}	else {
+			animate.awake = false;
 		}
 	}
 	if (type === "getId") {
@@ -23,7 +25,7 @@ ws.onmessage = event => {
 	}
 	if (type === 'fac') {
 		//0 yeux, 1 sourcil, 2 score sourcils, 3-4 bouche
-	//	console.log(data)
+		console.log(data)
 	}
 	if (type === 'mot'){
 
@@ -178,17 +180,13 @@ function animate() {
   ts = Math.round( (new Date).getTime()/1000 *100 )/100;
 	requestAnimationFrame( animate );
 
-	// Sleep mode
-	if( counter < 1 ){
-		animate.awake = false
+	if(!animate.awake){
 	  turnHeadZ( Math.sin(ts) * Math.cos(ts)/2 );
 	  turnHeadY( Math.sin(ts/3)/2 );
-		if ( counter != -10 ){ counter = -10; sleep(); }
-	} else { counter -= 1; }
-
-	if ((counter)&&(!animate.awake)) {
-		awake()
+		sleep();
+	} else {
 		animate.awake = true
+		awake();
 	}
 
 	// Standard animations
@@ -196,7 +194,6 @@ function animate() {
 	cameraAnimation();
 	renderer.render( scene, camera );
 }
-animate.awake = false
 
 // Animations
 function standbyAnimation(){ head.position.y = Math.sin(ts)/3; }
