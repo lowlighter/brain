@@ -62,7 +62,7 @@
       <img src="miscelleanous/rob.gif" id="parrot">
       <img src="miscelleanous/luigi.gif" id="p2">
       <img src="miscelleanous/mario.gif" id="p1">
-      <img src="miscelleanous/mush.png" style="height:42px;">
+      <img src="miscelleanous/mush.png" id="ls" style="height:42px;">
     </div>
     <style media="screen">
       body {
@@ -94,6 +94,7 @@
       }
       .bot > * {
         margin-left:20px;
+        opacity: 0.1;
       }
       @keyframes move {
         0% { left:-350px; }
@@ -173,6 +174,7 @@
     <script>
     //Timeouts
       const timeouts = [null, null, null]
+      let ls_timeout = null
     //Websocket connection
       const ws = new WebSocket(`ws://${(window.location.href.match(/\d+\.\d+\.\d+\.\d+/)||["localhost"])[0]}:3001`)
       ws.onmessage = event => {
@@ -184,9 +186,15 @@
           if (data[2].reduce) document.getElementById("signal-strength").innerHTML = (data[2].reduce((w, v) => w + v)/5/4).toFixed(2)
         }
         if (type === "hdw") {
+          document.getElementById("ls").style.opacity = 1
           document.getElementById("p1").style.opacity = data[1] ? 1 : 0.1
           document.getElementById("p2").style.opacity = data[2] ? 1 : 0.1
           document.getElementById("parrot").style.opacity = data[3] ? 1 : 0.1
+          document.getElementById("p1").src = `miscelleanous/${data[5] ? "wario" : "mario"}.gif`
+          document.getElementById("p2").src = `miscelleanous/${data[6] ? "waluigi" : "luigi"}.gif`
+          document.getElementById("ls").src = `miscelleanous/${data[7] ? "mush2" : "mush"}.png`
+          clearTimeout(ls_timeout)
+          ls_timeout = setTimeout(() => {document.getElementById("ls").style.opacity = 0.1}, 1700)
         }
       }
 
