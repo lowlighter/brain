@@ -13,16 +13,17 @@ ws.onmessage = event => {
 	const type = data.shift()
 	const headset = data.shift()
 	if(type === "hdw"){
+		//console.log(data)
 		if (data[1]){
 				counter = 100;
 		}
 	}
 	if (type === "getId") {
-		console.log(data)
+		//console.log(data)
 	}
 	if (type === 'fac') {
 		//0 yeux, 1 sourcil, 2 score sourcils, 3-4 bouche
-		console.log(data)
+	//	console.log(data)
 	}
 	if (type === 'mot'){
 
@@ -179,16 +180,23 @@ function animate() {
 
 	// Sleep mode
 	if( counter < 1 ){
+		animate.awake = false
 	  turnHeadZ( Math.sin(ts) * Math.cos(ts)/2 );
 	  turnHeadY( Math.sin(ts/3)/2 );
 		if ( counter != -10 ){ counter = -10; sleep(); }
 	} else { counter -= 1; }
+
+	if ((counter)&&(!animate.awake)) {
+		awake()
+		animate.awake = true
+	}
 
 	// Standard animations
   standbyAnimation();
 	cameraAnimation();
 	renderer.render( scene, camera );
 }
+animate.awake = false
 
 // Animations
 function standbyAnimation(){ head.position.y = Math.sin(ts)/3; }
