@@ -145,14 +145,24 @@
 
   //Websocket connection
     const ws = new WebSocket(`ws://${(window.location.href.match(/\d+\.\d+\.\d+\.\d+/)||["localhost"])[0]}:3001`)
+    let prefered
     ws.onmessage = event => {
       //console.log(event.data)
       const data = JSON.parse(event.data)
       const type = data.shift()
       const headset = data.shift()
       if (type === "mot") {
-          if (player1) { player1.y.current = data[1] ; player1.update() }
-          if (player2) { /* TODO */ }
+          if(player1 && player2) {
+            if(headset.includes(prefered)) {
+              player1.y.current = data[1]
+              player1.update()
+            } else {
+              player2.y.current = data[1]
+              player2.update()
+            }
+          }
+      } else if(type === "hdw") {
+        if(!prefered) prefered = data[3]
       }
     }
   </script>
