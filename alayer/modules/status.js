@@ -37,9 +37,10 @@
     remote:null,
     cortex:false,
     remote_ip:"(none)",
-    init(hardware, id) {
-      status.hardware = hardware
-      status.id = id
+    init(hardware, id, update = true) {
+      if (hardware) status.hardware = hardware
+      if (id) status.id = id
+      process.stdout.write('\x1Bc')
       process.stdout.write(`\n   █████╗ ██╗      █████╗ ██╗   ██╗███████╗██████╗ \n`)
       process.stdout.write(`  ██╔══██╗██║     ██╔══██╗╚██╗ ██╔╝██╔════╝██╔══██╗\n`)
       process.stdout.write(`  ███████║██║     ███████║ ╚████╔╝ █████╗  ██████╔╝\n`)
@@ -61,8 +62,8 @@
       process.stdout.write(`┍━━━┯━━━┯━━━┯${'━'.repeat(12)}┯${'━'.repeat(12)}┯${'━'.repeat(13)}┯${'━'.repeat(13)}┑\n`)
       process.stdout.write(`│ # │ ¤ │ @ │ ${'Server'.padEnd(10)} │ ${'Sockets'.padEnd(10)} │ ${'Headsets'.padEnd(11)} │ ${'Parrot'.padEnd(11)} │\n`)
       process.stdout.write(`┝━━━┿━━━┿━━━┿${'━'.repeat(12)}┿${'━'.repeat(12)}┿${'━'.repeat(6)+'┯'+'━'.repeat(6)}┿${'━'.repeat(13)}┥\n`)
+      if (update) setInterval(() => status.update(), 500)
       status.update()
-      setInterval(() => status.update(), 500)
     },
     update() {
       let c = ["╸", "╹", "╺", "╻"][++status.time%4]
