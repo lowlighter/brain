@@ -49,7 +49,7 @@
 
       process.stdout.write(`  ${"Latest commit update".padEnd(35, " ")} │ ${commits}\n`)
       process.stdout.write(`  ${" ".padEnd(35, " ")} │ \n`)
-      process.stdout.write(`  ${"CortexUI status".padEnd(35, " ")} │ \x1b[${status.cortex ? 37 : 31}m${(status.cortex ? "Running" : "Not running")}\x1b[0m\n`)
+      process.stdout.write(`  ${"CortexService status".padEnd(35, " ")} │ \x1b[${status.cortex ? 37 : 31}m${(status.cortex ? "Running" : "Not running")}\x1b[0m\n`)
       process.stdout.write(`  ${"Server websockets id".padEnd(35, " ")} │ ${status.id}\n`)
       process.stdout.write(`  ${"Remote server ip address".padEnd(35, " ")} │ ${status.remote_ip}\n`)
       process.stdout.write(`  ${" ".padEnd(35, " ")} │ \n`)
@@ -91,7 +91,7 @@
 
 //Exports
   module.exports = function (hardware, id) {
-    running('CortexUI.exe', 'CortexUI', 'CortexUI').then(v => {
+    running('CortexService.exe', 'CortexService', 'CortexService').then(v => {
       status.cortex = v
       status.init(hardware, id)
     }).catch(e => status.init(hardware, id))
