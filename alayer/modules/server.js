@@ -18,15 +18,6 @@
     com:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['com', headset, ...event.com])) })/*, (event, headset) => _status.remote ? rws.emit(JSON.stringify(['com', headset, ...event.com])) : 0*/],
   }
 
-//Received data
-  function received(data) {
-    wss.clients.forEach(ws => {
-      console.log(`START[${data}]END`)
-      //if (/^."hdw"/.test(data)) { let d = JSON.parse(data) ; status.remote_hdw = [d[2], d[3]]; }
-      if ((ws.readyState === WebSocket.OPEN)&&(!data.includes(`#${id}`))) ws.send(data)
-    })
-  }
-
 //Exports
   module.exports = function (app, status, remote, id) {
       _status = status
@@ -51,7 +42,11 @@
         rws.on("open", () => status.remote = true)
         rws.on("error", (e) => status.remote = false)
         rws.on("close", () => status.remote = false)
-        rws.on("message", data => received(data))
+        rws.on("message", data => wss.clients.forEach(ws => {
+          console.log(`START[${data}]END`)
+          //if (/^."hdw"/.test(data)) { let d = JSON.parse(data) ; status.remote_hdw = [d[2], d[3]]; }
+          if ((ws.readyState === WebSocket.OPEN)&&(!data.includes(`#${id}`))) ws.send(data)
+        }))
       }
 
     //WebSockets
