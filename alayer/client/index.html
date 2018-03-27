@@ -190,9 +190,12 @@
           document.getElementById("p1").style.opacity = data[1]||data[5] ? 1 : 0.1
           document.getElementById("p2").style.opacity = data[2]||data[6] ? 1 : 0.1
           document.getElementById("parrot").style.opacity = data[3] ? 1 : 0.1
-          document.getElementById("p1").src = `miscelleanous/${data[5] ? "wario" : "mario"}.gif`
-          document.getElementById("p2").src = `miscelleanous/${data[6] ? "waluigi" : "luigi"}.gif`
-          document.getElementById("ls").src = `miscelleanous/${data[7] ? "mush2" : "mush"}.png`
+          let p1 = `miscelleanous/${data[5] ? "wario" : "mario"}.gif`
+          let p2 = `miscelleanous/${data[6] ? "waluigi" : "luigi"}.gif`
+          let ps = `miscelleanous/${data[7] ? "mush2" : "mush"}.png`
+          if (document.getElementById("p1").src != p1) document.getElementById("p1").src = p1
+          if (document.getElementById("p2").src != p2) document.getElementById("p2").src = p2
+          if (document.getElementById("ls").src != ls) document.getElementById("ls").src = p3
           clearTimeout(ls_timeout)
           ls_timeout = setTimeout(() => {document.getElementById("ls").style.opacity = 0.1}, 1700)
         }

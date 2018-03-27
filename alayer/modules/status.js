@@ -71,8 +71,8 @@
       let server = `\x1b[${status.server ? 32 : 31}m${(status.server ? "Active" : "Pending").padEnd(10)}\x1b[0m`
       let socket = `\x1b[${status.socket ? 32 : 31}m${(`${status.socket} client${status.socket > 1 ? 's' : ''}`).padEnd(10)}\x1b[0m`
       //Headsets
-      let h0 = status.headsets.indexOf(status.hardware[0]) >= 0, r0 = !!status.remote_hdw[0]
-      let h1 = status.headsets.indexOf(status.hardware[1]) >= 0, r1 = !!status.remote_hdw[1]
+      let h0 = status.headsets.indexOf(status.hardware[0]) >= 0, r0 = !!status.remote_hdw.includes(status.hardware[0])
+      let h1 = status.headsets.indexOf(status.hardware[1]) >= 0, r1 = !!status.remote_hdw.includes(status.hardware[1])
       let prefered = status.headsets.length ? status.headsets[0] : status.remote_hdw.length ? status.remote_hdw[0] : status.hardware[0]
       let headset = [`\x1b[${h0 ? 32 : r0 ? 33 : 31}m${status.hardware[0].slice(-4)}\x1b[0m`, `\x1b[${h1 ? 32 : r1 ? 33 : 31}m${status.hardware[1].slice(-4)}\x1b[0m`]
       let parrot = `\x1b[${status.parrot ? 32 : 31}m${(status.parrot_connected ? "Connected" : status.parrot ? "Available" : "Unavailable").padEnd(11)}\x1b[0m`
