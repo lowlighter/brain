@@ -19,7 +19,8 @@
 
 //Cortex and commits
   const running = require("./running")
-  const commits = require('child_process').execSync('git rev-list --count master').toString().replace(/\n/g, "")
+  let commits = require('child_process').execSync('git rev-list --count master').toString().replace(/\n/g, "")
+  if (Number.isNaN(Number(commits))) commits = "(unavailable)"
 
 //Status
   const status = {
