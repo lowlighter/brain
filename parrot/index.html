@@ -2,58 +2,7 @@
 <html>
 <head>
 	<title>Parrot</title>
-	<style type="text/css">
-		body {
-			height: 100vh;
-			width: 100vw;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-		div {
-			margin: 2%;
-			padding: 2%;
-			width: 20%;
-			border: 1px solid black;
-			background-color: #ccc;
-			color: white;
-		}
-		h1 { text-align: center; }
-		.button.left-active	{ background-color: #f00; }
-		.button.right-active	{ background-color: #00f; }
-		.homeButton{
-			position: fixed;
-			left: 10px;
-			top: 0;
-			margin-bottom: 10px;
-			margin-top: 10px;
-		}
-		button, .button {
-			min-width: 160px;
-			display: inline-block;
-			font-weight: 400;
-			line-height: 1.25;
-			text-align: center;
-			white-space: nowrap;
-			vertical-align: middle;
-			-webkit-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
-			user-select: none;
-			border: 1px solid transparent;
-			padding: .5rem 1rem;
-			font-size: 1rem;
-			border-radius: .25rem;
-			-webkit-transition: all .2s ease-in-out;
-			-o-transition: all .2s ease-in-out;
-			transition: all .2s ease-in-out;
-			color: #fff;
-			background-color: #5bc0de;
-			border-color: #5bc0de;
-			cursor: pointer;
-			/*filter: grayscale(1);*/
-		}
-	</style>
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
 	<a href="/"><button class="homeButton" type="button" name="button">Home</button></a>
@@ -63,53 +12,6 @@
 	<div id="right" class="button right-active">
 		<h1>RIGHT</h1>
 	</div>
-	<script type="text/javascript">
-		let left = document.getElementById('left');
-		let right = document.getElementById('right');
-		let x = 0;
-
-		//Websocket connection
-		const ws = new WebSocket(`ws://${(window.location.href.match(/\d+\.\d+\.\d+\.\d+/)||["localhost"])[0]}:3001`)
-		// console.log(ws);
-		ws.onmessage = event => {
-			//console.log(event.data)
-			const data = JSON.parse(event.data)
-			// debugger
-			const type = data.shift()
-			const headset = data.shift()
-			if(type === 'action') {
-				const action = data[0]
-				if (x++ %100 == 0) console.log(action)
-				if (action === 'left') {
-					console.log('left');
-					if(!left.classList.contains('left-active')) {
-						console.log("left");
-						left.classList.add('left-active');
-					}
-				} else if (action === 'right') {
-					console.log('right');
-					if(!right.classList.contains('right-active')) {
-						right.classList.add('right-active');
-					}
-				} else if (action === 'center') {
-					if(left.classList.contains('left-active')) {
-						left.classList.remove('left-active');
-					}
-					if(right.classList.contains('right-active')) {
-						right.classList.remove('right-active');
-					}
-				}
-			}
-		}
-		ws.onopen = () => {
-			ws.send(JSON.stringify({
-				action:"setId",
-				id:Math.floor(Date.now()*10000*Math.random())
-			}))
-			ws.send(JSON.stringify({
-				action:"parrotStart"
-			}))
-		}
-	</script>
+	<script type="text/javascript" src="script.js"></script>
 </body>
 </html>
