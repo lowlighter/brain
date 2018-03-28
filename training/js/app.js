@@ -8,6 +8,12 @@ let timerText;
 
 const ws = new WebSocket(`ws://${(window.location.href.match(/\d+\.\d+\.\d+\.\d+/)||["localhost"])[0]}:3001`)
 
+function annimate(action){
+	let ball = document.querySelector(".ball");
+	ball.className = "ball " + action;
+}
+
+
 function createTable(){
 	let trainingTable = document.querySelector(".training-table")
 	let table = "<table class='table table-stripped'><thead><tr><th>Action</th><th>Start</th><th>Reset</th></tr></thead>"
@@ -41,10 +47,12 @@ ws.onmessage = (message) => {
 		let receiveStatus;
 		if(data[1].includes("MC_Started")){
 			receiveStatus = 0;
+			annimate(actionList[actionIndex])
 			startTimer();
 		}
 		if(data[1].includes("MC_Succeeded")){
 			clearInterval(timerInterval);
+			annimate("neutral")
 			if (confirm('Do you accept the training?')) {
 				ws.send(JSON.stringify({ "action" :"training", "trainingAction" : actionList[actionIndex], "status" : "accept"}));
 			} else {
