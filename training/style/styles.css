@@ -6,6 +6,58 @@ body{
   width: 100vw;
 }
 
+.container{
+  padding-top:55px;
+}
+
+.training-table{
+  text-align: center;
+  background-color:rgba(0,0,0,0.06);
+  border-radius: 7px;
+  padding-bottom: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+  border-color:5px;
+  border: 1px #EEEEEE solid;
+}
+
+.resultat{
+  text-align: center;
+  font-size: 30px;
+  color:#666666;
+}
+
+
+thead{
+  background-color: #5AC0D0;
+  color:#FFFFFF;
+  text-align: center;
+
+}
+.spacer-vertical{
+  margin-top:30px;
+  margin-bottom:30px;
+}
+.title-container{
+  text-align: center;
+}
+
+.spacer{
+  margin-right: 5px;
+  margin-left: 5px;
+}
+.title{
+  font-size:50px;
+  color:#666666;
+}
+
+.logo{
+  display: inline-block;
+  background-image: url("/miscelleanous/training2.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 50px;
+  width: 50px;
+}
 .homeButton{
   position: fixed;
   left: 10px;
@@ -82,6 +134,9 @@ button {
   background-color: #5bc0de;
   border-color: #5bc0de;
   cursor: pointer;
+}
+a:active {
+    color: #FFFFFF;
 }
 
 button[disabled] {
