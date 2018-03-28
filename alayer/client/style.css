@@ -1,0 +1,119 @@
+#p1-icon, #p2-icon {
+  height: 16px;
+  margin-right: 8px;
+  margin-left: 6px;
+}
+#p1-bat, #p2-bat {
+  height: 14px;
+}
+#signal-strength > div {
+  display:flex;
+  align-items:center;
+}
+body {
+  font-family: 'Open Sans', sans-serif;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url(bg.png);
+  background-position: center;
+  background-size: cover;
+  flex-direction: column;
+  overflow: hidden;
+}
+.bot {
+  width: 350px;
+  position: fixed;
+  bottom: 0;
+  left: -350px;
+  animation-duration: 5s;
+  animation-name: move;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  display: inline-flex;
+  align-items:baseline;
+  z-index: 9001;
+}
+.bot > * {
+  margin-left:20px;
+  opacity: 0.1;
+}
+@keyframes move {
+  0% { left:-350px; }
+  100% { left: 105vw; }
+}
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 60px 0px;
+  z-index: 9001;
+  overflow: auto;
+}
+.wrapper > .card {
+  border-radius: 5px;
+  width: 250px;
+  height: 250px;
+  background-color: rgba(0,0,0,0.4);
+  margin: 5px;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all .4s;
+  cursor: pointer;
+  border: 1px solid rgba(0,0,0,0.7);
+}
+.wrapper > .card:hover {
+  box-shadow: 0 0 2em black;
+  transform: scale(1.25);
+  z-index: 1000;
+}
+.wrapper > .card > .text {
+  color: white;
+  font-weight: bold;
+  font-size: 24px;
+  font-family: "Open Sans";
+  text-shadow:3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+.card.disabled {
+  filter: brightness(0.2);
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+#particles-js {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  opacity: 0.2;
+}
+.status {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  border: 2px solid black;
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.status.green {
+  background-color: green;
+}
+.status.red {
+  background-color: red;
+}
+
+#signal-strength {
+  position: fixed;
+  top: 2px;
+  right: 4px;
+}
+a {
+  text-decoration: none;
+}

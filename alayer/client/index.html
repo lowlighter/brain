@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title></title>
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <audio autoplay="true" hidden src="song1.mp3" loop></audio>
@@ -56,10 +57,10 @@
       </a>
     </div>
     <div id="signal-strength">
-      <div style="display:flex;align-items:center;">
+      <div>
         <img id="p1-bat" src="miscelleanous/battery_0.png"><img id="p1-icon" src="miscelleanous/p1.png"><span id="signal-strength-1">0.00</span>
       </div>
-      <div style="display:flex;align-items:center;">
+      <div>
         <img id="p2-bat" src="miscelleanous/battery_0.png"><img id="p2-icon" src="miscelleanous/p2.png"><span id="signal-strength-2">0.00</span>
       </div>
     </div>
@@ -69,168 +70,6 @@
       <img src="miscelleanous/mario.gif" id="p1">
       <img src="miscelleanous/mush.png" id="ls" style="height:42px;">
     </div>
-    <style media="screen">
-      #p1-icon, #p2-icon {
-        height: 16px;
-        margin-right: 8px;
-        margin-left: 6px;
-      }
-      #p1-bat, #p2-bat {
-        height: 14px;
-      }
-      body {
-        font-family: 'Open Sans', sans-serif;
-        height: 100vh;
-        width: 100vw;
-        margin: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-image: url(bg.png);
-        background-position: center;
-        background-size: cover;
-        flex-direction: column;
-        overflow: hidden;
-      }
-      .bot {
-        width: 350px;
-        position: fixed;
-        bottom: 0;
-        left: -350px;
-        animation-duration: 5s;
-        animation-name: move;
-        animation-iteration-count: infinite;
-        animation-timing-function: linear;
-        display: inline-flex;
-        align-items:baseline;
-        z-index: 9001;
-      }
-      .bot > * {
-        margin-left:20px;
-        opacity: 0.1;
-      }
-      @keyframes move {
-        0% { left:-350px; }
-        100% { left: 105vw; }
-      }
-      .wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        padding: 60px 0px;
-        z-index: 9001;
-        overflow: auto;
-      }
-      .wrapper > .card {
-        border-radius: 5px;
-        width: 250px;
-        height: 250px;
-        background-color: rgba(0,0,0,0.4);
-        margin: 5px;
-        background-size: cover;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transition: all .4s;
-        cursor: pointer;
-        border: 1px solid rgba(0,0,0,0.7);
-      }
-      .wrapper > .card:hover {
-        box-shadow: 0 0 2em black;
-        transform: scale(1.25);
-        z-index: 1000;
-      }
-      .wrapper > .card > .text {
-        color: white;
-        font-weight: bold;
-        font-size: 24px;
-        font-family: "Open Sans";
-        text-shadow:3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-      }
-      .card.disabled {
-        filter: brightness(0.2);
-        opacity: 0.4;
-        cursor: not-allowed;
-      }
-      #particles-js {
-        position: fixed;
-        height: 100vh;
-        width: 100vw;
-        top: 0;
-        left: 0;
-        opacity: 0.2;
-      }
-      .status {
-        height: 12px;
-        width: 12px;
-        border-radius: 50%;
-        border: 2px solid black;
-        display: inline-block;
-        margin-right: 4px;
-      }
-
-      .status.green {
-        background-color: green;
-      }
-      .status.red {
-        background-color: red;
-      }
-
-      #signal-strength {
-        position: fixed;
-        top: 2px;
-        right: 4px;
-      }
-      a {
-        text-decoration: none;
-      }
-    </style>
-    <script>
-    //Timeouts
-      const timeouts = [null, null, null]
-      let ls_timeout = null, h0 = null, h1 = null
-    //Websocket connection
-      const ws = new WebSocket(`ws://${(window.location.href.match(/\d+\.\d+\.\d+\.\d+/)||["localhost"])[0]}:3001`)
-      ws.onmessage = event => {
-        const data = JSON.parse(event.data)
-        const type = data.shift()
-        if (type === "dev") {
-          if ((data[3].reduce)&&(data[0].includes(h0))) {
-            document.getElementById("signal-strength-1").innerHTML = (data[3].reduce((w, v) => w + v)/5/4).toFixed(2)
-            document.getElementById("p1-bat").src = `miscelleanous/battery_${data[1]}.png`
-          }
-          if ((data[3].reduce)&&(data[0].includes(h1))) {
-            document.getElementById("signal-strength-2").innerHTML = (data[3].reduce((w, v) => w + v)/5/4).toFixed(2)
-            document.getElementById("p2-bat").src = `miscelleanous/battery_${data[1]}.png`
-          }
-        }
-        if (type === "hdw") {
-          if ((!h0)&&(data[1])) h0 = data[1]
-          if ((!h1)&&(data[2])) h1 = data[2]
-          document.getElementById("ls").style.opacity = 1
-          document.getElementById("p1").style.opacity = data[1]||data[5] ? 1 : 0.1
-          document.getElementById("p2").style.opacity = data[2]||data[6] ? 1 : 0.1
-          document.getElementById("parrot").style.opacity = data[3] ? 1 : 0.1
-          let p1 = `miscelleanous/${data[5] ? "wario" : "mario"}.gif`
-          let p2 = `miscelleanous/${data[6] ? "waluigi" : "luigi"}.gif`
-          let p1_i = `miscelleanous/${data[5] ? "p1-2" : "p1"}.png`
-          let p2_i = `miscelleanous/${data[6] ? "p2-2" : "p2"}.png`
-          let ps = `miscelleanous/${data[7] ? "mush2" : "mush"}.png`
-          if (document.getElementById("p1").src != p1) document.getElementById("p1").src = p1
-          if (document.getElementById("p2").src != p2) document.getElementById("p2").src = p2
-          if (document.getElementById("ls").src != ls) document.getElementById("ls").src = ps
-          if (document.getElementById("p1-icon").src != p1_i) document.getElementById("p1-icon").src = p1_i
-          if (document.getElementById("p2-icon").src != p2_i) document.getElementById("p2-icon").src = p2_i
-          clearTimeout(ls_timeout)
-          ls_timeout = setTimeout(() => {
-            document.getElementById("parrot").style.opacity = 0.1
-            document.getElementById("p1").style.opacity = 0.1
-            document.getElementById("p2").style.opacity = 0.1
-            document.getElementById("ls").style.opacity = 0.1
-          }, 1700)
-        }
-      }
-    </script>
+    <script src="/script.js"></script>
   </body>
 </html>
