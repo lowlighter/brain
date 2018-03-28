@@ -14,7 +14,8 @@ ws.onmessage = event => {
 	const type = data.shift()
 	const headset = data.shift()
 	if(type === "hdw"){
-		if (data[1]){
+		//console.log(data[1] || data[5])
+		if (data[1] || data[5]){
 				animate.awake = true;
 		}	else {
 			animate.awake = false;
@@ -25,17 +26,24 @@ ws.onmessage = event => {
 	}
 	if (type === 'fac') {
 		//0 yeux, 1 sourcil, 2 score sourcils, 3-4 bouche
-		console.log(data)
+		//console.log(data)
+		let eye_state = data[0]
+		if( eye_state == "blink"){
+			closeEyes();
+		}
+		else
+			openEyes();
+		console.log(eye_state)
 	}
 	if (type === 'mot'){
-
 		let magneto = data.slice(-3);
-
+		//console.log(magneto)
+		let tab_x = magneto[0];
 		let tab_y = magneto[1];
 		let tab_z = magneto[2];
 
-		turnHeadZ(map(tab_y, 2000, 12600, 0, 2 * Math.PI)/2 + Math.PI)
-		turnHeadY(map(tab_z, 1000, 13500, 0, 2 * Math.PI)/2 + Math.PI)
+		//turnHeadZ(map(tab_y, 2000, 12600, 0, 2 * Math.PI)/2 + Math.PI)
+		//turnHeadY(map(tab_x, 1000, 13500, 0, 2 * Math.PI)/2 + Math.PI)
 	}
 }
 ws.onopen = () => {
@@ -185,7 +193,6 @@ function animate() {
 	  turnHeadY( Math.sin(ts/3)/2 );
 		sleep();
 	} else {
-		animate.awake = true
 		awake();
 	}
 
@@ -227,7 +234,7 @@ function sleep(){
 	dice.material =  new THREE.MeshLambertMaterial( { color : 0x778899 } )
 }
 function awake(){
-	openEyes();
+	//openEyes();
 	downBrows();
 	smile();
 	dice.material = new THREE.MeshLambertMaterial( { color : 0xCC0066 } )

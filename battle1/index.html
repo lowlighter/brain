@@ -125,17 +125,23 @@
 
       //Websocket connection
         const ws = new WebSocket(`ws://${(window.location.href.match(/\d+\.\d+\.\d+\.\d+/)||["localhost"])[0]}:3001`)
+        let prefered, a = 1, b = 1
         ws.onmessage = event => {
           const data = JSON.parse(event.data)
           const type = data.shift()
           const headset = data.shift()
           if ((type === "pow")&&(window.update)) {
-            let a = Math.log10(data.reduce((w, v) => w + v))
-            console.log(a)
-            update([a, 2])
+            if(headset.includes(prefered)) {
+              a = Math.log10(data.reduce((w, v) => w + v))
+            } else {
+              b = Math.log10(data.reduce((w, v) => w + v))
+            }
+            update([a, b])
+          }
+          if(type === "hdw") {
+            if(!prefered) prefered = data[3]
           }
         }
-
     </script>
     <style media="screen">
       body {

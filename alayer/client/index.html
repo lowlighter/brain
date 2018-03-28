@@ -7,9 +7,6 @@
   </head>
   <body>
     <audio autoplay="true" hidden src="song1.mp3" loop></audio>
-    <div id="particles-js">
-
-    </div>
     <div class="wrapper">
       <a class="card" style="background-image:url(miscelleanous/pong.png)" href="pong">
         <div class="text">
@@ -57,6 +54,10 @@
           Training
         </div>
       </a>
+    </div>
+    <div id="signal-strength">
+      <span id="signal-strength-1">0.00</span><br>
+      <span id="signal-strength-2">0.00</span><br>
     </div>
     <div class="bot">
       <img src="miscelleanous/rob.gif" id="parrot">
@@ -165,7 +166,9 @@
       }
 
       #signal-strength {
-        margin-left: 4px;
+        position: fixed;
+        top: 2px;
+        right: 4px;
       }
       a {
         text-decoration: none;
@@ -174,17 +177,19 @@
     <script>
     //Timeouts
       const timeouts = [null, null, null]
-      let ls_timeout = null
+      let ls_timeout = null, h0 = null, h1 = null
     //Websocket connection
       const ws = new WebSocket(`ws://${(window.location.href.match(/\d+\.\d+\.\d+\.\d+/)||["localhost"])[0]}:3001`)
       ws.onmessage = event => {
         const data = JSON.parse(event.data)
         const type = data.shift()
         if (type === "dev") {
-          connected(data)
-          if (data[2].reduce) document.getElementById("signal-strength").innerHTML = (data[2].reduce((w, v) => w + v)/5/4).toFixed(2)
+          if ((data[2].reduce)&&(data[1].includes(h0))) document.getElementById("signal-strength-1").innerHTML = (data[2].reduce((w, v) => w + v)/5/4).toFixed(2)
+          if ((data[2].reduce)&&(data[1].includes(h1))) document.getElementById("signal-strength-2").innerHTML = (data[2].reduce((w, v) => w + v)/5/4).toFixed(2)
         }
         if (type === "hdw") {
+          if ((!h0)&&(data[1])) h0 = data[1]
+          if ((!h1)&&(data[2])) h1 = data[2]
           document.getElementById("ls").style.opacity = 1
           document.getElementById("p1").style.opacity = data[1]||data[5] ? 1 : 0.1
           document.getElementById("p2").style.opacity = data[2]||data[6] ? 1 : 0.1
@@ -196,13 +201,13 @@
           if (document.getElementById("p2").src != p2) document.getElementById("p2").src = p2
           if (document.getElementById("ls").src != ls) document.getElementById("ls").src = ps
           clearTimeout(ls_timeout)
-          ls_timeout = setTimeout(() => {document.getElementById("ls").style.opacity = 0.1}, 1700)
+          ls_timeout = setTimeout(() => {
+            document.getElementById("parrot").style.opacity = 0.1
+            document.getElementById("p1").style.opacity = 0.1
+            document.getElementById("p2").style.opacity = 0.1
+            document.getElementById("ls").style.opacity = 0.1
+          }, 1700)
         }
-      }
-
-    //Show that headset is connected
-      function connected(received) {
-
       }
     </script>
   </body>
