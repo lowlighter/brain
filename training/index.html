@@ -11,16 +11,29 @@
 <body>
 	<a href="/"><button class="homeButton" type="button" name="button" onclick="player2.calibrate()">Home</button></a>
 	<div class="container">
-		<h1>Training</h1>
-		<h2 id="trainedAction">Neutral</h2>
+		<div class="title-container">
+			<span class="logo"></span>
+			<span class="spacer"></span>
+			<span class="title">Training</span>
+		</div>
 
-		<h3 id="timer">0</h3>
+		<div class="spacer-vertical"></div>
 
-		<div class="training-table"></div>
+		<div class="row">
+			<div class="col-sm-8">
+				<div class="training-table"></div>
+			</div>
+			<div class="col-sm-4">
+				<h2 id="trainedAction">Neutral</h2>
+				<div class="resultat" id="timer">0</div>
+				<h2>Results:</h2>
+				<div class="resultat" id="trainResult">neutral</div>
+				<div class="resultat" id="trainPourcentage">0</div>
+			</div>
 
-		<h2>Results:</h2>
-		<div id="trainResult">neutral</div>
-		<div id="trainPourcentage">0.9</div>
+		</div>
+
+		
 	</div>
 	
 </body>
