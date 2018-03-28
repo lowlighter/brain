@@ -11,7 +11,7 @@ let getStatus = networks => {
 
 wifi.init({iface:null})
 let scanner = (status) => {
-	setTimeout(scanner, 1000, status)
+	setTimeout(scanner, 5000, status)
 
 	wifi.scan()
 		.then(networks => status.parrot = getStatus(networks))
