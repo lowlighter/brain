@@ -31,7 +31,7 @@ ws.onmessage = event => {
 			let eye_state = data[0]
 			switch (eye_state) {
 				case "blink":
-					closeEyes()					
+					closeEyes()
 					break
 				case "winkL":
 					closeLeftEye()
@@ -217,26 +217,26 @@ function animate() {
 function standbyAnimation(){ head.position.y = Math.sin(ts)/3 }
 function closeLeftEye(){ eye2.material = t_eye_R_closed }
 function closeRightEye(){	eye1.material = t_eye_L_closed	}
-function closeEyes(){ closeLeftEye() closeRightEye() }
+function closeEyes(){ closeLeftEye(); closeRightEye() }
 function openLeftEye(){ eye2.material = t_eye_R }
 function openRightEye(){	eye1.material = t_eye_L	}
-function openEyes(){ openLeftEye() openRightEye() }
+function openEyes(){ openLeftEye(); openRightEye() }
 function smile(){ mouth.material = t_mouth }
 function openMouth(){ mouth.material = t_mouth_open }
 function rictusLeft(){  mouth.material = t_mouth_rictus_L }
 function rictusRight(){  mouth.material = t_mouth_rictus_R }
 function upLeftBrow(){ brow1.position.y = 0.35 }
 function upRightBrow(){ brow2.position.y = 0.35 }
-function upBrows(){ upLeftBrow() upRightBrow() }
+function upBrows(){ upLeftBrow(); upRightBrow() }
 function downLeftBrow(){ brow1.position.y = 0.25 }
 function downRightBrow(){ brow2.position.y = 0.25 }
-function downBrows(){ downLeftBrow() downRightBrow() }
+function downBrows(){ downLeftBrow(); downRightBrow() }
 function angryLeftBrow(){ brow1.rotation.z = 0.5 }
 function angryRightBrow(){ brow2.rotation.z = -0.5 }
-function angryBrows(){ angryLeftBrow() angryRightBrow() }
+function angryBrows(){ angryLeftBrow(); angryRightBrow() }
 function calmLeftBrow(){ brow1.rotation.z = 0 }
 function calmRightBrow(){ brow2.rotation.z = 0 }
-function calmBrows(){ calmLeftBrow() calmRightBrow() }
+function calmBrows(){ calmLeftBrow(); calmRightBrow() }
 function cameraAnimation(){}
 function sleep(){
 	closeEyes()
