@@ -351,6 +351,7 @@
 
   //Websocket connection
     const ws = new WebSocket(`ws://${(window.location.href.match(/\d+\.\d+\.\d+\.\d+/)||["localhost"])[0]}:3001`)
+    var input = null
     ws.onmessage = event => {
       if (!trackingStarted) return null
       const data = JSON.parse(event.data)
@@ -360,6 +361,33 @@
         document.getElementById("signal-strength").innerHTML = (data[2].reduce((w, v) => w + v)/5/4).toFixed(2)
       } else if (type === "pow") {
         let channels = []
+
+        const model = new KerasJS.Model({
+          filepath: './res/model_correct.bin',
+          filesystem: false,
+          gpu: true
+        })
+
+        input = Array.from(data)
+        model.ready()
+          .then(() => {
+            let float32Input = Float32Array.from(input)
+            const inputData = {
+              input: float32Input
+            }
+
+            // // make predictions
+            return model.predict(inputData)
+          })
+          .then(outputData => {
+            var array = Array.from(outputData.output);
+            console.log(array)
+          })
+          .catch(err => {
+            // handle error
+            console.log(err)
+          })
+
         while (data.length > 0) channels.push(data.splice(0, 5))
         channels = channels.map(channel => Math.log(channel.reduce((w, v) => w + v)))
         updateEEGData(undefined, channels)
