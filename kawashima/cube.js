@@ -14,7 +14,7 @@ ws.onmessage = event => {
 	const type = data.shift()
 	const headset = data.shift()
 	if(type === "hdw"){
-		console.log(data[1] || data[5])
+		// console.log(data[1] || data[5])
 		if (data[1] || data[5]){
 				animate.awake = true
 		}	else {
@@ -45,7 +45,7 @@ ws.onmessage = event => {
 					openEyes()
 			}
 
-			console.log(eye_state)
+			// console.log(eye_state)
 		}
 	}
 	if (type === 'mot'){
