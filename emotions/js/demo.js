@@ -136,13 +136,13 @@
           yAxes: [{
             display: true,
             ticks: {
-              min:0,
+              min:-10,
               max:10,
             }
           }],
           xAxes:[{
             ticks: {
-              min:-charts.delta * 1000,
+              min:0,
               max:charts.delta * 1000,
               maxRotation:0,
               minRotation:0,
@@ -394,7 +394,7 @@
 
         if(network.output !== null) {
           //console.log(network.output)
-          network.output.forEach(data => channels.push(Math.log(data)))
+          network.output.forEach(data => channels.push(data*0.05))
           network.output = null
 
           //channels = channels.map(channel => Math.log(channel))
