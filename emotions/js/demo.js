@@ -142,7 +142,7 @@
           }],
           xAxes:[{
             ticks: {
-              min:0,
+              min:-charts.delta * 1000,
               max:charts.delta * 1000,
               maxRotation:0,
               minRotation:0,
@@ -393,13 +393,17 @@
           })
 
         if(network.output !== null) {
-          console.log(network.output)
+          //console.log(network.output)
+          network.output.forEach(data => channels.push(Math.log(data)))
           network.output = null
+
+          //channels = channels.map(channel => Math.log(channel))
+          updateEEGData(undefined, channels)
         }
 
-        while (data.length > 0) channels.push(data.splice(0, 5))
-        channels = channels.map(channel => Math.log(channel.reduce((w, v) => w + v)))
-        updateEEGData(undefined, channels)
+        //while (data.length > 0) channels.push(data.splice(0, 5))
+        //channels = channels.map(channel => Math.log(channel.reduce((w, v) => w + v)))
+        //updateEEGData(undefined, channels)
       } else if (type === "fac") {
         //====================================================
         //TODO : Sad scoring
