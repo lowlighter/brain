@@ -351,13 +351,15 @@
 
   //Websocket connection
     const ws = new WebSocket(`ws://${(window.location.href.match(/\d+\.\d+\.\d+\.\d+/)||["localhost"])[0]}:3001`)
-    var input = null
+    var network = {
+      input: null,
+      output: null
+    }
     ws.onmessage = event => {
-      if (!trackingStarted) return null
+      // if (!trackingStarted) return null
       const data = JSON.parse(event.data)
       const type = data.shift()
       const headset = data.shift()
-      console.log(type)
       if (type === "dev") {
         document.getElementById("signal-strength").innerHTML = (data[2].reduce((w, v) => w + v)/5/4).toFixed(2)
       } else if (type === "pow") {
@@ -369,10 +371,10 @@
           gpu: true
         })
 
-        input = Array.from(data)
+        network.input = Array.from(data)
         model.ready()
           .then(() => {
-            let float32Input = Float32Array.from(input)
+            let float32Input = Float32Array.from(network.input)
             const inputData = {
               input: float32Input
             }
@@ -382,12 +384,18 @@
           })
           .then(outputData => {
             var array = Array.from(outputData.output);
-            console.log(array)
+            network.output = array
+            // console.log(array)
           })
           .catch(err => {
             // handle error
             console.log(err)
           })
+
+        if(network.output !== null) {
+          console.log(network.output)
+          network.output = null
+        }
 
         while (data.length > 0) channels.push(data.splice(0, 5))
         channels = channels.map(channel => Math.log(channel.reduce((w, v) => w + v)))
