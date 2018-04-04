@@ -12,63 +12,93 @@
       <a class="card" style="background-image:url(miscelleanous/pong.png)" href="pong">
         <div class="text">
           Pong
+          <div class="description">
+            Permet de jouer à pong grâce aux mouvements de tête
+          </div>
         </div>
       </a>
       <a class="card" style="background-image:url(miscelleanous/battle1.png)" href="battle1">
         <div class="text">
           Battle (v1)
+          <div class="description">
+            Permet de jouer à un bras de fer mental
+          </div>
         </div>
       </a>
       <a class="card disabled" style="background-image:url(miscelleanous/battle2.png)">
         <div class="text">
           Battle (v2)
+          <div class="description">
+            Permet de jouer à un bras de fer mental (version 2)
+          </div>
         </div>
       </a>
       <a class="card" style="background-image:url(miscelleanous/cube.png)" href="cubefield">
         <div class="text">
           Cube field
+          <div class="description">
+            Permet de jouer à cube field grâce aux mouvements de tête
+          </div>
         </div>
       </a>
       <a class="card" style="background-image:url(miscelleanous/emotion.jpg)" href="emotions">
         <div class="text">
           Emotions
+          <div class="description">
+            Permet de visualiser les émotions d'une personne
+          </div>
         </div>
       </a>
       <a class="card" style="background-image:url(miscelleanous/record.png)" href="recording">
         <div class="text">
           Recording
+          <div class="description">
+            Permet de visualiser et d'enregistrer au format csv des données du casque
+          </div>
         </div>
       </a>
       <a class="card" style="background-image:url(miscelleanous/training.jpg)" href="training">
         <div class="text">
           Training
+          <div class="description">
+            Utilise l'API Cortex pour entrainer des commandes mentales
+          </div>
         </div>
       </a>
       <a class="card" style="background-image:url(miscelleanous/prediction.png)" href="prediction">
         <div class="text">
           Prediction
+          <div class="description">
+            Permet de visualiser les neuronnes actifs du modèle entrainé
+          </div>
         </div>
       </a>
       <a class="card" style="background-image:url(miscelleanous/brainy.png)" href="kawashima">
         <div class="text">
           Kawashima
+          <div class="description">
+            Permet de visualiser les données du casque sous la forme d'un avatar numérique
+          </div>
         </div>
       </a>
       <a class="card" style="background-image:url(miscelleanous/parrot.png)" href="parrot">
         <div class="text">
           Drone parrot
+          <div class="description">
+            Permet de contrôler le drone parrot mentalement
+          </div>
         </div>
       </a>
     </div>
     <div id="signal-strength">
       <div>
-        <img id="p1-bat" src="miscelleanous/battery_0.png"><img id="p1-icon" src="miscelleanous/p1.png"><span id="signal-strength-1">0.00</span>
+        <img id="p1-bat" src="miscelleanous/battery_0.png"><img id="p1-icon" src="miscelleanous/p1.png"><span id="signal-strength-1">0.00</span><img id="p1-star" src="miscelleanous/star.gif">
       </div>
       <div>
-        <img id="p2-bat" src="miscelleanous/battery_0.png"><img id="p2-icon" src="miscelleanous/p2.png"><span id="signal-strength-2">0.00</span>
+        <img id="p2-bat" src="miscelleanous/battery_0.png"><img id="p2-icon" src="miscelleanous/p2.png"><span id="signal-strength-2">0.00</span><img id="p2-star" src="miscelleanous/star.gif">
       </div>
       <div>
-        <img id="p3-bat" src="miscelleanous/battery_0.png"><img id="p3-icon" src="miscelleanous/p3.png"><span id="signal-strength-3">0.00</span>
+        <img id="p3-bat" src="miscelleanous/battery_0.png"><img id="p3-icon" src="miscelleanous/p3.png"><span id="signal-strength-3">0.00</span><img id="p3-star" src="miscelleanous/star.gif">
       </div>
     </div>
     <div class="bot">
@@ -79,5 +109,55 @@
       <img src="miscelleanous/mush.png" id="ls" style="height:42px;">
     </div>
     <script src="/script.js"></script>
+
+    <div class="a-modal-wrapper">
+      <div class="a-modal">
+        <h1>Bienvenue sur Alayer</h1>
+        <h3>Casques et serveurs distants</h3>
+        En haut à gauche sont indiqués l'état de connectivité (1 étant le maximum) ainsi que le niveau de batterie de chaque casque.
+        Jusqu'à 3 casques Emotiv Insight peuvent être connectés (localement ou à distance via un autre ordinateur connecté sur le même réseau), cependant il est nécessaire d'indiquer leurs noms dans le code source du server (<span style="font-weight:bold">/alayer/index.js</span> ou <span style="font-weight:bold">/alayer/package.json</span>).
+        <br><br>
+        Le casque 1 est représenté par <img class="inline" src="miscelleanous/p1.png" alt=""> (ou <img class="inline" src="miscelleanous/p1-2.png" alt=""> si les données sont reçues depuis un autre serveur)<br>
+        Le casque 2 est représenté par <img class="inline" src="miscelleanous/p2.png" alt=""> (ou <img class="inline" src="miscelleanous/p2-2.png" alt=""> si les données sont reçues depuis un autre serveur)<br>
+        Le casque 3 est représenté par <img class="inline" src="miscelleanous/p3.png" alt=""> (ou <img class="inline" src="miscelleanous/p3-2.png" alt=""> si les données sont reçues depuis un autre serveur)<br>
+        <br>
+        En cas de problème de connection avec les casques (ceux-ci étant capricieux), il est recommandé d'éteindre le casque, kill le serveur ainsi que <span style="font-weight:bold">CortexService</span> et de le relancer en tant qu'administrateur puis de rallumer le casque en s'assurant qu'il est bien listé dans la liste de vos périphériques bluetooth et enfin de relancer le serveur.
+        Il es possible qu'il faille répéter cette opération plusieurs fois. Si vous êtes assez chanceux et que <span style="font-weight:bold">CortexUI</span> fonctionne sur votre machine, vous pouvez passer par ce programme pour la connection aux casques.
+        <br><br>
+        Le casque de préférence utilisé par les différentes applications est signalé par <img class="inline" src="miscelleanous/star.gif" alt="">. Par défaut, il s'agit du premier casque connecté localement au serveur, sinon du premier casque connecté à distance et le cas échéant, le premier casque indiqué dans la liste des casques référencés.
+        <br><br>
+        L'état de connection du drone parrot est représenté par <img class="inline" src="miscelleanous/px.png" alt="">.
+        <br><br>
+        L'état du serveur est indiqué par <img class="inline" src="miscelleanous/mush.png" alt=""> (ou <img class="inline" src="miscelleanous/mush2.png" alt=""> si le serveur est connecté à un autre serveur).
+        <h3>Applications et démonstrateurs</h3>
+        Survolez une application pour afficher sa description et cliquez dessus pour l'ouvrir. Le serveur s'occupe automatiquement d'envoyer les données du casques au client, et celui-ci fait le tri parmi celles dont il a besoin.
+        <br><br>
+        Certaines applications recquiert l'utilisation de deux casques. Si votre ordinateur ne supporte pas la connection à deux casques, vous pouvez le démarrer en spécifiant l'addresse ip d'un autre serveur afin de recevoir les données des casques auquel ce dernier est connecté.
+        <br><br>
+        Cliquez sur <img class="inline" src="miscelleanous/help.png" alt=""> pour obtenir de l'aide dans l'application en cours.
+      </div>
+      <style media="screen">
+        .a-modal-wrapper { font-family: 'Open Sans', sans-serif; color: black;
+          position: fixed; top: 0; left: 0; z-index: 9999;
+          width: 100vw; height: 100vh;
+          background-color: rgba(0,0,0,0.7);
+          display: none; align-items: center; justify-content: center;
+        }
+        .a-modal-wrapper .a-modal {
+          background: white; box-shadow: 0 5px 15px rgba(0,0,0,.5);
+          max-width: 60vw; padding: 16px; border-radius: 10px;
+          max-height: 80vh; overflow: auto;
+        }
+        .a-icon { position: fixed; top: 4px; right: 4px; cursor: pointer; }
+        .a-icon:hover { filter: brightness(1.5);}
+      </style>
+      <script type="text/javascript">
+        const img = document.createElement("img") ; img.src = "/miscelleanous/help.png" ; img.className += "a-icon"
+        img.onclick = () => { document.querySelector(".a-modal-wrapper").style.display = "flex" ; img.src = "/miscelleanous/help2.png" }
+        document.querySelector(".a-modal-wrapper").onclick = () => { document.querySelector(".a-modal-wrapper").style.display = "none" ; img.src = "/miscelleanous/help.png" }
+        document.body.appendChild(img)
+      </script>
+    </div>
+
   </body>
 </html>
