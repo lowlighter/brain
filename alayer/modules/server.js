@@ -23,11 +23,13 @@
       _status = status
     //Static server
       app.use('/battle1', express.static(path.join(__dirname, '../../battle1')))
+      app.use('/cubefield', express.static(path.join(__dirname, '../../cubefield')))
       app.use('/emotions', express.static(path.join(__dirname, '../../emotions')))
       app.use('/kawashima', express.static(path.join(__dirname, '../../kawashima')))
       app.use('/pong', express.static(path.join(__dirname, '../../pong/client')))
       app.use('/miscelleanous', express.static(path.join(__dirname, '../../miscelleanous/imgs')))
       app.use('/parrot', express.static(path.join(__dirname, '../../parrot')))
+      app.use('/prediction', express.static(path.join(__dirname, '../../prediction')))
       app.use('/recording', express.static(path.join(__dirname, '../../recording')))
       app.use('/training', express.static(path.join(__dirname, '../../training')))
       app.use('/static', express.static(path.join(__dirname, '../../miscelleanous/static')))
