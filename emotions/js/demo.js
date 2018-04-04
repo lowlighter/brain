@@ -136,7 +136,7 @@
           yAxes: [{
             display: true,
             ticks: {
-              min:0,
+              min:-10,
               max:10,
             }
           }],
@@ -351,8 +351,12 @@
 
   //Websocket connection
     const ws = new WebSocket(`ws://${(window.location.href.match(/\d+\.\d+\.\d+\.\d+/)||["localhost"])[0]}:3001`)
+    var network = {
+      input: null,
+      output: null
+    }
     ws.onmessage = event => {
-      if (!trackingStarted) return null
+      // if (!trackingStarted) return null
       const data = JSON.parse(event.data)
       const type = data.shift()
       const headset = data.shift()
@@ -360,9 +364,46 @@
         document.getElementById("signal-strength").innerHTML = (data[2].reduce((w, v) => w + v)/5/4).toFixed(2)
       } else if (type === "pow") {
         let channels = []
-        while (data.length > 0) channels.push(data.splice(0, 5))
-        channels = channels.map(channel => Math.log(channel.reduce((w, v) => w + v)))
-        updateEEGData(undefined, channels)
+
+        const model = new KerasJS.Model({
+          filepath: './res/model_correct.bin',
+          filesystem: false,
+          gpu: true
+        })
+
+        network.input = Array.from(data)
+        model.ready()
+          .then(() => {
+            let float32Input = Float32Array.from(network.input)
+            const inputData = {
+              input: float32Input
+            }
+
+            // // make predictions
+            return model.predict(inputData)
+          })
+          .then(outputData => {
+            var array = Array.from(outputData.output);
+            network.output = array
+            // console.log(array)
+          })
+          .catch(err => {
+            // handle error
+            console.log(err)
+          })
+
+        if(network.output !== null) {
+          //console.log(network.output)
+          network.output.forEach(data => channels.push(data*0.05))
+          network.output = null
+
+          //channels = channels.map(channel => Math.log(channel))
+          updateEEGData(undefined, channels)
+        }
+
+        //while (data.length > 0) channels.push(data.splice(0, 5))
+        //channels = channels.map(channel => Math.log(channel.reduce((w, v) => w + v)))
+        //updateEEGData(undefined, channels)
       } else if (type === "fac") {
         //====================================================
         //TODO : Sad scoring
