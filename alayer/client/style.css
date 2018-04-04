@@ -6,6 +6,11 @@
 #p1-bat, #p2-bat, #p3-bat {
   height: 14px;
 }
+#p1-star, #p2-star, #p3-star {
+  height: 14px;
+  margin-left: 6px;
+  opacity: 0;
+}
 #signal-strength > div {
   display:flex;
   align-items:center;
@@ -78,7 +83,20 @@ body {
   font-weight: bold;
   font-size: 24px;
   font-family: "Open Sans";
-  text-shadow:3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  text-shadow:2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  text-align: center;
+  width: 100%;
+}
+.card > .text > .description {
+  opacity: 0;
+  transition: opacity .2s;
+  font-size: 0.95rem;
+  font-weight: normal;
+  text-shadow:1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  color: rgba(255,255,255,0.9);
+}
+.card:hover > .text > .description {
+  opacity: 1;
 }
 .card.disabled {
   filter: brightness(0.2);
@@ -101,7 +119,9 @@ body {
   display: inline-block;
   margin-right: 4px;
 }
-
+.inline {
+  height: 0.8rem;
+}
 .status.green {
   background-color: green;
 }
@@ -112,7 +132,7 @@ body {
 #signal-strength {
   position: fixed;
   top: 2px;
-  right: 4px;
+  left: 4px;
 }
 a {
   text-decoration: none;

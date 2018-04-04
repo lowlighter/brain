@@ -23,7 +23,7 @@
     if (type === "hdw") {
       if ((!h0)&&(data[1])) h0 = data[1]
       if ((!h1)&&(data[2])) h1 = data[2]
-      if ((!h2)&&(data[2])) h1 = data[2]
+      if ((!h2)&&(data[8])) h2 = data[8]
       document.getElementById("ls").style.opacity = 1
       document.getElementById("p1").style.opacity = data[1]||data[5] ? 1 : 0.1
       document.getElementById("p2").style.opacity = data[2]||data[6] ? 1 : 0.1
@@ -43,6 +43,11 @@
       if (document.getElementById("p1-icon").src != p1_i) document.getElementById("p1-icon").src = p1_i
       if (document.getElementById("p2-icon").src != p2_i) document.getElementById("p2-icon").src = p2_i
       if (document.getElementById("p3-icon").src != p3_i) document.getElementById("p3-icon").src = p3_i
+
+      document.getElementById("p1-star").style.opacity = data[4].includes(h0) ? 1 : 0
+      document.getElementById("p2-star").style.opacity = data[4].includes(h1) ? 1 : 0
+      document.getElementById("p3-star").style.opacity = data[4].includes(h2) ? 1 : 0
+
       clearTimeout(ls_timeout)
       ls_timeout = setTimeout(() => {
         document.getElementById("parrot").style.opacity = 0.1
@@ -50,6 +55,9 @@
         document.getElementById("p2").style.opacity = 0.1
         document.getElementById("p3").style.opacity = 0.1
         document.getElementById("ls").style.opacity = 0.1
+        document.getElementById("p1-star").style.opacity = 0
+        document.getElementById("p2-star").style.opacity = 0
+        document.getElementById("p3-star").style.opacity = 0
       }, 1700)
     }
   }

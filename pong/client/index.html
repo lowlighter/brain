@@ -4,6 +4,7 @@
   <title>Pong!</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <link href="pong/pong.css" media="screen, print" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
   <script src="jquery/dist/jquery.min.js"></script>
 </head>
 
@@ -166,6 +167,37 @@
       }
     }
   </script>
+
+  <div class="a-modal-wrapper">
+    <div class="a-modal">
+       <h1>Bienvenue sur Pong</h1>
+       Appuyez sur la touche 1 pour démarrer une partie en solitaire et sur la touche 2 pour démarrer une partie à 2 joueurs (dans ce cas, vérifiez que deux casques sont bien connectés).
+       Bougez la tête à gauche ou à droite pour faire bouger votre barre.
+       <br><br>
+       Vous pouvez recalibrer votre barre en appuyant sur les boutons prévus à cet effet, afin de recentrer votre position.
+    </div>
+    <style media="screen">
+      .a-modal-wrapper { font-family: 'Open Sans', sans-serif; color: black;
+        position: fixed; top: 0; left: 0; z-index: 9999;
+        width: 100vw; height: 100vh;
+        background-color: rgba(0,0,0,0.7);
+        display: none; align-items: center; justify-content: center;
+      }
+      .a-modal-wrapper .a-modal {
+        background: white; box-shadow: 0 5px 15px rgba(0,0,0,.5);
+        max-width: 60vw; padding: 16px; border-radius: 10px;
+        max-height: 80vh; overflow: auto;
+      }
+      .a-icon { position: fixed; top: 4px; right: 4px; cursor: pointer; }
+      .a-icon:hover { filter: brightness(1.5);}
+    </style>
+    <script type="text/javascript">
+      const img = document.createElement("img") ; img.src = "/miscelleanous/help.png" ; img.className += "a-icon"
+      img.onclick = () => { document.querySelector(".a-modal-wrapper").style.display = "flex" ; img.src = "/miscelleanous/help2.png" }
+      document.querySelector(".a-modal-wrapper").onclick = () => { document.querySelector(".a-modal-wrapper").style.display = "none" ; img.src = "/miscelleanous/help.png" }
+      document.body.appendChild(img)
+    </script>
+  </div>
 
 </body>
 </html>
