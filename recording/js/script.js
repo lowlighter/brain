@@ -44,7 +44,7 @@
     //Ajout des données
       chart.data.datasets.forEach((dataset, i) => dataset.data.push({x:t, y:data[i]}))
 
-      if (record.recording) record.data.push([record.data.length, t, ...data])
+      if (record.recording) record.data.push([record.data.length, t, document.querySelector("[name=metadata]").value,...data])
   }
   updateData.origin = Date.now()
   updateData.delta = 5
@@ -148,7 +148,7 @@
     //Enregistrement du ficheir
       const data = record.data.map(d => d.join(",")).join("\r\n")
       const date = new Date()
-      const file = new File([[headers, data].join("\r\n")], `${(date.getDate()).toString().padStart(2, "0")}-${(1+date.getMonth()).toString().padStart(2, "0")}-${date.getFullYear()}_${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}.csv`, {type: "text/csv"})
+      const file = new File([[headers, data].join("\r\n")], `${document.querySelector("[name=metadata]").value.replace(/;/g, "_")}-${(date.getDate()).toString().padStart(2, "0")}-${(1+date.getMonth()).toString().padStart(2, "0")}-${date.getFullYear()}_${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}.csv`, {type: "text/csv"})
       saveAs(file, file.name)
   }
 
