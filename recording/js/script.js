@@ -10,6 +10,8 @@
       if (type !== "hdw") {
         //Logs
           if (recorded[type]) updateData(type, d)
+        //Correlation
+          showCor(type, d)
       }
 
   }
@@ -86,7 +88,8 @@
   updateCharts.interval = null
   updateCharts.start = function () {
     clearInterval(updateCharts.interval)
-    updateCharts.interval = setInterval(() => updateCharts(), parseInt(document.querySelector("[name=frequency]").value))
+    let v = parseInt(document.querySelector("[name=frequency]").value)
+    updateCharts.interval = setInterval(() => updateCharts(), v)
   }
 
 
@@ -163,7 +166,7 @@
       charts[i].data.datasets = header[i.match(/_(.*)$/)[1]].map(label => { return {label, borderColor:`#${hashRGB(label)}`, fill:false, showLine:true, borderWidth:2, data:[]}})
       charts[i].update()
     }
-    charts.chart_pow.options.scales.yAxes[0].ticks.max = 16384
+    charts.chart_pow.options.scales.yAxes[0].ticks.max = 2000
     charts.chart_pow.update()
     updateData.origin = Date.now()
   }
@@ -186,39 +189,71 @@
   }
 
 
-//Average
-  function average(a) {
-  	return parseFloat((a.reduce((w, v) => w + v, 0)/a.length).toFixed(8))
+//Corrélation
+  function cor(x, y) {
+    //Moyennes
+      let ax = x.reduce((a, b) => a + b, 0)/x.length
+      let ay = y.reduce((a, b) => a + b, 0)/y.length
+
+    //Covariance
+      let sum = 0
+      for (let i = 0; i < x.length; i++) sum += (x[i] - ax) * (y[i] - ay)
+      let cov = sum/(x.length-1)
+
+    //Ecart type
+      let sx = Math.sqrt(x.map(v => (v - ax)**2).reduce((a, b) => a + b, 0)/(x.length-1))
+      let sy = Math.sqrt(y.map(v => (v - ay)**2).reduce((a, b) => a + b, 0)/(y.length-1))
+
+      return cov/(sx*sy)
   }
 
-//Correlation
-  function correlation(a, b) {
-  	const length = a.length, n = length - 1
-  	const averages = {a:average(a), b:average(b), sum:0}
-  	let sx = 0, sy = 0
-  	for (let i = 0; i < length; i++) {
-  		const x = a[i] - averages.a
-  		const y = b[i] - averages.b
-  		averages.sum += (x * y)
-  		sx += (x ** 2)
-  		sy += (y ** 2)
-  	}
-  	sx = Math.sqrt(sx / n)
-  	sy = Math.sqrt(sy / n)
-  	return parseFloat((averages.sum / (n * sx * sy)).toFixed(8))
+  function showCor(type, d) {
+    if (type != "pow") return
+    let l = cor.data[0].length, L = cor.data.length
+    cor.data.map((a, i) => a.push(d[i]))
+    if (l > showCor.frame) cor.data = cor.data.map(a => { return a.slice(-showCor.frame) })
+    if (l == showCor.frame) {
+
+      let c = []
+
+      for (let i = 0; i < L; i++) {
+        for (let j = 0; j < L; j++) {
+          c.push(cor(cor.data[i], cor.data[j]))
+        }
+      }
+
+
+      let max = Math.max(...(c.map(v => Math.abs(v))))
+      c = c.map(v => Math.abs(v)/max)
+
+      for (let i = 0; i < drawMatrix.data.data.length; i+=4) {
+        let v = Math.round(c.shift()*255)
+        drawMatrix.data.data[i+0] = v
+        drawMatrix.data.data[i+1] = v
+        drawMatrix.data.data[i+2] = v
+      }
+    }
   }
 
+  showCor.frame = 50
+  cor.data = new Array(25).fill([])
+
+//Affichage de la matrix de corrélation
   function drawMatrix() {
     const c = document.getElementById("cmatrix")
     const ctx = c.getContext("2d")
-
     ctx.putImageData(drawMatrix.data, 0, 0)
   }
+
+//Alpha à 1
   drawMatrix.data = new ImageData(25, 25)
   for (let i = 3; i < drawMatrix.data.data.length; i+=4) {
     drawMatrix.data.data[i] = 255
   }
 
+//R à 1
   for (let i = 0; i < drawMatrix.data.data.length; i+=4) {
-    drawMatrix.data.data[i] = 255
+    drawMatrix.data.data[i+0] = 255
+    drawMatrix.data.data[i+1] = 255
+    drawMatrix.data.data[i+2] = 255
   }
