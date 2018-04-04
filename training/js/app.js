@@ -6,11 +6,48 @@ let timerInterval;
 const learningTime = 8;
 let timerText;
 
+let isTraining = false
+
+
 const ws = new WebSocket(`ws://${(window.location.href.match(/\d+\.\d+\.\d+\.\d+/)||["localhost"])[0]}:3001`)
 
-function annimate(action){
+function annimate(action, percent){
 	let ball = document.querySelector(".ball");
-	ball.className = "ball " + action;
+	if(percent != undefined){
+		if(action == "pull"){
+			let startScale = 2
+			let startTranslate = -27
+			let stopScale = 1
+			let stopTranslate = 0
+			let currentScale = (startScale-stopScale)*percent + stopScale
+			let currentTranslate = startTranslate * percent
+			ball.style.transform = "scale(" + currentScale + ") translateY(" + currentTranslate + "%)"
+
+		}
+		if(action == "push"){
+			let startScale = 1
+			let startTranslate = 0
+			let stopScale = 2
+			let stopTranslate = -27
+			let currentScale = (stopScale-startScale)*percent + startScale
+			let currentTranslate = stopTranslate * percent
+			ball.style.transform = "scale(" + currentScale + ") translateY(" + currentTranslate + "%)"
+		}
+
+		if(action == "left"){
+			let startX = 50;
+			let currentX = percent * startX + startX;
+			ball.style.right = currentX + "vw"
+		}
+
+		if(action == "right"){
+			let startX = 50;
+			let currentX = (1-percent) * startX;
+			ball.style.right = currentX + "vw"
+		}
+	}else{
+		ball.className = "ball " + action;
+	}
 }
 
 
@@ -41,6 +78,9 @@ ws.onmessage = (message) => {
 	if(type == "com"){
 		document.querySelector("#trainResult").innerHTML = data[0]
 		document.querySelector("#trainPourcentage").innerHTML = data[1]
+		if(!isTraining){
+			annimate(data[0], data[1])
+		}
 	}
 	if(type == "sys"){
 		console.log(data)
@@ -53,6 +93,7 @@ ws.onmessage = (message) => {
 		if(data[1].includes("MC_Succeeded")){
 			clearInterval(timerInterval);
 			annimate("neutral")
+			isTraining = false;
 			if (confirm('Do you accept the training?')) {
 				ws.send(JSON.stringify({ "action" :"training", "trainingAction" : actionList[actionIndex], "status" : "accept"}));
 			} else {
@@ -94,6 +135,7 @@ function resetTraining(index){
 
 function startTimer(){
 	let timeLeft = learningTime;
+	isTraining = true;
 	timerText = document.querySelector("#timer");
 	timerText.innerHTML = timeLeft + "";
 
