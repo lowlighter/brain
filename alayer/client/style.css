@@ -1,9 +1,9 @@
-#p1-icon, #p2-icon {
+#p1-icon, #p2-icon, #p3-icon {
   height: 16px;
   margin-right: 8px;
   margin-left: 6px;
 }
-#p1-bat, #p2-bat {
+#p1-bat, #p2-bat, #p3-bat {
   height: 14px;
 }
 #signal-strength > div {

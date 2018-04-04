@@ -20,7 +20,8 @@
     "config": {
         "hardware": [
             "INSIGHT-5A688E2E",
-            "INSIGHT-5A688E44"
+            "INSIGHT-5A688E44",
+            "INSIGHT-5A688F22"
         ]
     }
 }
