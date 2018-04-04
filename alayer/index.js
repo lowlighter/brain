@@ -9,7 +9,7 @@
   const id = require('./modules/id')()
 
 //Hardware and status
-  const hardware = process.env.npm_package_config_hardware||["INSIGHT-5A688E2E", "INSIGHT-5A688E44"]
+  const hardware = process.env.npm_package_config_hardware||["INSIGHT-5A688E2E", "INSIGHT-5A688E44", "INSIGHT-5A688F22"]
   const logger = require('./modules/status')(hardware, id)
   const status = logger.status
 

@@ -59,9 +59,9 @@
       process.stdout.write(`  # - Server status\n`)
       process.stdout.write(`  ¤ - Headsets research status\n`)
       process.stdout.write(`  @ - Remote server connection status\n\n`)
-      process.stdout.write(`┍━━━┯━━━┯━━━┯${'━'.repeat(12)}┯${'━'.repeat(12)}┯${'━'.repeat(13)}┯${'━'.repeat(13)}┑\n`)
-      process.stdout.write(`│ # │ ¤ │ @ │ ${'Server'.padEnd(10)} │ ${'Sockets'.padEnd(10)} │ ${'Headsets'.padEnd(11)} │ ${'Parrot'.padEnd(11)} │\n`)
-      process.stdout.write(`┝━━━┿━━━┿━━━┿${'━'.repeat(12)}┿${'━'.repeat(12)}┿${'━'.repeat(6)+'┯'+'━'.repeat(6)}┿${'━'.repeat(13)}┥\n`)
+      process.stdout.write(`┍━━━┯━━━┯━━━┯${'━'.repeat(12)}┯${'━'.repeat(12)}┯${'━'.repeat(20)}┯${'━'.repeat(13)}┑\n`)
+      process.stdout.write(`│ # │ ¤ │ @ │ ${'Server'.padEnd(10)} │ ${'Sockets'.padEnd(10)} │ ${'Headsets'.padEnd(18)} │ ${'Parrot'.padEnd(11)} │\n`)
+      process.stdout.write(`┝━━━┿━━━┿━━━┿${'━'.repeat(12)}┿${'━'.repeat(12)}┿${'━'.repeat(6)+'┯'+'━'.repeat(6)+'┯'+'━'.repeat(6)}┿${'━'.repeat(13)}┥\n`)
       if (update) setInterval(() => status.update(), 500)
       status.update()
     },
@@ -74,10 +74,11 @@
       //Headsets
       let h0 = status.headsets.includes(status.hardware[0]), r0 = status.remote_hdw.includes(status.hardware[0])
       let h1 = status.headsets.includes(status.hardware[1]), r1 = status.remote_hdw.includes(status.hardware[1])
+      let h2 = status.headsets.includes(status.hardware[2]), r2 = status.remote_hdw.includes(status.hardware[2])
       let prefered = status.headsets.length ? status.headsets[0] : status.remote_hdw.length ? status.remote_hdw.filter(v => v)[0] : status.hardware[0]
-      let headset = [`\x1b[${h0 ? 32 : r0 ? 33 : 31}m${status.hardware[0].slice(-4)}\x1b[0m`, `\x1b[${h1 ? 32 : r1 ? 33 : 31}m${status.hardware[1].slice(-4)}\x1b[0m`]
+      let headset = [`\x1b[${h0 ? 32 : r0 ? 33 : 31}m${(status.hardware[0]||[]).slice(-4)}\x1b[0m`, `\x1b[${h1 ? 32 : r1 ? 33 : 31}m${(status.hardware[1]||[]).slice(-4)}\x1b[0m`, `\x1b[${h2 ? 32 : r2 ? 33 : 31}m${(status.hardware[2]||[]).slice(-4)}\x1b[0m`]
       let parrot = `\x1b[${status.parrot ? 32 : 31}m${(status.parrot_connected ? "Connected" : status.parrot ? "Available" : "Unavailable").padEnd(11)}\x1b[0m`
-      process.stdout.write(`\r│ ${c} │ ${d} │ ${rs} │ ${server} │ ${socket} │ ${headset[0]} │ ${headset[1]} │ ${parrot} │`)
+      process.stdout.write(`\r│ ${c} │ ${d} │ ${rs} │ ${server} │ ${socket} │ ${headset[0]} │ ${headset[1]} │ ${headset[2]} │ ${parrot} │`)
       //hdw event :
       //  hardware[0] string id | false
       //  hardware[1] string id | false
@@ -86,7 +87,9 @@
       //  hardware[0] is remote connected
       //  hardware[1] is remote connected
       //  remote server is active
-      emitter.emit("event", {hdw:[h0 ? status.hardware[0] : false, h1 ? status.hardware[1] : false, status.parrot, prefered, r0, r1, status.remote]})
+      //  hardware[2] string id | false
+      //  hardware[2] is remote connected
+      emitter.emit("event", {hdw:[h0 ? status.hardware[0] : false, h1 ? status.hardware[1] : false, status.parrot, prefered, r0, r1, status.remote, h2 ? status.hardware[2] : false, r2]})
     }
   }
 
