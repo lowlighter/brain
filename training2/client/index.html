@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <a href="/"><button class="homeButton" type="button" name="button">Home</button></a>
+    <div class="terminal">
+      <div class="kill">X</div>
+    </div>
+    <style media="screen">
+      .terminal {
+        position: relative;
+        background: black;
+        border-radius: 5px;
+        width: 80vw;
+        height: 80vh;
+        color: white;
+        padding: 8px;
+      }
+      .err {
+        color: darkred;
+      }
+      .bold {
+        font-weight: bold;
+      }
+      .kill {
+        cursor: pointer;
+        position: absolute;
+        right: 0;
+        top: 0;
+        border-top-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+        background: white;
+        width: 25px;
+        height: 25px;
+        border: 2px solid black;
+        display: flex;
+        color: black;
+        align-items: center;
+        justify-content: center;
+      }
+      .kill:hover {
+        background-color: darkred;
+      }
+    </style>
+    <script type="text/javascript">
+    const ws = new WebSocket(`ws://${(window.location.href.match(/\d+\.\d+\.\d+\.\d+/)||["localhost"])[0]}:3001`)
+    ws.onmessage = event => {
+      const data = JSON.parse(event.data)
+      const type = data.shift()
+      if (type === "inf") {
+        document.querySelector(".terminal").innerHTML += `<span class="${data[1]}">${data[2].replace(/\n(?!$)/g, "<br>")}</span><br>`
+      }
+    }
+    ws.onopen = () => ws.send(JSON.stringify({action:"python_training"}))
+    window.onunload = () =>   ws.send(JSON.stringify({action:"python_kill"}))
+    window.onload = () => {
+      document.querySelector(".kill").onclick = () => ws.send(JSON.stringify({action:"python_kill"}))
+    }
+    </script>
+  </body>
+</html>
