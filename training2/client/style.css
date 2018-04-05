@@ -44,3 +44,38 @@ button {
   margin-bottom: 10px;
   margin-top: 10px;
 }
+.terminal {
+  position: relative;
+  background: black;
+  border-radius: 5px;
+  width: 80vw;
+  height: 80vh;
+  color: white;
+  padding: 8px;
+  overflow: auto;
+}
+.err {
+  color: darkred;
+}
+.bold {
+  font-weight: bold;
+}
+.kill {
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: 0;
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  background: white;
+  width: 25px;
+  height: 25px;
+  border: 2px solid black;
+  display: flex;
+  color: black;
+  align-items: center;
+  justify-content: center;
+}
+.kill:hover {
+  background-color: darkred;
+}
