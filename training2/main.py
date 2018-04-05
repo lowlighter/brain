@@ -14,6 +14,8 @@ import json
 import numpy as np
 import operator
 import sys
+import threading
+from time import sleep
 
 actions = ["neutre", "gauche", "droite"]
 rdataset = DataFrame()
@@ -161,7 +163,17 @@ timer = InfiniteTimer(20, update)
 
 if __name__ == "__main__":
     print("Python training started")
+    websocket.enableTrace(True)
     ws = websocket.WebSocketApp("ws://localhost:3001", on_message = on_message, on_error = on_error, on_close = on_close)
     ws.on_open = on_open
-    print("test")
-    #ws.run_forever()
+    wst = threading.Thread(target=ws.run_forever)
+    wst.daemon = True
+    wst.start()
+
+    conn_timeout = 5
+    while not ws.sock.connected and conn_timeout:
+        sleep(1)
+        conn_timeout -= 1
+
+    while ws.sock.connected:
+        sleep(1)

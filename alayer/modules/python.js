@@ -23,7 +23,7 @@
   wrapper.training = function () {
     if (!status.python) return emitter.emit("event", {inf:["err", "python environment is not available on current server"]})
     if (!wrapper.free) return null
-    if (wrapper.kill()) return setTimeout(wrapper.training, 2000)
+    wrapper.kill()
     wrapper.free = false
     wrapper.python = spawn('python', ['./../../training2/main.py'], {cwd:__dirname})
     wrapper.python.stdout.on('data', data => emitter.emit("event", {inf:["out", data.toString()]}))
@@ -31,6 +31,8 @@
     emitter.emit("event", {inf:["out", `starting new instance of python (pid : ${wrapper.python.pid})`]})
     wrapper.python.on('close', data => { wrapper.free = true ; wrapper.python = null ; emitter.emit("event", {inf:["err", `program terminated : ${data.toString()}`]}) })
     wrapper.python.on('error', data => { wrapper.free = true ; wrapper.python = null ; emitter.emit("event", {inf:["err", `program error : ${data.toString()}`]}) })
+
+    wrapper.python.on('message', data => { console.log(data) })
   }
 
 //Kill process
