@@ -22,6 +22,9 @@
   let commits = require('child_process').execSync('git rev-list --count master').toString().replace(/\n/g, "")
   if (Number.isNaN(Number(commits))) commits = "(unavailable)"
 
+//Python
+  const python = require("./python")
+
 //Status
   const status = {
     id:"unknown",
@@ -36,6 +39,8 @@
     connect:false,
     remote:null,
     cortex:false,
+    python:false,
+    debug:false,
     remote_ip:"(none)",
     init(hardware, id, update = true) {
       if (hardware) status.hardware = hardware
@@ -49,8 +54,10 @@
       process.stdout.write(`  ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝\n\n`)
 
       process.stdout.write(`  ${"Latest commit update".padEnd(35, " ")} │ ${commits}\n`)
+      process.stdout.write(`  ${"Debug mode".padEnd(35, " ")} │ ${status.debug ? "Enabled" : "Disabled"}\n`)
       process.stdout.write(`  ${" ".padEnd(35, " ")} │ \n`)
       process.stdout.write(`  ${"CortexService status".padEnd(35, " ")} │ \x1b[${status.cortex ? 37 : 31}m${(status.cortex ? "Running" : "Not running")}\x1b[0m\n`)
+      process.stdout.write(`  ${"Python environment".padEnd(35, " ")} │ \x1b[${status.python ? 37 : 31}m${(status.python ? "Available" : "Unavailable")}\x1b[0m\n`)
       process.stdout.write(`  ${"Server websockets id".padEnd(35, " ")} │ ${status.id}\n`)
       process.stdout.write(`  ${"Remote server ip address".padEnd(35, " ")} │ ${status.remote_ip}\n`)
       process.stdout.write(`  ${" ".padEnd(35, " ")} │ \n`)
@@ -95,6 +102,7 @@
 
 //Exports
   module.exports = function (hardware, id) {
+    status.python = python.available()
     running('CortexService.exe', 'CortexService', 'CortexService').then(v => {
       status.cortex = v
       status.init(hardware, id)

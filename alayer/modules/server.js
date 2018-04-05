@@ -4,6 +4,7 @@
   const WebSocket = require('ws')
   const wss = new WebSocket.Server({port:3001})
   const parrot = require('../../parrot/index')
+  const python = require('./python')
   let client = null, sid = null, rws = null, _status = {}
 
 //Callbacks list
@@ -16,11 +17,13 @@
     met:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['met', headset, ...event.met])) })],
     hdw:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['hdw', headset, ...event.hdw])) })],
     com:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['com', headset, ...event.com])) })],
+    inf:[(event, headset) => wss.clients.forEach(ws => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(['inf', headset, ...event.inf])) })],
   }
 
 //Exports
   module.exports = function (app, status, remote, id) {
       _status = status
+      python(callbacks, status)
     //Static server
       app.use('/battle1', express.static(path.join(__dirname, '../../battle1')))
       app.use('/cubefield', express.static(path.join(__dirname, '../../cubefield')))
@@ -32,6 +35,7 @@
       app.use('/prediction', express.static(path.join(__dirname, '../../prediction')))
       app.use('/recording', express.static(path.join(__dirname, '../../recording')))
       app.use('/training', express.static(path.join(__dirname, '../../training')))
+      app.use('/training2', express.static(path.join(__dirname, '../../training2/client')))
       app.use('/static', express.static(path.join(__dirname, '../../miscelleanous/static')))
       app.use('/', express.static(path.join(__dirname, './../client')))
 
@@ -98,6 +102,12 @@
                 ws.alayer_id = parsed.id
               case "getId":
                 ws.send(JSON.stringify(["getId", ws.alayer_id]))
+                break
+              case "python_training":
+                python.training()
+                break
+              case "python_kill":
+                python.kill()
                 break
               default:
             }
