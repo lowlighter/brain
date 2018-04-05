@@ -11,43 +11,48 @@
     <div class="terminal">
       <div class="kill">X</div>
     </div>
-    <style media="screen">
-      .terminal {
-        position: relative;
-        background: black;
-        border-radius: 5px;
-        width: 80vw;
-        height: 80vh;
-        color: white;
-        padding: 8px;
-        overflow: auto;
-      }
-      .err {
-        color: darkred;
-      }
-      .bold {
-        font-weight: bold;
-      }
-      .kill {
-        cursor: pointer;
-        position: absolute;
-        right: 0;
-        top: 0;
-        border-top-right-radius: 5px;
-        border-bottom-left-radius: 5px;
-        background: white;
-        width: 25px;
-        height: 25px;
-        border: 2px solid black;
-        display: flex;
-        color: black;
-        align-items: center;
-        justify-content: center;
-      }
-      .kill:hover {
-        background-color: darkred;
-      }
-    </style>
+    <div class="a-modal-wrapper">
+      <div class="a-modal">
+        <h1>Bienvenue sur l'entrainement personnalisé</h1>
+        <h3>A propos</h3>
+        Cette application est une alternative artisanale française à l'API d'Emotiv. Afin de pouvoir l'utiliser, un environement python est requis avec les paquets suivants installés :<br>
+        - numpy<br>
+        - json<br>
+        - pandas<br>
+        - keras<br>
+        - websocket-client<br>
+        - sklearn<br>
+        <br>
+        Par ailleurs, tensorflow doit être installé, et il est aussi préférable d'utiliser anaconda. Vous pouvez vérifier l'état de votre environnement python dans l'invite de commande
+        qui fait tourner le serveur, ou à défaut, sur cette page qui vous affichera un message d'erreur si les prérequis ne sont pas remplies.
+        <br><br>
+        Le nombre de processus a été limité à 1 afin d'éviter de ralentir votre ordinateur. Si vous quittez ou rechargez cette page, le processus précédent sera tué et un nouveau sera généré.
+        <br><br>
+        <h3>Fonctionnement</h3>
+        A détailler
+      </div>
+      <style media="screen">
+        .a-modal-wrapper { font-family: 'Open Sans', sans-serif; color: black;
+          position: fixed; top: 0; left: 0; z-index: 9999;
+          width: 100vw; height: 100vh;
+          background-color: rgba(0,0,0,0.7);
+          display: none; align-items: center; justify-content: center;
+        }
+        .a-modal-wrapper .a-modal {
+          background: white; box-shadow: 0 5px 15px rgba(0,0,0,.5);
+          max-width: 60vw; padding: 16px; border-radius: 10px;
+          max-height: 80vh; overflow: auto;
+        }
+        .a-icon { position: fixed; top: 4px; right: 4px; cursor: pointer; }
+        .a-icon:hover { filter: brightness(1.5);}
+      </style>
+      <script type="text/javascript">
+        const img = document.createElement("img") ; img.src = "/miscelleanous/help.png" ; img.className += "a-icon"
+        img.onclick = () => { document.querySelector(".a-modal-wrapper").style.display = "flex" ; img.src = "/miscelleanous/help2.png" }
+        document.querySelector(".a-modal-wrapper").onclick = () => { document.querySelector(".a-modal-wrapper").style.display = "none" ; img.src = "/miscelleanous/help.png" }
+        document.body.appendChild(img)
+      </script>
+    </div>
     <script type="text/javascript">
     const ws = new WebSocket(`ws://${(window.location.href.match(/\d+\.\d+\.\d+\.\d+/)||["localhost"])[0]}:3001`)
     ws.onmessage = event => {
