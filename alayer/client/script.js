@@ -9,16 +9,21 @@
     if (type === "dev") {
       if ((data[3].reduce)&&(data[0].includes(h0))) {
         document.getElementById("signal-strength-1").innerHTML = (data[3].reduce((w, v) => w + v)/5/4).toFixed(2)
+        document.getElementById("signal-strength-sensors-1").innerHTML = `[${data[3].join(" ")}]`
         document.getElementById("p1-bat").src = `miscelleanous/battery_${Math.max(1, data[1])}.png`
       }
       if ((data[3].reduce)&&(data[0].includes(h1))) {
         document.getElementById("signal-strength-2").innerHTML = (data[3].reduce((w, v) => w + v)/5/4).toFixed(2)
+        document.getElementById("signal-strength-sensors-2").innerHTML = `[${data[3].join(" ")}]`
         document.getElementById("p2-bat").src = `miscelleanous/battery_${Math.max(1, data[1])}.png`
       }
       if ((data[3].reduce)&&(data[0].includes(h2))) {
         document.getElementById("signal-strength-3").innerHTML = (data[3].reduce((w, v) => w + v)/5/4).toFixed(2)
+        document.getElementById("signal-strength-sensors-3").innerHTML = `[${data[3].join(" ")}]`
         document.getElementById("p3-bat").src = `miscelleanous/battery_${Math.max(1, data[1])}.png`
       }
+
+
     }
     if (type === "hdw") {
       if ((!h0)&&(data[1])) h0 = data[1]

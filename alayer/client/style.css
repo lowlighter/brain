@@ -15,6 +15,11 @@
   display:flex;
   align-items:center;
 }
+#signal-strength-sensors-1, #signal-strength-sensors-2, #signal-strength-sensors-3 {
+  margin: 0px 6px;
+  font-size: 0.7rem;
+  color: gray;
+}
 body {
   font-family: 'Open Sans', sans-serif;
   height: 100vh;
@@ -61,8 +66,8 @@ body {
 }
 .wrapper > .card {
   border-radius: 5px;
-  width: 250px;
-  height: 250px;
+  width: 220px;
+  height: 220px;
   background-color: rgba(0,0,0,0.4);
   margin: 5px;
   background-size: cover;
@@ -90,10 +95,11 @@ body {
 .card > .text > .description {
   opacity: 0;
   transition: opacity .2s;
-  font-size: 0.95rem;
+  font-size: 0.75rem;
   font-weight: normal;
   text-shadow:1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
   color: rgba(255,255,255,0.9);
+  min-height: 4rem;
 }
 .card:hover > .text > .description {
   opacity: 1;
