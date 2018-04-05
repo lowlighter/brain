@@ -20,6 +20,7 @@
         height: 80vh;
         color: white;
         padding: 8px;
+        overflow: auto;
       }
       .err {
         color: darkred;
@@ -54,6 +55,7 @@
       const type = data.shift()
       if (type === "inf") {
         document.querySelector(".terminal").innerHTML += `<span class="${data[1]}">${data[2].replace(/\n(?!$)/g, "<br>")}</span><br>`
+        document.querySelector(".terminal").scrollTop = document.querySelector(".terminal").scrollHeight
       }
     }
     ws.onopen = () => ws.send(JSON.stringify({action:"python_training"}))
