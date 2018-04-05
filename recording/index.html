@@ -54,7 +54,7 @@
         </div>
         <div class="input-group">
           <div class="input-group-prepend"><span class="input-group-text">Raffraichissement (ms)</span></div>
-          <input type="number" class="form-control" name="frequency" value="100" onkeyup="updateCharts.start()">
+          <input type="number" class="form-control" name="frequency" value="250" onkeyup="updateCharts.start()">
         </div>
         <div class="input-group">
           <div class="input-group-prepend"><span class="input-group-text">Metadonnées</span></div>
@@ -82,7 +82,21 @@
 
     <div class="a-modal-wrapper">
       <div class="a-modal">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        <h1>Bienvenue sur l'utilitaire d'enregistrement</h1>
+        <h3>Récupérer les données au format .csv</h3>
+        Depuis cette page, vous pouvez visualiser les différentes données de chaque canal du casque. Par défaut, le mode <span class="bold">écoute</span> est actif et ne
+        fait qu'afficher les données émises par le casque EEG.
+        <br><br>
+        Il est possible de générer des fichiers <span class="bold">.csv</span> pour faciliter vos apprentissages en utilisant le bouton enregistrer.
+        Vous pouvez alors sélectionner la durée d'un enregistrement, le nombre d'enregistrement à effectuer (itérations) ainsi que d'éventuelles métadonnées pour labelliser vos valeurs (e.g. "gauche", "droite", etc.).
+        Le numéro de ligne ainsi que le temps sont automatiquement ajoutés au début du csv généré.
+        <br><br>
+        Le taux de raffraichissement n'est <span class="bold">pas</span> celui du casque, mais uniquement la fréquence à laquelle le graphique est actualisé.
+        Notez que si vous effectuer de longs enregistrements (> 1 min), il est conseillé de choisir un raffraichissement plus long afin d'éviter que votre ordinateur agonise.
+        <br><br>
+        <h3>Matrice de corrélation</h3>
+        Le carré en bas à droite représente la matrice de corrélation de chacun des 25 signal entre eux, blanc représentant une corrélation maximale tandis que noir une corrélation minimale.
+        Celle-ci est réalisée sur la base des 25 derniers échantillons.
       </div>
       <style media="screen">
         .a-modal-wrapper { font-family: 'Open Sans', sans-serif; color: black;

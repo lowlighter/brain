@@ -102,10 +102,12 @@ button {
   flex-grow: 1;
 }
 #cmatrix {
-  transform: scale(8);
+  transform: scale(14);
   image-rendering: pixelated;
 }
-
+.bold {
+  font-weight: bold;
+}
 
 [role="tab"] {
   color: inherit;

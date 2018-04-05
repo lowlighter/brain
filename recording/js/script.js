@@ -235,7 +235,7 @@
     }
   }
 
-  showCor.frame = 50
+  showCor.frame = 25
   cor.data = new Array(25).fill([])
 
 //Affichage de la matrix de corrélation
