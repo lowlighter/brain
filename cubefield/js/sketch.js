@@ -1,5 +1,5 @@
 let boxes = [];
-let length = 80;
+let length = 40;
 let falcon;
 
 let angle = 0.0;
@@ -51,15 +51,15 @@ function updateAngle() {
 function keyPressed() {
   move = true;
   if(keyCode === 81)
-    speed = +acc;
+    speed = speed < 0 ? +1.5 * acc : +acc;
   else if(keyCode === 68)
-    speed = -acc;
+    speed = speed > 0 ? -1.5 * acc : -acc;
 }
 
 function keyReleased() {
   move = false;
   if(keyCode === 81)
-    speed = -acc;
+    speed = speed > 0 ? -1.5 * acc : -acc;
   else if(keyCode === 68)
-    speed = +acc;
+    speed = speed < 0 ? +1.5 * acc : +acc;
 }
