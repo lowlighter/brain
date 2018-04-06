@@ -114,6 +114,27 @@ def record(data, metadata = ""):
     rdataset = rdataset.append(append, ignore_index=True)
 
 
+def save(model, name):
+    '''
+    Enregistre le modèle au format json
+    '''
+    json = model.to_json()
+    with open("./models/{name}.json".format(name=name), "w") as file:
+        file.write(json)
+    model.save_weights("model.h5")
+    print("Saved model to disk")
+
+def load(name):
+    '''
+    Charge un modèle stocké au format json
+    '''
+    file = open("./models/{name}.json".format(name=name), 'r')
+    json = file.read()
+    file.close()
+    model = model_from_json(json)
+    model.load_weights("model.h5")
+    return model
+
 def on_message(ws, message):
     '''
     Enregistre les données reçues par la websocket
