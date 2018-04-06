@@ -28,7 +28,7 @@
 
 //List of headers
   const header = {
-    global:["n", "time"],
+    global:["n", "time", "metadata"],
     pow:["AF3_theta", "AF3_alpha", "AF3_betaL", "AF3_betaH", "AF3_gamma", "T7_theta", "T7_alpha", "T7_betaL", "T7_betaH", "T7_gamma", "Pz_theta", "Pz_alpha", "Pz_betaL", "Pz_betaH", "Pz_gamma", "T8_theta", "T8_alpha", "T8_betaL", "T8_betaH", "T8_gamma", "AF4_theta", "AF4_alpha", "AF4_betaL", "AF4_betaH", "AF4_gamma"],
     met:["interest", "stress", "relaxation", "excitement", "engagement", "long_term_excitement", "focus"],
     fac:["eye_action", "upper_face_action", "upper_face_power", "lower_face_action", "lower_face_power"],
@@ -235,7 +235,7 @@
     }
   }
 
-  showCor.frame = 50
+  showCor.frame = 25
   cor.data = new Array(25).fill([])
 
 //Affichage de la matrix de corrélation

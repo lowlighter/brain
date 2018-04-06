@@ -35,9 +35,12 @@ class Player {
     sprite2.anchor.x = this.textures.s < 0 ? 1 : 0
     app.stage.addChild(sprite2)
     app.ticker.add(() => {
-      this.score += Math.sign(this.nscore - this.score)
-      this.sprite12.width = this.score||0 + 2
+      this.sprite12.width = this.nscore||0 + 2
       this.sprite2.position.set(this.sprite12.x+this.textures.s*(this.sprite12.width - 2), this.sprite12.y)
+      this.sprite4.text = Math.floor(this.score)
+      this.sprite4.position.x = -this.sprite4.width/2
+      this.sprite42.text = this.score.toFixed(3).match(/(\..*)$/)[1]
+      this.sprite42.position.set(14*this.sprite4.text.length, 10)
     })
 
     let sprite3 = this.sprite3 = new PIXI.extras.AnimatedSprite(["60.png", "61.png"].map(frame => PIXI.Texture.fromFrame(frame)))
@@ -48,6 +51,16 @@ class Player {
     this.sprite.addChild(sprite3)
     sprite3.alpha = 0.5
     sprite3.visible = false
+
+    let sprite4 = this.sprite4 = new PIXI.Text("1000", {fontSize:24, fontWeight:"bold"})
+    sprite4.scale.set(0.5)
+    this.sprite.addChild(sprite4)
+    sprite4.position.set(0, 32)
+
+    let sprite42 = this.sprite42 = new PIXI.Text(".000", {fontSize:14, fontWeight:"bold"})
+    this.sprite4.addChild(sprite42)
+    sprite42.position.set(16, 10)
+    sprite42.alpha = 0.6
   }
 
   position_init() {
@@ -92,23 +105,70 @@ app.loader.onComplete.add(() => {
   bg.width = app.view.width
   app.stage.addChild(bg)
 
+  app.stage.interactive = true
+  app.stage.click = () => { if (win.won) reset() }
+
   const goku = new Goku()
   window.goku = goku
   const vegeta = new Vegeta()
   window.vegeta = vegeta
 
-  function update(scores, force) {
-    const total = scores[0] + scores[1]
-    goku.nscore = 365 * (scores[0]/total)
-    vegeta.nscore = 365 * (scores[1]/total)
-    if (force) {
-      goku.score = goku.nscore
-      vegeta.score = vegeta.nscore
-    }
+  const text = new PIXI.Text("", {fontSize:32, fontWeight:"bold", fill:"#ead61c", align:"center"})
+  app.stage.addChild(text)
+  text.position.y = 450
+
+  function setText(t) {
+    text.text = t
+    text.position.x = (app.view.width-text.width)/2
+    text.alpha = 1
   }
 
-  update([1, 1], true)
+  function win() {
+    if (goku.score > win.pts) { goku.saiyan = true ; setText("Goku a gagné la partie !\nCliquez pour rejouer") }
+    if (vegeta.score > win.pts) { vegeta.saiyan = true ; setText("Végéta gagné la partie !\nCliquez pour rejouer") }
+    win.won = true
+  }
+  win.won = true
+  win.pts = 9000
+
+  function update(scores, force) {
+    if ((win.won)&&(!force)) return
+    const power = scores[0] + scores[1]
+    goku.score += update.max * scores[0]/(power||1)
+    vegeta.score += update.max * scores[1]/(power||1)
+
+    let mx = Math.max(goku.score, vegeta.score)||1
+    goku.nscore = 365 * (0.5 + (goku.score-vegeta.score)/mx)
+    vegeta.nscore = 365 * (0.5 + (vegeta.score-goku.score)/mx)
+    if ((goku.score > win.pts)||(vegeta.score > win.pts)) win()
+  }
+  update.max = 9
+
+
+  function reset() {
+    clearInterval(reset.interval)
+    reset.t = 3
+    goku.score = 0
+    vegeta.score = 0
+    goku.saiyan = false
+    vegeta.saiyan = false
+    update([0, 0], true)
+    reset.interval = setInterval(() => {
+      setText(reset.t)
+      reset.t--
+      if (reset.t < 0) {
+        clearInterval(reset.interval)
+        setText("C'est parti !")
+        win.won = false ;
+        setTimeout(() => { setText("") ; text.alpha = 0 }, 1600)
+      }
+    }, 1000)
+  }
+
+  setText("Cliquez pour jouer")
+  update([0, 0], true)
   window.update = update
+  window.reset = reset
 
 })
 app.loader.add("sprites/textures.json").load()

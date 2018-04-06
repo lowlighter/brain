@@ -44,78 +44,40 @@ button {
   margin-bottom: 10px;
   margin-top: 10px;
 }
-.charts {
-  width: 100%;
-  max-width: 95vw;
-  max-height: 95vh;
-}
-
-
-.flex {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-}
-.flex > * {
-  margin: 5px;
-}
-[name="duration"], [name="iteration"] {
-  width: 100px;
-}
-.logs {
-  font-size: 0.7rem;
-  overflow-y: auto;
-  margin: 4px;
-}
-
-.badge {
-  margin-right: 4px;
-}
-
-.wrapper, .logs {
+.terminal {
+  position: relative;
+  background: black;
+  border-radius: 5px;
+  width: 80vw;
   height: 80vh;
+  color: white;
+  padding: 8px;
+  overflow: auto;
 }
-
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.input-group {
-  width: auto;
-}
-.controls {
-  min-height: 34px;
-  max-width: 95vw;
-  display: flex;
-  justify-content: flex-start;
-}
-.nav {
-  min-height: 34px;
-  width: 100%;
-  text-align: center;
-}
-
-.nav > * {
-  flex-grow: 1;
-}
-#cmatrix {
-  transform: scale(14);
-  image-rendering: pixelated;
+.err {
+  color: darkred;
 }
 .bold {
   font-weight: bold;
 }
-
-[role="tab"] {
-  color: inherit;
-  text-decoration: none;
+.kill {
+  z-index: 9000;
+  cursor: pointer;
+  position: fixed;
+  right: 10vw;
+  top: 10vh;
+  transform: translateX(25%) translateY(-25%);
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  background: white;
+  width: 25px;
+  height: 25px;
+  border: 2px solid black;
+  display: flex;
+  color: black;
+  align-items: center;
+  justify-content: center;
 }
-[role="tab"]:hover {
-  text-decoration: none;
-}
-[role="tab"].active {
-  color: #007bff;
+.kill:hover {
+  background-color: darkred;
 }
