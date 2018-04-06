@@ -7,12 +7,28 @@
 		<script type="text/javascript" src="js/keras.min.js"></script>
 	</head>
 	<body>
+    <a href="/"><button class="homeButton" type="button" name="button">Home</button></a>
 		<script type="text/javascript" src="js/sketch.js"></script>
 		<script type="text/javascript" src="js/prediction.js"></script>
 		<a href="/"><button class="homeButton" type="button" name="button">Home</button></a>
 		<div class="a-modal-wrapper">
       <div class="a-modal">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        <h1>Modèle de Prédiction</h1>
+        <p>
+          Cette application a pour but de visualiser les sorties d'un modèle de prédiction généré par un réseau de neurones spécifique : un auto-encoder.
+        </p>
+        <p>
+          Le modèle de prédiction reçoit les 25 canaux d'entrée du casque connecté. Par son modèle de réseau de neurones, il ressort ces données traitées par 5 neurones de sortie, chacun représentés par une couleur différente.
+        </p>
+        <p>
+          La représentation actuelle affiche les neurones de sortie au cours du temps, selon un ordre décroissant de poids sur les résultats. 
+        </p>
+        <h2>Légende</h2>
+        <p><span class="red">wii</span>  Neurone #1 : <i>En cours de compréhension</i></p>
+        <p><span class="orange">wii</span>  Neurone #2 : <i>En cours de compréhension</i></p>
+        <p><span class="yellow">wii</span>  Neurone #3 : <i>En cours de compréhension</i></p>
+        <p><span class="green">wii</span>  Neurone #4 : <i>En cours de compréhension</i></p>
+        <p><span class="blue">wii</span>  Neurone #5 : <i>En cours de compréhension</i></p>
       </div>
       <style media="screen">
         .a-modal-wrapper { font-family: 'Open Sans', sans-serif; color: black;
