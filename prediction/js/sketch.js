@@ -1,12 +1,16 @@
 let dataArray = []
 
 function setup() {
-	createCanvas(600, 100)
+	createCanvas(600, 120)
 	background(255)
-	noStroke()
-	
-	for(let i = 0; i < width/20; ++i)
+
+	for(let i = 0; i < width/20; ++i) {
 		dataArray.push([])
+		stroke(0)
+		line(width/20 * (i+1), 3, width/20 * (i+1), 17)
+	}
+
+	noStroke()
 }
 
 function draw() {
@@ -16,7 +20,7 @@ function draw() {
 				continue
 
 			fill(["red", "orange", "yellow", "green", "blue"][dataArray[i][j]])
-			rect(i * height/5, j * height/5, height/5, height/5)
+			rect(i * height/6, j * height/6 + 20, height/6, height/6)
 		}
 	}
 }
