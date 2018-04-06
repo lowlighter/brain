@@ -41,6 +41,22 @@
           </div>
         </div>
       </a>
+      <a class="card" style="background-image:url(miscelleanous/brainy.png)" href="kawashima">
+        <div class="text">
+          Kawashima
+          <div class="description">
+            Permet de visualiser les données du casque sous la forme d'un avatar numérique
+          </div>
+        </div>
+      </a>
+      <a class="card" style="background-image:url(miscelleanous/parrot.png)" href="parrot">
+        <div class="text">
+          Drone parrot
+          <div class="description">
+            Permet de contrôler le drone parrot mentalement
+          </div>
+        </div>
+      </a>
       <a class="card" style="background-image:url(miscelleanous/emotion.jpg)" href="emotions">
         <div class="text">
           Emotions
@@ -65,6 +81,14 @@
           </div>
         </div>
       </a>
+      <a class="card" style="background-image:url(miscelleanous/training_python.png)" href="training2">
+        <div class="text">
+          Training (custom)
+          <div class="description">
+            Utilise des réseaux de neuronnes artificiels pour entrainer des commandes mentales
+          </div>
+        </div>
+      </a>
       <a class="card" style="background-image:url(miscelleanous/prediction.png)" href="prediction">
         <div class="text">
           Prediction
@@ -73,32 +97,16 @@
           </div>
         </div>
       </a>
-      <a class="card" style="background-image:url(miscelleanous/brainy.png)" href="kawashima">
-        <div class="text">
-          Kawashima
-          <div class="description">
-            Permet de visualiser les données du casque sous la forme d'un avatar numérique
-          </div>
-        </div>
-      </a>
-      <a class="card" style="background-image:url(miscelleanous/parrot.png)" href="parrot">
-        <div class="text">
-          Drone parrot
-          <div class="description">
-            Permet de contrôler le drone parrot mentalement
-          </div>
-        </div>
-      </a>
     </div>
     <div id="signal-strength">
-      <div>
-        <img id="p1-bat" src="miscelleanous/battery_0.png"><img id="p1-icon" src="miscelleanous/p1.png"><span id="signal-strength-1">0.00</span><img id="p1-star" src="miscelleanous/star.gif">
+      <div id="p1-line">
+        <img id="p1-bat" src="miscelleanous/battery_0.png"><img id="p1-icon" src="miscelleanous/p1.png"><span id="signal-strength-1">0.00</span><span id="signal-strength-sensors-1">[0 0 0 0 0]</span><img id="p1-star" src="miscelleanous/star.gif">
       </div>
-      <div>
-        <img id="p2-bat" src="miscelleanous/battery_0.png"><img id="p2-icon" src="miscelleanous/p2.png"><span id="signal-strength-2">0.00</span><img id="p2-star" src="miscelleanous/star.gif">
+      <div id="p2-line">
+        <img id="p2-bat" src="miscelleanous/battery_0.png"><img id="p2-icon" src="miscelleanous/p2.png"><span id="signal-strength-2">0.00</span><span id="signal-strength-sensors-2">[0 0 0 0 0]</span><img id="p2-star" src="miscelleanous/star.gif">
       </div>
-      <div>
-        <img id="p3-bat" src="miscelleanous/battery_0.png"><img id="p3-icon" src="miscelleanous/p3.png"><span id="signal-strength-3">0.00</span><img id="p3-star" src="miscelleanous/star.gif">
+      <div id="p3-line">
+        <img id="p3-bat" src="miscelleanous/battery_0.png"><img id="p3-icon" src="miscelleanous/p3.png"><span id="signal-strength-3">0.00</span><span id="signal-strength-sensors-3">[0 0 0 0 0]</span><img id="p3-star" src="miscelleanous/star.gif">
       </div>
     </div>
     <div class="bot">
@@ -121,6 +129,9 @@
         Le casque 2 est représenté par <img class="inline" src="miscelleanous/p2.png" alt=""> (ou <img class="inline" src="miscelleanous/p2-2.png" alt=""> si les données sont reçues depuis un autre serveur)<br>
         Le casque 3 est représenté par <img class="inline" src="miscelleanous/p3.png" alt=""> (ou <img class="inline" src="miscelleanous/p3-2.png" alt=""> si les données sont reçues depuis un autre serveur)<br>
         <br>
+        Vous trouverez ci-dessous les identifiants de chaque capteur, qui vous permet de vérifier leur état de connectivité (noté de 0 à 4), et qui sont indiqués entre crochets également en haut à gauche de l'écran.
+        <div style="text-align:center"><img src="miscelleanous/connectivity.png" alt=""></div>
+        <br>
         En cas de problème de connection avec les casques (ceux-ci étant capricieux), il est recommandé d'éteindre le casque, kill le serveur ainsi que <span style="font-weight:bold">CortexService</span> et de le relancer en tant qu'administrateur puis de rallumer le casque en s'assurant qu'il est bien listé dans la liste de vos périphériques bluetooth et enfin de relancer le serveur.
         Il es possible qu'il faille répéter cette opération plusieurs fois. Si vous êtes assez chanceux et que <span style="font-weight:bold">CortexUI</span> fonctionne sur votre machine, vous pouvez passer par ce programme pour la connection aux casques.
         <br><br>
@@ -135,6 +146,15 @@
         Certaines applications recquiert l'utilisation de deux casques. Si votre ordinateur ne supporte pas la connection à deux casques, vous pouvez le démarrer en spécifiant l'addresse ip d'un autre serveur afin de recevoir les données des casques auquel ce dernier est connecté.
         <br><br>
         Cliquez sur <img class="inline" src="miscelleanous/help.png" alt=""> pour obtenir de l'aide dans l'application en cours.
+        <br><br>
+        <h3>Crédits</h3>
+        Cette application a été développé dans le cadre d'un projet de 4<sup>ème</sup> année à l'<span class="bold">ISEN Lille</span> par :<br><br>
+        - Lecoq Simon <span style="font-size:0.7rem;opacity:0.8;font-style:italic;">(chef de projet)</span><br>
+        - Delarue Louis<br>
+        - Luneau Adrien<br>
+        - Martinez Adrien<br>
+        <br>
+        Consultez le dépôt <a href="https://github.com/lowlighter/brain">Github</a> pour plus d'informations.
       </div>
       <style media="screen">
         .a-modal-wrapper { font-family: 'Open Sans', sans-serif; color: black;

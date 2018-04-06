@@ -9,25 +9,30 @@
     if (type === "dev") {
       if ((data[3].reduce)&&(data[0].includes(h0))) {
         document.getElementById("signal-strength-1").innerHTML = (data[3].reduce((w, v) => w + v)/5/4).toFixed(2)
-        document.getElementById("p1-bat").src = `miscelleanous/battery_${data[1]}.png`
+        document.getElementById("signal-strength-sensors-1").innerHTML = `[${data[3].join(" ")}]`
+        document.getElementById("p1-bat").src = `miscelleanous/battery_${Math.max(1, data[1])}.png`
       }
       if ((data[3].reduce)&&(data[0].includes(h1))) {
         document.getElementById("signal-strength-2").innerHTML = (data[3].reduce((w, v) => w + v)/5/4).toFixed(2)
-        document.getElementById("p2-bat").src = `miscelleanous/battery_${data[1]}.png`
+        document.getElementById("signal-strength-sensors-2").innerHTML = `[${data[3].join(" ")}]`
+        document.getElementById("p2-bat").src = `miscelleanous/battery_${Math.max(1, data[1])}.png`
       }
       if ((data[3].reduce)&&(data[0].includes(h2))) {
         document.getElementById("signal-strength-3").innerHTML = (data[3].reduce((w, v) => w + v)/5/4).toFixed(2)
-        document.getElementById("p3-bat").src = `miscelleanous/battery_${data[1]}.png`
+        document.getElementById("signal-strength-sensors-3").innerHTML = `[${data[3].join(" ")}]`
+        document.getElementById("p3-bat").src = `miscelleanous/battery_${Math.max(1, data[1])}.png`
       }
+
+
     }
     if (type === "hdw") {
       if ((!h0)&&(data[1])) h0 = data[1]
       if ((!h1)&&(data[2])) h1 = data[2]
       if ((!h2)&&(data[8])) h2 = data[8]
       document.getElementById("ls").style.opacity = 1
-      document.getElementById("p1").style.opacity = data[1]||data[5] ? 1 : 0.1
-      document.getElementById("p2").style.opacity = data[2]||data[6] ? 1 : 0.1
-      document.getElementById("p3").style.opacity = data[8]||data[9] ? 1 : 0.1
+      document.getElementById("p1").style.opacity = document.getElementById("p1-line").style.opacity = data[1]||data[5] ? 1 : 0.1
+      document.getElementById("p2").style.opacity = document.getElementById("p2-line").style.opacity = data[2]||data[6] ? 1 : 0.1
+      document.getElementById("p3").style.opacity = document.getElementById("p3-line").style.opacity = data[8]||data[9] ? 1 : 0.1
       document.getElementById("parrot").style.opacity = data[3] ? 1 : 0.1
       let p1 = `miscelleanous/${data[5] ? "wario" : "mario"}.gif`
       let p2 = `miscelleanous/${data[6] ? "waluigi" : "luigi"}.gif`
@@ -51,13 +56,14 @@
       clearTimeout(ls_timeout)
       ls_timeout = setTimeout(() => {
         document.getElementById("parrot").style.opacity = 0.1
-        document.getElementById("p1").style.opacity = 0.1
-        document.getElementById("p2").style.opacity = 0.1
-        document.getElementById("p3").style.opacity = 0.1
+        document.getElementById("p1").style.opacity = document.getElementById("p1-line").style.opacity = 0.1
+        document.getElementById("p2").style.opacity = document.getElementById("p2-line").style.opacity = 0.1
+        document.getElementById("p3").style.opacity = document.getElementById("p3-line").style.opacity = 0.1
         document.getElementById("ls").style.opacity = 0.1
         document.getElementById("p1-star").style.opacity = 0
         document.getElementById("p2-star").style.opacity = 0
         document.getElementById("p3-star").style.opacity = 0
+        document.getElementById("p1-bat").src = document.getElementById("p2-bat").src = document.getElementById("p3-bat").src = `miscelleanous/battery_0.png`
       }, 1700)
     }
   }

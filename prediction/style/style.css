@@ -8,8 +8,19 @@ body {
 	justify-content: center;
 	overflow: hidden;
 }
+<<<<<<< HEAD
 
 button, .button {
+=======
+.homeButton{
+  position: fixed;
+  left: 10px;
+  top: 0;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+button {
+>>>>>>> 14f933ed9b5d3b48fddca9f85aa32bd2d04cf330
   min-width: 160px;
   display: inline-block;
   font-weight: 400;
@@ -32,6 +43,7 @@ button, .button {
   background-color: #5bc0de;
   border-color: #5bc0de;
   cursor: pointer;
+<<<<<<< HEAD
   position: absolute;
   top: 1%;
   left: 1%;
@@ -62,3 +74,7 @@ button, .button {
   background-color: blue;
   color: blue;
 }
+=======
+  filter: grayscale(1);
+}
+>>>>>>> 14f933ed9b5d3b48fddca9f85aa32bd2d04cf330
