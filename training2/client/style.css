@@ -61,10 +61,12 @@ button {
   font-weight: bold;
 }
 .kill {
+  z-index: 9000;
   cursor: pointer;
-  position: absolute;
-  right: 0;
-  top: 0;
+  position: fixed;
+  right: 10vw;
+  top: 10vh;
+  transform: translateX(25%) translateY(-25%);
   border-top-right-radius: 5px;
   border-bottom-left-radius: 5px;
   background: white;

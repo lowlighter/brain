@@ -9,7 +9,7 @@
   <body>
     <a href="/"><button class="homeButton" type="button" name="button">Home</button></a>
     <div class="terminal">
-      <div class="kill">X</div>
+      <div class="kill" onclick="kill()">X</div>
     </div>
     <div class="a-modal-wrapper">
       <div class="a-modal">
@@ -54,20 +54,23 @@
       </script>
     </div>
     <script type="text/javascript">
-    const ws = new WebSocket(`ws://${(window.location.href.match(/\d+\.\d+\.\d+\.\d+/)||["localhost"])[0]}:3001`)
-    ws.onmessage = event => {
-      const data = JSON.parse(event.data)
-      const type = data.shift()
-      if (type === "inf") {
-        document.querySelector(".terminal").innerHTML += `<span class="${data[1]}">${data[2].replace(/\n(?!$)/g, "<br>")}</span><br>`
-        document.querySelector(".terminal").scrollTop = document.querySelector(".terminal").scrollHeight
+      const ws = new WebSocket(`ws://${(window.location.href.match(/\d+\.\d+\.\d+\.\d+/)||["localhost"])[0]}:3001`)
+      ws.onmessage = event => {
+        const data = JSON.parse(event.data)
+        const type = data.shift()
+        if (type === "inf") {
+          document.querySelector(".terminal").innerHTML += `<span class="${data[1]}">${data[2].replace(/\n(?!$)/g, "<br>")}</span><br>`
+          document.querySelector(".terminal").scrollTop = document.querySelector(".terminal").scrollHeight
+        }
       }
-    }
-    ws.onopen = () => ws.send(JSON.stringify({action:"python_training"}))
-    window.onunload = () =>   ws.send(JSON.stringify({action:"python_kill"}))
-    window.onload = () => {
-      document.querySelector(".kill").onclick = () => ws.send(JSON.stringify({action:"python_kill"}))
-    }
+      ws.onopen = () => {
+        ws.send(JSON.stringify({action:"python_training"}))
+        window.onunload = () => ws.send(JSON.stringify({action:"python_kill"}))
+      }
+
+      function kill () {
+        if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({action:"python_kill"}))
+      }
     </script>
   </body>
 </html>
