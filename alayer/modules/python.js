@@ -15,8 +15,8 @@
   wrapper.python = null
   wrapper.free = true
   wrapper.available = function () {
-      wrapper.python = spawnSync('python', ['./../../training2/test.py'], {cwd:__dirname})
-      return !wrapper.python.error
+      let python = spawnSync('python', ['./../../training2/test.py'], {cwd:__dirname})
+      return !python.error
   }
 
 //Start training
