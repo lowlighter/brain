@@ -40,7 +40,7 @@
       }
   })
 
-  charts.correlation = new Chart(document.getElementById("chart-correlation").getContext("2d"), {
+  /*charts.correlation = new Chart(document.getElementById("chart-correlation").getContext("2d"), {
       type:"scatter",
       data:{
         labels:[0],
@@ -81,7 +81,7 @@
           }]
         }
       }
-  })
+  })*/
 
   charts.signals = new Chart(document.getElementById("chart-signals").getContext("2d"), {
       type:"scatter",
@@ -284,9 +284,9 @@
     function updateEEGData(values, signals) {
       //Update scales
         const t = Date.now() - timeOrigin, min = Math.max(t - charts.delta * 1000, 0), max = Math.max(t, charts.delta * 1000)
-        charts.correlation.options.scales.xAxes[0].ticks.min = min
-        charts.correlation.options.scales.xAxes[0].ticks.max = max
-        charts.correlation.update()
+        //charts.correlation.options.scales.xAxes[0].ticks.min = min
+        //charts.correlation.options.scales.xAxes[0].ticks.max = max
+        //charts.correlation.update()
         charts.signals.options.scales.xAxes[0].ticks.min = min
         charts.signals.options.scales.xAxes[0].ticks.max = max
         charts.signals.update()
@@ -294,8 +294,8 @@
         if (Array.isArray(values)) {
           charts.emotions.data.datasets[1].data = values
           charts.emotions.update()
-          charts.correlation.data.datasets[0].data.push({x:t, y:Math.abs(correlation(values, charts.emotions.data.datasets[0].data))})
-          if (charts.correlation.data.datasets[0].data.length > 1000) charts.correlation.data.datasets[0].data = charts.correlation.data.datasets[0].data.filter(v => v.x >= charts.correlation.options.scales.xAxes[0].ticks.min)
+          //charts.correlation.data.datasets[0].data.push({x:t, y:Math.abs(correlation(values, charts.emotions.data.datasets[0].data))})
+          //if (charts.correlation.data.datasets[0].data.length > 1000) charts.correlation.data.datasets[0].data = charts.correlation.data.datasets[0].data.filter(v => v.x >= charts.correlation.options.scales.xAxes[0].ticks.min)
         }
       //Update signals
         if (Array.isArray(signals)) {
