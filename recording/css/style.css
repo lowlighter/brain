@@ -101,9 +101,25 @@ button {
 .nav > * {
   flex-grow: 1;
 }
-#cmatrix {
-  transform: scale(14);
+.cmatrix_wrapper {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  background-color: rgba(0,0,0,0.7);
+}
+.cmatrix_wrapper #cmatrix {
+  transform: scale(16);
   image-rendering: pixelated;
+}
+#chart_fac {
+  overflow: hidden;
+  font-family: monospace;
 }
 .bold {
   font-weight: bold;
