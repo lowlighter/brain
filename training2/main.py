@@ -148,11 +148,16 @@ def on_message(ws, message):
         if (index < len(actions)):
             record(data, actions[index])
             print("Recording {action}                \r".format(action=actions[index]), end="", flush=True)
+            ws.send(json.dumps({"action":"python_message", "data":["training", actions[index]]}))
         elif (model):
             observed = np.array([data,]).astype(np.float)
             predicted = np.around(predict(model, observed))[0]
             i, m = max(enumerate(predicted), key=operator.itemgetter(1))
             print(actions[i])
+            ws.send(json.dumps({"action":"python_message", "data":["prediction", actions[i]]}))
+        elif not model:
+            ws.send(json.dumps({"action":"python_message", "data":["modeling", "neutre"]}))
+
 
 def on_error(ws, error):
     print(error)
@@ -184,7 +189,7 @@ timer = InfiniteTimer(20, update)
 
 if __name__ == "__main__":
     print("Python training started")
-    websocket.enableTrace(True)
+    websocket.enableTrace(False)
     ws = websocket.WebSocketApp("ws://localhost:3001", on_message = on_message, on_error = on_error, on_close = on_close)
     ws.on_open = on_open
     wst = threading.Thread(target=ws.run_forever)

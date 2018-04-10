@@ -34,8 +34,8 @@ button, .button {
   border-color: #5bc0de;
   cursor: pointer;
   position: absolute;
-  top: 1%;
-  left: 1%;
+  /*top: 1%;*/
+  /*left: 1%;*/
   filter: grayscale(1);
 }
 
