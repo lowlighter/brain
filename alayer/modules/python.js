@@ -35,6 +35,11 @@
     wrapper.python.on('message', data => { console.log(data) })
   }
 
+
+  wrapper.message = function (data) {
+    emitter.emit("event", {inf:data})
+  }
+
 //Kill process
   wrapper.kill = function () {
     if (!status.python) return emitter.emit("event", {inf:["err", "python environment is not available on current server"]})

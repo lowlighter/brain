@@ -17,7 +17,7 @@ class Box {
 	}
 
 	space(id) {
-		this.y -= (id / 3) * 100
+		this.y -= (id / 2) * 100
 	}
 
 	draw() {
