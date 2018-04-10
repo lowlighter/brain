@@ -1,5 +1,6 @@
 # Etude sur l'activité électrique du cerveau
 
+![Image](https://github.com/lowlighter/brain/blob/master/miscelleanous/imgs/alayer.png)
 Projet de M1 (semestre 2)
 * Interface principale
     * [A-Layer](https://github.com/lowlighter/brain/tree/master/alayer)
@@ -23,6 +24,8 @@ Projet de M1 (semestre 2)
     * [Utilisation de l'API Cortex](https://github.com/lowlighter/brain/tree/master/miscelleanous/cortex)
     * [Scanner de casques EEG](https://github.com/lowlighter/brain/tree/master/miscelleanous/scanner)
     * [Autres](https://github.com/lowlighter/brain/tree/master/miscelleanous)
+    
+
 
 ## Usage
 Depuis la racine du projet, exécutez la commande suivante depuis un invite de commande :
