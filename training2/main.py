@@ -22,6 +22,7 @@ rdataset = DataFrame()
 index = 0
 timer = None
 model = None
+train = False
 
 def prepare(datasets, dataframe):
     '''
@@ -29,15 +30,18 @@ def prepare(datasets, dataframe):
     '''
     # Transform metadata
     def transform(d):
-        d['left'] = d.metadata.map({"gauche":1, "neutre":0, "droite":0})
-        d['right'] = d.metadata.map({"gauche":0, "neutre":0, "droite":1})
-        d['neutral'] = d.metadata.map({"gauche":0, "neutre":1, "droite":0})
+        for action in actions:
+            dico = {}
+            for a in actions:
+                dico[a] = 0
+            dico[action] = 1
+            d[action] = d.metadata.map(dico)
         return d
 
     # Separate inputs from outputs
     def separateIO(d):
-        do = d.loc[:, ["left", "right", "neutral"]]
-        di = d.drop(["left", "right", "neutral"], axis=1)
+        do = d.loc[:, actions]
+        di = d.drop(actions, axis=1)
         return di, do
 
     # Separate training from testing
@@ -138,12 +142,15 @@ def on_message(ws, message):
     '''
     Enregistre les données reçues par la websocket
     '''
+    global rdataset
     global actions
     global index
+    global timer
+    global train
     data = json.loads(message)
     type = data[0]
     data = data[2:]
-    if (type == "pow"):
+    if ((type == "pow") and (train)):
         if (index < len(actions)):
             record(data, actions[index])
             print("Recording {action}                \r".format(action=actions[index]), end="", flush=True)
@@ -156,11 +163,25 @@ def on_message(ws, message):
             ws.send(json.dumps({"action":"python_message", "data":["prediction", actions[i]]}))
         elif not model:
             ws.send(json.dumps({"action":"python_message", "data":["modeling", "neutre"]}))
+    if (type == "inf"):
+        type = data[0]
+        action = data[1]
+        data = data[2:]
+        if (type == "cmd"):
+            if (action == "start"):
+                actions = data
+                timer = InfiniteTimer(1, update)
+                timer.start()
+                train = True
+            if (action == "stop"):
+                rdataset = DataFrame()
+                index = 0
+                timer = None
+                train = False
 
 
 def on_error(ws, error):
     pass
-    #print(error)
 
 
 def on_close(ws):
@@ -169,8 +190,6 @@ def on_close(ws):
 
 def on_open(ws):
     print("Connection open")
-    global timer
-    timer.start()
 
 
 def update():
@@ -185,10 +204,8 @@ def update():
         timer.cancel()
         model = training(rdataset, True)
 
-timer = InfiniteTimer(20, update)
-
 if __name__ == "__main__":
-    print("Python training started")
+    print("Starting python application")
     websocket.enableTrace(False)
     ws = websocket.WebSocketApp("ws://localhost:3001", on_message = on_message, on_error = on_error, on_close = on_close)
     ws.on_open = on_open
