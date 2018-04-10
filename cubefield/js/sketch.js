@@ -1,11 +1,12 @@
 let boxes = [];
-let length = 80;
+let length = 40;
 let falcon;
 
 let angle = 0.0;
 let speed = 0.0;
 let acc = 0.007;
 let move = false;
+let direction = ""
 
 function setup() {
   createCanvas(800, 800, WEBGL);
@@ -33,9 +34,10 @@ function draw() {
 
 function updateAngle() {
   if(speed == 0) return;
-
   if(move) {
-    angle += abs(angle) < PI/18 ? speed : 0;
+    angle += speed
+    if(abs(angle) > PI/18)
+      angle = angle < 0 ? -PI/18 : PI/18
   } else {
     if((speed < 0 && angle < 0) || (speed > 0 && angle > 0)) {
       speed = 0;
@@ -48,18 +50,43 @@ function updateAngle() {
   rotateY(angle);
 }
 
+function replace(change) {
+  move = false
+  if(change !== null)
+    direction = change
+  if(direction === "left") { // Left
+    speed = speed > 0 ? -1.5 * acc : -acc;
+  } else if(direction === "right") { // Right
+    speed = speed < 0 ? +1.5 * acc : +acc;
+  }
+}
+
+function move_left() {
+  move = true
+  direction = "left"
+  speed = speed < 0 ? +1.5 * acc : +acc;
+}
+
+function move_right() {
+  move = true
+  direction = "right"
+  speed = speed > 0 ? -1.5 * acc : -acc;
+}
+
 function keyPressed() {
-  move = true;
-  if(keyCode === 81)
-    speed = +acc;
-  else if(keyCode === 68)
-    speed = -acc;
+  if(keyCode === 81) { // Left
+    if(direction === "right")
+      replace("left")
+    move_left()
+  } else if(keyCode === 68) { // Right
+    if(direction === "left")
+      replace("right")
+    move_right()
+  }
 }
 
 function keyReleased() {
-  move = false;
-  if(keyCode === 81)
-    speed = -acc;
-  else if(keyCode === 68)
-    speed = +acc;
+  if( (keyCode === 81 && direction === "left")
+    ||(keyCode === 68 && direction === "right"))
+    replace(null)
 }
