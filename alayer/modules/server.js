@@ -109,6 +109,9 @@
               case "python_kill":
                 python.kill()
                 break
+              case "python_message":
+                python.message(parsed.data)
+                break
               default:
             }
           });
