@@ -8,17 +8,21 @@ Projet de M1 (semestre 2)
 * Reconnaissance des émotions et utilisation du casque
     * [Corrélation entre ML et EEG](https://github.com/lowlighter/brain/tree/master/emotions)
     * [Enregistrement de l'activité cérébrale](https://github.com/lowlighter/brain/tree/master/recording)
-    * [Entraînement de commande cérébrales](https://github.com/lowlighter/brain/tree/master/training)
+    * [Entraînement de commande cérébrales (personnalisé)](https://github.com/lowlighter/brain/tree/master/training2)
+    * [Entraînement de commande cérébrales (cortex api)](https://github.com/lowlighter/brain/tree/master/training)
+    * [Visualisation de l'activité d'un auto-encodeur](https://github.com/lowlighter/brain/tree/master/prediction)
 * Démonstrateurs
     * [Pong](https://github.com/lowlighter/brain/tree/master/pong)
     * [Kawashima](https://github.com/lowlighter/brain/tree/master/kawashima)
     * [Brain battle (v1)](https://github.com/lowlighter/brain/tree/master/battle1)
     * Brain battle (v2)
     * [Contrôle du drone Parrot](https://github.com/lowlighter/brain/tree/master/parrot)
-    * Cube field
+    * [Cube field](https://github.com/lowlighter/brain/tree/master/cubefield)
+    * [Shifumi (pierre-papier-ciseaux)](https://github.com/lowlighter/brain/tree/master/shifumi)
 * Divers
     * [Utilisation de l'API Cortex](https://github.com/lowlighter/brain/tree/master/miscelleanous/cortex)
     * [Scanner de casques EEG](https://github.com/lowlighter/brain/tree/master/miscelleanous/scanner)
+    * [Autres](https://github.com/lowlighter/brain/tree/master/miscelleanous)
 
 ## Usage
 Depuis la racine du projet, exécutez la commande suivante depuis un invite de commande :
@@ -28,7 +32,7 @@ npm start
 Les dépendances de chaque module seront automatiquement ajoutées et le serveur principal sera également démarré.
 Ouvrez ensuite votre navigateur et rendez vous sur la page `localhost:3000`, où vous pourrez accéder à tous les démonstrateurs !
 
-*La machine doit être équipée de **NodeJS** de **npm** ainsi que de [**Cortex UI**](https://www.emotiv.com/developer/).*
+*La machine doit être équipée de **NodeJS** de **npm** ainsi que de [**Cortex UI**](https://www.emotiv.com/developer/). Certaines applications recquiert également la présence d'un environemment **Python 3** avec une suite logiciel de deep learning.*
 
 ### Usage avancée
 Pour éviter de vérifier les dépendances de chaque modules, vous pouvez exécuter la commande suivante pour démarrer le serveur principal.
@@ -41,16 +45,10 @@ Il est possible de connecter le serveur principal à un serveur déjà existant 
 node alayer server=127.0.0.0
 ```
 
-## Rapport continu
-[Lien vers le rapport](https://www.overleaf.com/13615904gxzjrcytrjpc#/52637951/).
-
-## Identifiants du compte Emotiv
-| Name | Data |
-|---|---|
-| User ID | lowlight |
-| User password | Aqzsedrf1 |
-| Client ID | BJkLtTQJfQBhb3JPbmqyhv3ZMY5omnq6TtGU6vQH |
-| Client Secret | ytPVD1hhWoJta2buIru6MFo6aEYFWbtEbZ8QfLHGOMNitXOhoWQqEN67ELdf3pTp9QTmYHvmfAGtdKaHkHELGK9LCTfkZmNvSGfOn4k2xg3OJxs8ZiCVV6SqZSU9HJtJ |
+Pour afficher les messages d'erreurs, vous pouvez utiliser l'argument `debug`.
+```
+node alayer debug=1
+```
 
 # Sources et documentations
 
@@ -71,7 +69,7 @@ node alayer server=127.0.0.0
 * [DIY : MINI ARDUINO PORTABLE EEG - BRAIN WAVE MONITOR +](http://www.instructables.com/id/Mini-Arduino-Portable-EEG-Brain-Wave-Monitor-/)
 * [DIY : EEG (AND ECG) CIRCUIT](http://www.instructables.com/id/DIY-EEG-and-ECG-Circuit/)
 
-## Kawashima style mode of the dead
+## Autres
 * [Animation from blender into threejs](http://unboring.net/workflows/animation.html)
 * [Create a Facial Animation Setup in Blender](https://cgi.tutsplus.com/tutorials/create-a-facial-animation-setup-in-blender-part-1--cg-32251)
 
