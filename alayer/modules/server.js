@@ -36,6 +36,7 @@
       app.use('/recording', express.static(path.join(__dirname, '../../recording')))
       app.use('/training', express.static(path.join(__dirname, '../../training')))
       app.use('/training2', express.static(path.join(__dirname, '../../training2/client')))
+      app.use('/shifumi', express.static(path.join(__dirname, '../../shifumi')))
       app.use('/static', express.static(path.join(__dirname, '../../miscelleanous/static')))
       app.use('/', express.static(path.join(__dirname, './../client')))
 
