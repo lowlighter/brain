@@ -4,6 +4,7 @@ trainButton.onclick = function() {
 		isTraining = true
 		this.innerHTML = "Casque en préparation..."
 		this.disabled = true
+		ws.send(JSON.stringify({action:"python_start", data:["neutre", "gauche", "droite"]}))
 	}
 
 const ws = new WebSocket(`ws://${(window.location.href.match(/\d+\.\d+\.\d+\.\d+/)||["localhost"])[0]}:3001`)
@@ -21,18 +22,20 @@ ws.onmessage = event => {
 			case "modeling":
 				trainButton.innerHTML = "Apprentissage..."; break
 			case "prediction":
-				if(trainButton != null) {
-					trainButton.style.display = "none"
-					trainButton = null
-				}
+				trainButton.style.display = "none"
 		}
 		switch(direction) {
-			case "neutre":
-				replace(null); break
 			case "gauche":
 				move_left(); break
 			case "droite":
 				move_right(); break
+			default:
+				replace(null);
 		}
 	}
+}
+
+ws.onopen = event => {
+	trainButton.innerHTML = "Démarrer l'apprentissage"
+	trainButton.disabled = false
 }
