@@ -80,12 +80,11 @@ def training(datasets, dataframe):
     model.add(Dense(32, activation='relu'))
     model.add(Dense(32, activation='relu'))
     model.add(Dense(32, activation='relu'))
-    model.add(Dense(32, activation='relu'))
     model.add(Dense( 3, activation="softmax"))
 
     # Compile model
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-    model.fit(LX, LY, epochs=100, batch_size=10, validation_data=(TX, TY))
+    model.fit(LX, LY, epochs=150, batch_size=10, validation_data=(TX, TY)) #verbose=0
     model.predict(TX)
     return model
 
@@ -155,7 +154,8 @@ def on_message(ws, message):
             print(actions[i])
 
 def on_error(ws, error):
-    print(error)
+    pass
+    #print(error)
 
 
 def on_close(ws):

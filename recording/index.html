@@ -20,7 +20,8 @@
         </li>
         <li class="nav-item input-group-text">
           <input type="checkbox" name="pow" checked>&nbsp;
-          <a href="#tab_pow" class="active" role="tab" data-toggle="tab" aria-controls="tab_pow">Powers</a>
+          <a href="#tab_pow" class="active" role="tab" data-toggle="tab" aria-controls="tab_pow">Powers</a>&nbsp;
+          (<input type="checkbox" name="mat">&nbsp;Corrélation)
         </li>
         <li class="nav-item input-group-text">
           <input type="checkbox" name="met">&nbsp;
@@ -34,7 +35,7 @@
           <input type="checkbox" name="mot">&nbsp;
           <a href="#tab_mot" role="tab" data-toggle="tab" aria-controls="tab_mot">Motion</a>
         </li>
-        <li class="nav-item input-group-text">
+        <li class="nav-item input-group-text" style="display:none">
           <input type="checkbox" name="com">&nbsp;
           <a href="#tab_com" role="tab" data-toggle="tab" aria-controls="tab_com">Commands</a>
         </li>
@@ -73,7 +74,7 @@
       <div class="charts tab-content">
         <div class="tab-pane active" id="tab_pow" aria-labelledby="tab_pow" role="tabpanel"><canvas id="chart_pow"></canvas></div>
         <div class="tab-pane" id="tab_met" aria-labelledby="tab_met" role="tabpanel"><canvas id="chart_met"></canvas></div>
-        <div class="tab-pane" id="tab_fac" aria-labelledby="tab_fac" role="tabpanel"><canvas id="chart_fac"></canvas></div>
+        <div class="tab-pane" id="tab_fac" aria-labelledby="tab_fac" role="tabpanel"><div id="chart_fac"></div></div>
         <div class="tab-pane" id="tab_mot" aria-labelledby="tab_mot" role="tabpanel"><canvas id="chart_mot"></canvas></div>
         <div class="tab-pane" id="tab_com" aria-labelledby="tab_com" role="tabpanel"><canvas id="chart_com"></canvas></div>
         <div class="tab-pane" id="tab_dev" aria-labelledby="tab_dev" role="tabpanel"><canvas id="chart_dev"></canvas></div>
@@ -91,8 +92,12 @@
         Vous pouvez alors sélectionner la durée d'un enregistrement, le nombre d'enregistrement à effectuer (itérations) ainsi que d'éventuelles métadonnées pour labelliser vos valeurs (e.g. "gauche", "droite", etc.).
         Le numéro de ligne ainsi que le temps sont automatiquement ajoutés au début du csv généré.
         <br><br>
+        <span class="bold">Seules les données de l'onglet Powers peuvent être enregistrés. Les autres types de données ne sont pas supportés.</span>
+        <br><br>
         Le taux de raffraichissement n'est <span class="bold">pas</span> celui du casque, mais uniquement la fréquence à laquelle le graphique est actualisé.
         Notez que si vous effectuer de longs enregistrements (> 1 min), il est conseillé de choisir un raffraichissement plus long afin d'éviter que votre ordinateur agonise.
+        <br><br>
+        Par défaut, les types de données sont filtrés afin d'éviter de consommer de l'espace inutilement. Cocher la case devant un onglet pour activer la réception des données.
         <br><br>
         <h3>Matrice de corrélation</h3>
         Le carré en bas à droite représente la matrice de corrélation de chacun des 25 signal entre eux, blanc représentant une corrélation maximale tandis que noir une corrélation minimale.
@@ -121,7 +126,9 @@
       </script>
     </div>
 
-    <canvas id="cmatrix" width="25" height="25" style="position:fixed;bottom:0;left:0"></canvas>
+    <div class="cmatrix_wrapper">
+      <canvas id="cmatrix" width="25" height="25"></canvas>
+    </div>
 
     <script src="./js/charts.js"></script>
     <script src="./js/script.js"></script>

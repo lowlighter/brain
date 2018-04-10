@@ -11,7 +11,7 @@
         //Logs
           if (recorded[type]) updateData(type, d)
         //Correlation
-          showCor(type, d)
+          if (document.querySelector(`[name="mat"]`).checked) showCor(type, d)
       }
 
   }
@@ -42,12 +42,22 @@
     //Initialisation
       const chart = charts[`chart_${type}`], t = Date.now() - updateData.origin
     //Ajout des données
-      chart.data.datasets.forEach((dataset, i) => dataset.data.push({x:t, y:data[i]}))
-
+      if (type == "pow") chart.data.datasets.forEach((dataset, i) => dataset.data.push({x:t, y:data[i]}))
+      if (type == "met") chart.data.datasets.forEach((dataset, i) => dataset.data.push({x:t, y:data[i]}))
+      if (type == "fac") document.querySelector("#chart_fac").innerHTML = `${t.toString().padStart(8, " ").replace(/ /g, "&nbsp;")} | ${data.map(v => v.toString().padEnd(18, " ").replace(/ /g, "&nbsp;")).join(" ")}<br>${document.querySelector("#chart_fac").innerHTML}`
+      if (type == "mot") {
+        chart.data.datasets.forEach((dataset, i) => dataset.data.push({x:t, y:data[i]}))
+      }
+      if (type == "dev") {
+        chart.data.datasets[0].data.push({x:t, y:Math.abs(0, data[0])})
+        chart.data.datasets[1].data.push({x:t, y:data[1]})
+        data[2].forEach((y, i) => chart.data.datasets[2+i].data.push({x:t, y}))
+      }
       if (record.recording) record.data.push([record.data.length, t, document.querySelector("[name=metadata]").value,...data])
   }
   updateData.origin = Date.now()
   updateData.delta = 5
+  updateData.deltas = {"chart_met":20}
   updateData.length = 100
 
 //Update charts
@@ -55,16 +65,16 @@
     //Quit if record completed
       if (record.stopped) return null
     //Initialisation
-      const t = Date.now() - updateData.origin, min = Math.max(t - updateData.delta * 1000, 0), max = Math.max(t, updateData.delta * 1000)
+      const t = Date.now() - updateData.origin, max = Math.max(t, updateData.delta * 1000)
       if (record.recording) document.querySelector("[name=duration]").value = Math.max(0, record.duration - t)/1000
     //Mise à jour des graphes
       for (let i in charts) {
           const chart = charts[i]
         //Actualisation des axes
-          chart.options.scales.xAxes[0].ticks.min = min
+          chart.options.scales.xAxes[0].ticks.min = Math.max(t - (updateData.delta + (updateData.deltas[i]||0)) * 1000, 0)
           chart.options.scales.xAxes[0].ticks.max = max
         //Filtrage des données superflues
-          if (chart.data.datasets[0].data.length > updateData.length) chart.data.datasets.forEach(dataset => dataset.data = dataset.data.filter(v => v.x > chart.options.scales.xAxes[0].ticks.min))
+          if (chart.data.datasets[0].data.length > updateData.length) chart.data.datasets.forEach(dataset => dataset.data = dataset.data.filter(v => v.x > chart.options.scales.xAxes[0].ticks.min - 1000 * (1 + (updateData.deltas[i]||0))))
         //Mise à jour
           chart.update()
       }
@@ -168,15 +178,21 @@
     }
     charts.chart_pow.options.scales.yAxes[0].ticks.max = 2000
     charts.chart_pow.update()
+    charts.chart_mot.options.scales.yAxes[0].ticks.max = 2**14
+    charts.chart_mot.update()
+    charts.chart_dev.options.scales.yAxes[0].ticks.max = 4
+    charts.chart_dev.update()
     updateData.origin = Date.now()
+    document.querySelector("#chart_fac").style.height = `${document.querySelector("#chart_pow").height/2}px`
+    window.onresize = () => document.querySelector("#chart_fac").style.height = `${document.querySelector("#chart_pow").height/2}px`
   }
 
 //Actualisation de l'échelle des graphes
   function timeCharts() {
     updateData.delta = parseInt(document.querySelector("[name=duration]").value)||1
-    const t = Date.now() - updateData.origin, min = Math.max(t - updateData.delta * 1000, 0), max = Math.max(t, updateData.delta * 1000)
+    const t = Date.now() - updateData.origin, max = Math.max(t, updateData.delta * 1000)
     for (let i in charts) {
-      charts[i].options.scales.xAxes[0].ticks.min = min
+      charts[i].options.scales.xAxes[0].ticks.min = Math.max(t - (updateData.delta + (updateData.deltas[i]||0)) * 1000, 0)
       charts[i].options.scales.xAxes[0].ticks.max = max
       charts[i].update()
     }
@@ -257,3 +273,12 @@
     drawMatrix.data.data[i+1] = 255
     drawMatrix.data.data[i+2] = 255
   }
+
+document.querySelector(`[name="mat"]`).onclick = function () {
+  document.querySelector(".cmatrix_wrapper").style.display = "flex"
+}
+
+document.querySelector(".cmatrix_wrapper").onclick = function () {
+  document.querySelector(".cmatrix_wrapper").style.display = "none"
+  document.querySelector(`[name="mat"]`).checked = false
+}
