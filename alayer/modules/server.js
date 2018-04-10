@@ -103,6 +103,12 @@
               case "getId":
                 ws.send(JSON.stringify(["getId", ws.alayer_id]))
                 break
+              case "python_start":
+                python.start(parsed.data)
+                break;
+              case "python_stop":
+                python.stop()
+                break;
               case "python_training":
                 python.training()
                 break
