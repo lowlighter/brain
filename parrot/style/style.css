@@ -8,7 +8,7 @@ body {
   background-size: cover;
 }
 
-div {
+.left, .right {
   margin: 2%;
   padding: 2%;
   width: 20%;
@@ -16,10 +16,6 @@ div {
   background-color: #ccc;
   color: white;
 }
-
-h1 { text-align: center; }
-.button.left-active	{ background-color: #f00; }
-.button.right-active	{ background-color: #00f; }
 
 .homeButton{
   position: fixed;
@@ -52,5 +48,15 @@ button, .button {
   background-color: #5bc0de;
   border-color: #5bc0de;
   cursor: pointer;
-  /*filter: grayscale(1);*/
+  filter: grayscale(1);
 }
+
+#launch { position: absolute; }
+
+.button.left-active, .button.right-active {
+  filter: grayscale(0);
+  margin: 0 15%;
+}
+
+.button.left-active { background-color: #f00; }
+.button.right-active  { background-color: #00f; }

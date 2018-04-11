@@ -64,6 +64,7 @@ body {
   padding: 60px 0px;
   z-index: 9001;
   overflow: auto;
+  margin-bottom: 10px;
 }
 .wrapper > .card {
   border-radius: 5px;
