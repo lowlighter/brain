@@ -14,7 +14,7 @@ ws.onmessage = event => {
 	const status = data.shift()
 	const direction = data.shift()
 	if(type === "inf") {
-		console.log(status, direction)
+		// console.log(status, direction)
 		switch(status) {
 			case "training":
 				trainButton.innerHTML = `Pensez ${direction}`; break

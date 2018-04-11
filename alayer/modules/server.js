@@ -3,7 +3,7 @@
   const path = require('path')
   const WebSocket = require('ws')
   const wss = new WebSocket.Server({port:3001})
-  const parrot = require('../../parrot/index')
+  const parrot = require('../../parrot/js/index')
   const python = require('./python')
   let client = null, sid = null, rws = null, _status = {}
 
