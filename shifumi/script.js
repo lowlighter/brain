@@ -18,7 +18,7 @@ ws.onmessage = event => {
 	const type = data.shift()
 	const headset = data.shift()
 	const status = data.shift()
-	const action = data.shift()
+	let action = data.shift()
 	if(type === "inf") {
 		console.log(status, action)
 		switch(status) {
@@ -32,15 +32,15 @@ ws.onmessage = event => {
         break
 			case "prediction":
 				log.style.display = "none"
-		}
-		switch(action) {
-			case "pierre":
-      case "papier":
-      case "ciseaux":
-				show(action)
-        break
-			default:
-        break
+        switch(action) {
+    			case "pierre":
+          case "papier":
+          case "ciseaux":
+    				show(action)
+            break
+    			default:
+            break
+    		}
 		}
 	}
 }
