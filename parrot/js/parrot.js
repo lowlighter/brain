@@ -1,1 +1,0 @@
-const sumo = require('node-sumo');
