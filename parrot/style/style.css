@@ -4,9 +4,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url(./bg.png);
+  background-image: url(../image/bg.png);
   background-size: cover;
 }
+
 div {
   margin: 2%;
   padding: 2%;
@@ -15,9 +16,11 @@ div {
   background-color: #ccc;
   color: white;
 }
+
 h1 { text-align: center; }
 .button.left-active	{ background-color: #f00; }
 .button.right-active	{ background-color: #00f; }
+
 .homeButton{
   position: fixed;
   left: 10px;
@@ -25,6 +28,7 @@ h1 { text-align: center; }
   margin-bottom: 10px;
   margin-top: 10px;
 }
+
 button, .button {
   min-width: 160px;
   display: inline-block;
