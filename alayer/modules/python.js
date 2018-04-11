@@ -35,9 +35,19 @@
     wrapper.python.on('message', data => { console.log(data) })
   }
 
-
+//Message from python
   wrapper.message = function (data) {
     emitter.emit("event", {inf:data})
+  }
+
+//Start python training
+  wrapper.start = function (data = ["neutre", "gauche", "droite"]) {
+    emitter.emit("event", {inf:["cmd", "start", ...data]})
+  }
+
+//Start python training
+  wrapper.stop = function () {
+    emitter.emit("event", {inf:["cmd", "stop"]})
   }
 
 //Kill process
