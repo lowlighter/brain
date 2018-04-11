@@ -30,7 +30,7 @@
 
 //Global Error Handling
   process.on('uncaughtException', error => {
-    if (/alayer.node_modules.node-wifi.src.windows-scan.js/.test(error.stack)) return null 
+    if (/alayer.node_modules.node-wifi.src.windows-scan.js/.test(error.stack)) return null
     if (debug) console.error(error)
   })
   logger.callbacks(callbacks)
