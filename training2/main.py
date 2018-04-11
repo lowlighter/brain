@@ -35,6 +35,7 @@ def prepare(datasets, dataframe):
             for a in actions:
                 dico[a] = 0
             dico[action] = 1
+            print(d)
             d[action] = d.metadata.map(dico)
         return d
 
@@ -88,8 +89,8 @@ def training(datasets, dataframe):
 
     # Compile model
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-    model.fit(LX, LY, epochs=150, batch_size=10, validation_data=(TX, TY)) #verbose=0
-    model.predict(TX)
+    model.fit(LX.values, LY.values, epochs=150, batch_size=10, validation_data=(TX.values, TY.values)) #verbose=0
+    model.predict(TX.values)
     return model
 
 
@@ -171,6 +172,7 @@ def on_message(ws, message):
             if (action == "start"):
                 actions = data
                 timer = InfiniteTimer(1, update)
+                print("OK")
                 timer.start()
                 train = True
             if (action == "stop"):
@@ -198,6 +200,7 @@ def update():
     global actions
     global rdataset
     global model
+    print(train)
     if (index < len(actions)):
         index += 1
     else:
