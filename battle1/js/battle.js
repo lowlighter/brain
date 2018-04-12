@@ -107,6 +107,7 @@ app.loader.onComplete.add(() => {
 
   app.stage.interactive = true
   app.stage.click = () => { if (win.won) reset() }
+  app.stage.touchstart = () => { if (win.won) reset() }
 
   const goku = new Goku()
   window.goku = goku
@@ -182,9 +183,9 @@ app.loader.add("sprites/textures.json").load()
     const headset = data.shift()
     if ((type === "pow")&&(window.update)) {
       if(headset.includes(prefered)) {
-        a = Math.log10(data.reduce((w, v) => w + v))
+        a = Math.sqrt(data.reduce((w, v) => w + v))
       } else {
-        b = Math.log10(data.reduce((w, v) => w + v))
+        b = Math.sqrt(data.reduce((w, v) => w + v))
       }
       update([a, b])
     }
