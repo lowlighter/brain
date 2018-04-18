@@ -15,10 +15,4 @@
         "node-wifi": "^2.0.4",
         "npm": "^5.8.0"
     },
-    "config": {
-        "hardware": [
-            "DKDK",
-            "JDJODJ"
-        ]
-    }
 }

@@ -10,8 +10,17 @@
 //Server instance id
   const id = require('./modules/id')()
 
-//Hardware and status
-  const hardware = process.env.npm_package_config_hardware||["INSIGHT-5A688E2E", "INSIGHT-5A688E44", "INSIGHT-5A688F22"]
+//Status
+  const fs = require("fs")
+  const path = require("path")
+  const fs_read= fs.readFileSync(path.join(__dirname, "./../hardware.txt")).toString()
+
+//Check hardware
+  const hardware = fs_read.trim().match(/[-a-z0-9]+/gi)
+  if (!(hardware||[]).length) return process.stdout.write(`\n\x1b[36mNo headsets were referenced in hardware.txt\x1b[0m`)
+  process.stdout.write(`\n${hardware.length} headsets referenced\n${hardware.map(h => `  - ${h}`).join("\n")}\n`)
+
+//Logger
   const logger = require('./modules/status')(hardware, id)
   const status = logger.status
   status.debug = debug
