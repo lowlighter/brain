@@ -4,19 +4,19 @@
 //====================================================
   const charts = {delta:10}
   charts.emotions = new Chart(document.getElementById("chart-emotions").getContext("2d"), {
-      type:"radar",
+      type:"scatter",
       data:{
-        labels:["Neutral", "Angry", "Sad", "Surprised", "Happy"],
+        labels:[""],
         datasets:[{
             label:"Machine Learning",
             backgroundColor:"rgba(255, 99, 132, 0.3)",
             borderColor:"rgba(255, 99, 132, 1)",
-            data:[0, 0, 0, 0, 0]
+            data:[{x:0, y:0}]
         }, {
             label:"EEG Headset",
             backgroundColor:"rgba(54, 162, 235, 0.3)",
             borderColor:"rgba(54, 162, 235, 1)",
-            data:[0, 0, 0, 0, 0]
+            data:[{x:0, y:0}]
         }]
       },
       options:{
@@ -28,14 +28,6 @@
         },
         legend:{
           position:"bottom"
-        },
-        scale:{
-          ticks:{
-            min:0,
-            max:1,
-            autoSkip:true,
-            maxTicksLimit:5
-          }
         }
       }
   })
@@ -276,7 +268,9 @@
         values.push(datum.value)
       })
       values[0] = 1 - Math.max.apply(null, values)
-      charts.emotions.data.datasets[0].data = values
+      //TODO
+      //charts.emotions.data.datasets[0].data = values
+      //console.log(values)
       charts.emotions.update()
     }
 

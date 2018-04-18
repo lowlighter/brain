@@ -55,9 +55,9 @@ if (require.main === module) {
   // these values need to fill to run example
   const auth = {
     username: 'lowlight',
-    password: '***REMOVED***',
-    client_id: '***REMOVED***',
-    client_secret: '***REMOVED***',
+    password: 'Aqzsedrf1',
+    client_id: 'BJkLtTQJfQBhb3JPbmqyhv3ZMY5omnq6TtGU6vQH',
+    client_secret: 'ytPVD1hhWoJta2buIru6MFo6aEYFWbtEbZ8QfLHGOMNitXOhoWQqEN67ELdf3pTp9QTmYHvmfAGtdKaHkHELGK9LCTfkZmNvSGfOn4k2xg3OJxs8ZiCVV6SqZSU9HJtJ',
     debit: 1 // first time you run example debit should > 0
   }
 
