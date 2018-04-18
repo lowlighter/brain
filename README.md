@@ -27,17 +27,42 @@ Projet de M1 (semestre 2)
 
 
 ## Usage
-Depuis la racine du projet, exécutez la commande suivante depuis un invite de commande :
+
+Commencez par éditer le fichier [`alayer/index.js`](https://github.com/lowlighter/brain/blob/master/alayer/index.js#L14) afin d'y rentrer les identifiants de vos casques Emotiv INSIGHT. Le support de plus de deux casques n'est pas garantie.
+
+Ensuite, depuis la racine du projet, exécutez la commande suivante depuis un invite de commande :
 ```
 npm start
 ```
 Les dépendances de chaque module seront automatiquement ajoutées et le serveur principal sera également démarré.
 Ouvrez ensuite votre navigateur et rendez vous sur la page `localhost:3000`, où vous pourrez accéder à tous les démonstrateurs !
 
+### *Notes*
+*Par défaut, l'application utilise le port 3000 pour le serveur web et le port 3001 pour le serveur websockets.*
+
 *La machine doit être équipée de **NodeJS** de **npm** ainsi que de [**Cortex UI**](https://www.emotiv.com/developer/). Certaines applications recquiert également la présence d'un environemment **Python 3** avec une suite logiciel de deep learning.*
 
+### A propos des applications disponibles
+
+Vous pouvez à tout moment cliquer sur les boites d'aide disposées en haut à droite de votre écran pour obtenir de l'aide sur l'application qui est affichée actuellement.
+
+Pour utiliser le contrôle d'un drône parrot, vous devez vous connecter à son réseau.
+
+Il est préférable d'instancier le programme de *Deep learning* en python dans une console à part plutôt que depuis l'interface web. Utiliser la commande suivante :
+```
+cd training2
+py main.py
+```
+
+Pour démarrer un entrainement personnalisé depuis votre navigateur, tapez la commande suivante dans la console web :
+```javascript
+if (!ws) ws = new WebSocket("localhost:3001)
+ws.send(JSON.stringify({action:"python_start", data:["neutre", "pierre", "papier", "ciseaux"]}))
+```
+
+
 ### Usage avancée
-Pour éviter de vérifier les dépendances de chaque modules, vous pouvez exécuter la commande suivante pour démarrer le serveur principal.
+Pour éviter de vérifier les dépendances de chaque modules vous pouvez exécuter la commande suivante pour démarrer le serveur principal.
 ```
 node alayer
 ```
@@ -47,9 +72,47 @@ Il est possible de connecter le serveur principal à un serveur déjà existant 
 node alayer server=127.0.0.0
 ```
 
-Pour afficher les messages d'erreurs, vous pouvez utiliser l'argument `debug`.
+Si vous êtes développeur, pour afficher les messages d'erreurs dans la console node, vous pouvez utiliser l'argument `debug`.
 ```
 node alayer debug=1
+```
+
+Les données envoyées par le serveur sont formattées sous la forme d'un tableau.
+- Le premier élément indique l'identifiant de l'événement (`sys`, `dev`, `com`, `pow`, `met`, `fac`, `dev`, `hdw`, `inf`)
+- Le second élement indique le casque qui a émis l'évenement ainsi que l'identifiant du serveur l'ayant envoyé (e.g. `"headset#F646A0472332"`). 
+- Le reste constitue les données reçues. 
+```javascript
+ws.onmessage = event => {
+   const data = JSON.parse(event.data)
+   const type = d.shift()
+   const headset = d.shift()
+   //Exploitez ensuite le contenu de "data"
+}
+```
+
+Consultez la [documentation de l'API Cortex](https://emotiv.github.io/cortex-docs/#event) pour plus d'infcormations sur les événements disponibles.
+
+Deux nouveaux événements ont étés implémentés en plus de ceux proposés par Cortex.
+- **hdw** : Hardware
+```javascript
+hdw[0] //Le casque 1 est connecté
+hdw[1] //Le casque 2 est connecté
+hdw[2] //Le drone parrot est connecté
+hdw[3] //Casque de préférence*
+hdw[4] //Les données du casque 1 sont reçues via un autre serveur
+hdw[5] //Les données du casque 2 sont reçues via un autre serveur
+hdw[6] //Le serveur distant est actif
+hdw[7] //Le casque 3 est connecté
+hdw[8] //Les données du casque 3 sont reçues via un autre serveur
+```
+- **inf** : Sortie console de l'instance python
+```javascript
+inf[0] //Canal de sortie `"out"` ou `"err"`
+inf[1] //Sortie console
+
+//Dans le cas d'un entrainement personnalisé :
+inf[1] //Status (`"training"`, `"modeling"` ou `"prediction"`)
+inf[2] //Action à entrainer ou prédite
 ```
 
 # Sources et documentations
