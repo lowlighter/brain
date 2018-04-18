@@ -24,7 +24,6 @@ Projet de M1 (semestre 2)
     * [Utilisation de l'API Cortex](https://github.com/lowlighter/brain/tree/master/miscelleanous/cortex)
     * [Scanner de casques EEG](https://github.com/lowlighter/brain/tree/master/miscelleanous/scanner)
     * [Autres](https://github.com/lowlighter/brain/tree/master/miscelleanous)
-    
 
 
 ## Usage
