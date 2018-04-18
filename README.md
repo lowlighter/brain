@@ -56,7 +56,7 @@ py main.py
 
 Pour démarrer un entrainement personnalisé depuis votre navigateur, tapez la commande suivante dans la console web :
 ```javascript
-if (!ws) ws = new WebSocket("localhost:3001)
+if (!ws) ws = new WebSocket("localhost:3001")
 ws.send(JSON.stringify({action:"python_start", data:["neutre", "pierre", "papier", "ciseaux"]}))
 ```
 
