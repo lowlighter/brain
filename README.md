@@ -1,7 +1,7 @@
 # Etude sur l'activité électrique du cerveau
 
 ![Image](https://github.com/lowlighter/brain/blob/master/miscelleanous/imgs/alayer.png)
-Projet de M1 (semestre 2)
+Projet de M1 (semestre 2, an 2018) - [ISEN Lille](http://www.isen-lille.fr/)
 * Interface principale
     * [A-Layer](https://github.com/lowlighter/brain/tree/master/alayer)
 * Etude du marché et des casques EEG
