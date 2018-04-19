@@ -1,6 +1,6 @@
-let boxes = [];
-let length = 40;
 let falcon;
+let boxes = [];
+let box_number = 40;
 
 let angle = 0.0;
 let speed = 0.0;
@@ -11,7 +11,7 @@ let direction = ""
 function setup() {
   createCanvas(800, 800, WEBGL);
   falcon = new Falcon("./images/falcon.png");
-  for(let i = 0; i < length; ++i) {
+  for(let i = 0; i < box_number; ++i) {
     boxes[i] = new Box();
     boxes[i].space(i);
   }

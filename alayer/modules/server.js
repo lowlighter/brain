@@ -26,6 +26,7 @@
       python(callbacks, status)
     //Static server
       app.use('/battle1', express.static(path.join(__dirname, '../../battle1')))
+      app.use('/battle2', express.static(path.join(__dirname, '../../battle2')))
       app.use('/cubefield', express.static(path.join(__dirname, '../../cubefield')))
       app.use('/emotions', express.static(path.join(__dirname, '../../emotions')))
       app.use('/kawashima', express.static(path.join(__dirname, '../../kawashima')))
