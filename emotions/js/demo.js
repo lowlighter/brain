@@ -4,11 +4,47 @@
 //====================================================
   const charts = {delta:10}
   charts.emotions = new Chart(document.getElementById("chart-emotions").getContext("2d"), {
+      type:"radar",
+      data:{
+        labels:["Neutral", "Angry", "Sad", "Surprised", "Happy"],
+        datasets:[{
+            label:"Deep Learning",
+            backgroundColor:"rgba(255, 99, 132, 0.3)",
+            borderColor:"rgba(255, 99, 132, 1)",
+            data:[0, 0, 0, 0, 0]
+        }, {
+            label:"EEG Headset",
+            backgroundColor:"rgba(54, 162, 235, 0.3)",
+            borderColor:"rgba(54, 162, 235, 1)",
+            data:[0, 0, 0, 0, 0]
+        }]
+      },
+      options:{
+        responsive: false,
+        title:{
+          display:true,
+          fontSize:20,
+          text:"Emotions detection"
+        },
+        legend:{
+          position:"bottom"
+        },
+        scale:{
+          ticks:{
+            min:0,
+            max:1,
+            autoSkip:true,
+            maxTicksLimit:5
+          }
+        }
+      }
+  })
+
+  charts.emotions2 = new Chart(document.getElementById("chart-emotions2").getContext("2d"), {
       type:"scatter",
       data:{
-        labels:[""],
         datasets:[{
-            label:"Machine Learning",
+            label:"Deep Learning",
             backgroundColor:"rgba(255, 99, 132, 0.3)",
             borderColor:"rgba(255, 99, 132, 1)",
             data:[{x:0, y:0}]
@@ -24,10 +60,32 @@
         title:{
           display:true,
           fontSize:20,
-          text:"Emotions detection"
+          text:"Valence Arousal"
         },
         legend:{
           position:"bottom"
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              min: -1,
+              max: 1,
+            },
+            scaleLabel: {
+              display: true,
+              labelString: "Arousal"
+            }
+          }],
+          xAxes: [{
+            ticks: {
+              min: -1,
+              max: 1,
+            },
+            scaleLabel: {
+              display: true,
+              labelString: "Valence"
+            }
+          }]
         }
       }
   })
@@ -269,9 +327,12 @@
       })
       values[0] = 1 - Math.max.apply(null, values)
       //TODO
-      //charts.emotions.data.datasets[0].data = values
+      charts.emotions.data.datasets[0].data = values
       //console.log(values)
+      //"Neutral", "Angry", "Sad", "Surprised", "Happy"
+      charts.emotions2.data.datasets[0].data = [{x:values[4]-values[2], y:values[3]-values[1]}]
       charts.emotions.update()
+      charts.emotions2.update()
     }
 
   //Update chart data (EEG)
@@ -294,6 +355,12 @@
       //Update signals
         if (Array.isArray(signals)) {
           charts.signals.data.datasets.forEach((dataset, index) => dataset.data.push({x:t, y:signals[index]}))
+
+          signals = signals.map(v => Math.abs(v))
+          const max = Math.max(...signals)
+          signals = signals.map(v => v/max)
+          charts.emotions2.data.datasets[1].data = [{x:signals[4]-signals[2], y:signals[3]-signals[1]}]
+          charts.emotions2.update()
 
           if (charts.signals.data.datasets[0].data.length > 1000) charts.signals.data.datasets.forEach((dataset, index) => dataset.data = charts.signals.data.datasets[index].data.filter(v => v.x >= charts.signals.options.scales.xAxes[0].ticks.min))
         }
