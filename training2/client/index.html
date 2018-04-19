@@ -64,8 +64,9 @@
         }
       }
       ws.onopen = () => {
-        ws.send(JSON.stringify({action:"python_training"}))
-        window.onunload = () => ws.send(JSON.stringify({action:"python_kill"}))
+        document.querySelector(".terminal").innerHTML += `<span class="err">Cette application n'est plus utilisable via l'interface web. Voir la documentation <br></span><br>`
+        //ws.send(JSON.stringify({action:"python_training"}))
+        //window.onunload = () => ws.send(JSON.stringify({action:"python_kill"}))
       }
 
       function kill () {
