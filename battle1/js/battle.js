@@ -107,6 +107,7 @@ app.loader.onComplete.add(() => {
 
   app.stage.interactive = true
   app.stage.click = () => { if (win.won) reset() }
+  app.stage.touchstart = () => { if (win.won) reset() }
 
   const goku = new Goku()
   window.goku = goku
@@ -142,7 +143,7 @@ app.loader.onComplete.add(() => {
     vegeta.nscore = 365 * Math.abs(0.5 + (vegeta.score-goku.score)/mx/2)
     if ((goku.score > win.pts)||(vegeta.score > win.pts)) win()
   }
-  update.max = 9
+  update.max = 90
 
 
   function reset() {
@@ -181,11 +182,10 @@ app.loader.add("sprites/textures.json").load()
     const type = data.shift()
     const headset = data.shift()
     if ((type === "pow")&&(window.update)) {
-      a = 0 ; b = 0
       if(headset.includes(prefered)) {
-        a = Math.log10(data.reduce((w, v) => w + v))
+        a = Math.sqrt(data.reduce((w, v) => w + v))
       } else {
-        b = Math.log10(data.reduce((w, v) => w + v))
+        b = Math.sqrt(data.reduce((w, v) => w + v))
       }
       update([a, b])
     }

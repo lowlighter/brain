@@ -35,7 +35,6 @@ def prepare(datasets, dataframe):
             for a in actions:
                 dico[a] = 0
             dico[action] = 1
-            print(d)
             d[action] = d.metadata.map(dico)
         return d
 
@@ -85,7 +84,7 @@ def training(datasets, dataframe):
     model.add(Dense(32, activation='relu'))
     model.add(Dense(32, activation='relu'))
     model.add(Dense(32, activation='relu'))
-    model.add(Dense( 3, activation="softmax"))
+    model.add(Dense(len(actions), activation="softmax"))
 
     # Compile model
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
@@ -171,8 +170,7 @@ def on_message(ws, message):
         if (type == "cmd"):
             if (action == "start"):
                 actions = data
-                timer = InfiniteTimer(1, update)
-                print("OK")
+                timer = InfiniteTimer(20, update)
                 timer.start()
                 train = True
             if (action == "stop"):
@@ -200,7 +198,6 @@ def update():
     global actions
     global rdataset
     global model
-    print(train)
     if (index < len(actions)):
         index += 1
     else:
