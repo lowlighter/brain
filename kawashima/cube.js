@@ -44,6 +44,14 @@ ws.onmessage = event => {
 				default:
 					openEyes()
 			}
+			let mouth_state = data[1]
+			switch (mouth_state) {
+				case "surprised":
+					openMouth()
+					break
+				default:
+					smile()
+			}
 
 			// console.log(eye_state)
 		}

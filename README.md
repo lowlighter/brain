@@ -16,7 +16,7 @@ Projet de M1 (semestre 2, an 2018) - [ISEN Lille](http://www.isen-lille.fr/)
     * [Pong](https://github.com/lowlighter/brain/tree/master/pong)
     * [Kawashima](https://github.com/lowlighter/brain/tree/master/kawashima)
     * [Brain battle (v1)](https://github.com/lowlighter/brain/tree/master/battle1)
-    * Brain battle (v2)
+    * [Brain battle (v2)](https://github.com/lowlighter/brain/tree/master/battle2)
     * [Contrôle du drone Parrot](https://github.com/lowlighter/brain/tree/master/parrot)
     * [Cube field](https://github.com/lowlighter/brain/tree/master/cubefield)
     * [Shifumi (pierre-papier-ciseaux)](https://github.com/lowlighter/brain/tree/master/shifumi)
@@ -26,9 +26,9 @@ Projet de M1 (semestre 2, an 2018) - [ISEN Lille](http://www.isen-lille.fr/)
     * [Autres](https://github.com/lowlighter/brain/tree/master/miscelleanous)
 
 
-## Usage
+# Usage
 
-Commencez par éditer le fichier [`alayer/index.js`](https://github.com/lowlighter/brain/blob/master/alayer/index.js#L14) afin d'y rentrer les identifiants de vos casques Emotiv INSIGHT. Le support de plus de deux casques n'est pas garantie.
+Commencez par éditer le fichier [`hardware.txt`](https://github.com/lowlighter/brain/blob/master/hardware.txt) afin d'y rentrer les identifiants de vos casques Emotiv INSIGHT. Le support de plus de deux casques dans les différentes applications n'est pas garantie.
 
 Ensuite, depuis la racine du projet, exécutez la commande suivante depuis un invite de commande :
 ```
@@ -37,32 +37,38 @@ npm start
 Les dépendances de chaque module seront automatiquement ajoutées et le serveur principal sera également démarré.
 Ouvrez ensuite votre navigateur et rendez vous sur la page `localhost:3000`, où vous pourrez accéder à tous les démonstrateurs !
 
-### *Notes*
-*Par défaut, l'application utilise le port 3000 pour le serveur web et le port 3001 pour le serveur websockets.*
-
-*La machine doit être équipée de **NodeJS** de **npm** ainsi que de [**Cortex UI**](https://www.emotiv.com/developer/). Certaines applications recquiert également la présence d'un environemment **Python 3** avec une suite logiciel de deep learning.*
-
-### A propos des applications disponibles
-
-Vous pouvez à tout moment cliquer sur les boites d'aide disposées en haut à droite de votre écran pour obtenir de l'aide sur l'application qui est affichée actuellement.
-
-Pour utiliser le contrôle d'un drône parrot, vous devez vous connecter à son réseau.
-
-Il est préférable d'instancier le programme de *Deep learning* en python dans une console à part plutôt que depuis l'interface web. Utiliser la commande suivante :
+Les applications qui requièrent un entrainement d'un réseau de neuronnes artificiels nécessite que vous lanciez *au préalable* dans un invite de commande *distinct* du serveur la commande suivante : 
 ```
 cd training2
 py main.py
 ```
 
-Pour démarrer un entrainement personnalisé depuis votre navigateur, tapez la commande suivante dans la console web :
+## *Notes*
+*Par défaut, l'application utilise le port 3000 pour le serveur web et le port 3001 pour le serveur websockets.*
+
+*La machine doit être équipée de **NodeJS** de **npm** ainsi que de [**Cortex UI**](https://www.emotiv.com/developer/). Certaines applications recquiert également la présence d'un environemment **Python 3** avec une suite logiciel de deep learning.*
+
+## Vous êtes prêts !
+
+![Image](https://github.com/lowlighter/brain/blob/master/miscelleanous/imgs/server_ok.png)
+
+## Entrainements personnalisés
+
+Les applications fournies se chargent de démarrer automatiquement les entrainements liées à leur usage. Il est cependant possible démarrer un entrainement personnalisé depuis votre navigateur en tapant la commande suivante dans la console web :
 ```javascript
 if (!ws) ws = new WebSocket("localhost:3001")
 ws.send(JSON.stringify({action:"python_start", data:["neutre", "pierre", "papier", "ciseaux"]}))
 ```
 
+## A propos des applications disponibles
 
-### Usage avancée
-Pour éviter de vérifier les dépendances de chaque modules vous pouvez exécuter la commande suivante pour démarrer le serveur principal.
+Vous pouvez à tout moment cliquer sur les boites d'aide disposées en haut à droite de votre écran pour obtenir de l'aide sur l'application qui est affichée actuellement.
+
+Pour utiliser le contrôle d'un drône parrot, vous devez vous connecter à son réseau.
+
+
+## Usage avancée
+Pour éviter de vérifier les dépendances de chaque module vous pouvez exécuter la commande suivante pour démarrer le serveur principal.
 ```
 node alayer
 ```
@@ -90,7 +96,7 @@ ws.onmessage = event => {
 }
 ```
 
-Consultez la [documentation de l'API Cortex](https://emotiv.github.io/cortex-docs/#event) pour plus d'infcormations sur les événements disponibles.
+Consultez la [documentation de l'API Cortex](https://emotiv.github.io/cortex-docs/#event) pour plus d'informations sur les événements disponibles.
 
 Deux nouveaux événements ont étés implémentés en plus de ceux proposés par Cortex.
 - **hdw** : Hardware
